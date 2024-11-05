@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { FaSearch, FaShoppingCart } from "react-icons/fa";
 
 function Header() {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         // Detect user's dark mode preference
@@ -19,27 +20,38 @@ function Header() {
         };
     }, []);
 
+    // Function to determine if the link is active
+    const isActive = (path: string) => location.pathname === path;
+
     return (
-        <header className={`flex justify-between items-center px-8 py-4 ${isDarkMode ? "bg-gray-900 text-white" : "bg-teal-100 text-gray-900"} shadow-md`}>
+        <header className={`flex justify-between items-center px-5 py-6 ${isDarkMode ? "bg-gray-900 text-white" : "bg-teal-100 text-gray-900"} shadow-md`}>
             {/* Logo */}
             <div className="flex items-center space-x-2">
-                <span className="text-2xl font-bold">CareerBuddy</span>
+                <span className="text-3xl font-bold">CareerBuddy</span>
             </div>
 
             {/* Navigation Links */}
             <nav className="flex items-center space-x-6 text-lg font-medium">
-                <Link to="/" className={`${isDarkMode ? "text-gray-200 hover:text-white" : "text-gray-700 hover:text-black"}`}>
+                <Link 
+                    to="/" 
+                    className={`text-xl ${isActive("/") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+                >
                     Home
                 </Link>
-                
             </nav>
 
             {/* Search and Cart Icons */}
             <div className="flex items-center space-x-4">
-            <Link to="/login" className={`${isDarkMode ? "text-gray-200 hover:text-white" : "text-gray-700 hover:text-black"}`}>
+                <Link 
+                    to="/login" 
+                    className={`text-xl ${isActive("/login") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+                >
                     Login
                 </Link>
-                <Link to="/signup" className={`${isDarkMode ? "text-gray-200 hover:text-white" : "text-gray-700 hover:text-black"}`}>
+                <Link 
+                    to="/signup" 
+                    className={`text-xl ${isActive("/signup") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+                >
                     Sign Up
                 </Link>
             </div>

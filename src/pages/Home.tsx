@@ -31,20 +31,20 @@ function Home() {
                     <p className="text-base sm:text-lg text-white">We offer 12,000 job vacancies right now</p>
                     
                     {/* Search Bar */}
-                    <form onSubmit={handleSearch} className="flex flex-col sm:flex-row items-center justify-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2 px-4 sm:px-0">
+                    <form onSubmit={handleSearch} className="flex flex-col sm:flex-row  rounded-lg items-center justify-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2 px-4 sm:px-0">
                         <input
                             type="text"
                             placeholder="Job Keyword"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full sm:w-48 p-3 rounded-lg focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                            className="w-full sm:w-72 p-3 rounded-lg focus:outline-none border dark:bg-gray-700 dark:border-gray-900 dark:text-gray-100"
                         />
                         <input
                             type="text"
                             placeholder="Location"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
-                            className="w-full sm:w-48 p-3 rounded-lg focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
+                            className="w-full sm:w-72 p-3 border rounded-lg focus:outline-none dark:bg-gray-700 dark:border-gray-900 dark:text-gray-100"
                         />
                         <button
                             type="submit"

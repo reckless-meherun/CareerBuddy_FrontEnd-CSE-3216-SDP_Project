@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
 import { FaGoogle } from 'react-icons/fa';
+import LoginLeft from '../components/LoginLeft';
 
 function SignUp() {
     const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+    const [password, setPassword] = useState("");
+    const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
+    const [password1, setPassword1] = useState("");
+
+
 
     useEffect(() => {
         // Check the user's system preference for dark mode
@@ -25,21 +32,8 @@ function SignUp() {
     return (
         <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
             {/* Left Side - Illustration and Text */}
-            <div className={`hidden md:flex md:w-1/2 ${isDarkMode ? 'bg-gray-800' : 'bg-green-200'} items-center justify-center p-10`}>
-                <div className="text-center">
-                    <img
-                        src="/image.png" // replace this with the path to your illustration
-                        alt="Illustration"
-                        className="mx-auto w-2/3"
-                    />
-                    <h2 className={`text-2xl font-semibold mt-6 ${isDarkMode ? 'text-gray-100' : 'text-gray-900'}`}>
-                        Maecenas mattis egestas
-                    </h2>
-                    <p className={`mt-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
-                        Erudum et malesuada fames ac ante ipsum primis in faucibus suspendisse porta.
-                    </p>
-                </div>
-            </div>
+            <LoginLeft/>
+
 
             {/* Right Side - Sign Up Form */}
             <div className={`flex flex-1 items-center justify-center ${isDarkMode ? 'bg-gray-800' : 'bg-white'} p-8 md:w-1/2`}>
@@ -73,24 +67,46 @@ function SignUp() {
                                 Password
                             </label>
                             <input
-                                type="password"
+                                type={isPasswordVisible ? "text" : "password"}
                                 placeholder="********"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 className={`mt-1 w-full p-3 border rounded-md ${isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-200' : 'bg-gray-50 border-gray-300 text-gray-900'} focus:outline-none focus:border-blue-500`}
                             />
+                            <label className="flex items-center space-x-2 p-2 text-sm">
+                                <input
+                                    type="checkbox"
+                                    checked={isPasswordVisible}
+                                    onChange={() => setIsPasswordVisible(!isPasswordVisible)}
+                                    className="text-blue-500 focus:outline-none focus:ring-0"
+                                />
+                                <span className={isDarkMode ? 'text-gray-200' : 'text-gray-900'}>Show Password</span>
+                            </label>
                         </div>
                         <div>
                             <label className={`block text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
                                 Confirm Password
                             </label>
                             <input
-                                type="password"
+                                type={isPasswordVisible1 ? "text" : "password"}
                                 placeholder="********"
+                                value={password}
+                                onChange={(e) => setPassword1(e.target.value)}
                                 className={`mt-1 w-full p-3 border rounded-md ${isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-200' : 'bg-gray-50 border-gray-300 text-gray-900'} focus:outline-none focus:border-blue-500`}
                             />
+                            <label className="flex items-center space-x-2 p-2 text-sm">
+                                <input
+                                    type="checkbox"
+                                    checked={isPasswordVisible1}
+                                    onChange={() => setIsPasswordVisible1(!isPasswordVisible1)}
+                                    className="text-blue-500 focus:outline-none focus:ring-0"
+                                />
+                                <span className={isDarkMode ? 'text-gray-200' : 'text-gray-900'}>Show Password</span>
+                            </label>
                         </div>
                         <button
                             type="submit"
-                            className={`w-full p-3 mt-4 rounded-md ${isDarkMode ? 'bg-gray-600 text-gray-200 hover:bg-gray-500' : 'bg-gray-700 text-white hover:bg-gray-800'}`}
+                            className={`w-full p-3 mt-4 rounded-md ${isDarkMode ? 'bg-gray-600 text-gray-200 hover:bg-gray-500' : 'bg-gray-100 text-black hover:bg-gray-200 border-gray-300'}`}
                         >
                             Sign up
                         </button>
