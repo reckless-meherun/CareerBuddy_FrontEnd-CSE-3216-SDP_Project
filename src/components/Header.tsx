@@ -27,7 +27,7 @@ function Header() {
         <header className={`flex justify-between items-center px-5 py-6 ${isDarkMode ? "bg-gray-900 text-white" : "bg-teal-100 text-gray-900"} shadow-md`}>
             {/* Logo */}
             <div className="flex items-center space-x-2">
-                <span className="text-3xl font-bold">CareerBuddy</span>
+                <span className="text-4xl font-bold">...CareerBuddy</span>
             </div>
 
             {/* Navigation Links */}
