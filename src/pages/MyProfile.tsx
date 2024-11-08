@@ -56,11 +56,15 @@ function MyProfile() {
                                 style={{ backgroundColor: "#f0f0f0" }} // Light background for visibility in dark theme
                             />
                             <label
-                                className="absolute bottom-2 right-2 p-2 font-semibold rounded-full cursor-pointer text-xs hover:opacity-90 bg-[#d0fcf4] dark:bg-[#558b88] text-black dark:text-white"
+                                className="absolute bottom-2 right-2 p-2 font-semibold rounded-full cursor-pointer text-xs 
+                                hover:bg-[#558b88] dark:hover:bg-[#808080] 
+                                bg-[#d0fcf4] dark:bg-[#558b88] 
+                                text-black dark:text-white"
                             >
                                 <input type="file" className="hidden" onChange={handleImageChange} />
                                 Edit
                             </label>
+
 
                         </div>
                     </div>
@@ -132,12 +136,13 @@ function MyProfile() {
 
                     <div className="flex justify-center mt-6">
                         <button
-                            className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg bg-[#d0fcf4] dark:bg-[#558b88]"
+                            className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
+                            bg-[#d0fcf4] dark:bg-[#558b88] 
+                            hover:bg-[#558b88] dark:hover:bg-[#808080]"
                         >
                             Update Profile
                         </button>
                     </div>
-
 
                 </div>
                 {/* Jobs Applied Table */}
