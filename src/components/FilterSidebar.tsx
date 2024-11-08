@@ -20,7 +20,7 @@ function FilterSidebar() {
     };
 
     return (
-        <div className="w-80 h-800 p-6 m-6 bg-white dark:bg-gray-800 p-6 flex flex-col rounded-lg shadow-lg">
+        <div className="w-80 h-800 p-6 m-6 bg-white dark:bg-gray-700 p-6 flex flex-col rounded-lg shadow-lg">
             <h2 className="text-2xl m-6 font-bold text-gray-800 dark:text-white">Filter Jobs</h2>
 
             {/* Location Filter */}

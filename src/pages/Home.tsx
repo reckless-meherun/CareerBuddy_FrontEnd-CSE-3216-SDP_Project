@@ -53,7 +53,7 @@ function Home() {
                         />
                         <button
                             type="submit"
-                            className="w-full sm:w-auto px-6 py-3 bg-teal-100 dark:bg-[#558b88]  text-black dark:text-white rounded-lg hover:bg-[#558b88] dark:hover:bg-darkGrey focus:outline-none"
+                            className="w-full sm:w-auto px-6 py-3 bg-teal-100 dark:bg-gray-800  text-black dark:text-white rounded-lg hover:bg-[#558b88] dark:hover:bg-lightGrey focus:outline-none"
                         >
                             Search
                         </button>
