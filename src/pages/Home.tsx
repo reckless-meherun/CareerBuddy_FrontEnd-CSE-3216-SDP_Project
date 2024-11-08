@@ -1,9 +1,10 @@
 import { useState } from "react";
+import myImage from '../assets/JobCover2.jpeg';
 
 function Home() {
     const [searchTerm, setSearchTerm] = useState("");
     const [location, setLocation] = useState("");
-    
+
     const jobCategories = [
         { name: "Fullstack Developer", count: 1285, icon: "🖥️" },
         { name: "Cybersecurity Analyst", count: 612, icon: "🛡️" },
@@ -22,14 +23,17 @@ function Home() {
         <div className="bg-gray-100 dark:bg-gray-800 min-h-screen text-gray-800 dark:text-gray-100">
             {/* Hero Section with Overlay */}
             <div
-                className="relative bg-cover bg-center h-[600px] w-full flex items-center justify-center text-center"
-                style={{ backgroundImage: 'url("https://img.freepik.com/premium-photo/group-business-people-interview-waiting-room-hiring-agency-recruitment-row-meeting-networking-diversity-candidate-tech-application-process-job-search-opportunity_590464-454896.jpg")' }}
-            >
+                className="relative bg-cover bg-center h-[600px] w-full flex items-center justify-center text-center">
+                <img
+                    src={myImage}  // Referencing the imported image
+                    alt="Job Interview"
+                    className="absolute left-0 w-full h-full object-cover"
+                />
                 <div className="absolute inset-0 bg-black opacity-50"></div>
                 <div className="relative z-10 p-6 space-y-4">
                     <h1 className="text-2xl sm:text-4xl font-bold text-white">The Easiest Way to Get Your New Job</h1>
                     <p className="text-base sm:text-lg text-white">We offer 12,000 job vacancies right now</p>
-                    
+
                     {/* Search Bar */}
                     <form onSubmit={handleSearch} className="flex flex-col sm:flex-row  rounded-lg items-center justify-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2 px-4 sm:px-0">
                         <input

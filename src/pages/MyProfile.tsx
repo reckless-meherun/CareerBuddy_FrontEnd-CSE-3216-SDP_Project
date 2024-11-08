@@ -56,7 +56,7 @@ function MyProfile() {
                                 style={{ backgroundColor: "#f0f0f0" }} // Light background for visibility in dark theme
                             />
                             <label
-                                className="absolute bottom-2 right-2 p-2 font-semibold rounded-full cursor-pointer text-xs 
+                                className="absolute bottom-2 right-2 p-2 font-semibold rounded-lg cursor-pointer text-xs 
                                 bg-lightTeal dark:bg-darkTeal 
                                 hover:bg-darkTeal dark:hover:bg-darkGrey                                 
                                 text-black dark:text-white"
