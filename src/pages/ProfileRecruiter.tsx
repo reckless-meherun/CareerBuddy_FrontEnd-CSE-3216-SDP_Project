@@ -59,12 +59,12 @@ function ProfileRecruiter() {
                     <div className="w-full max-w-3xl mx-auto space-y-4">
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📧 Email</label>
-                            <input type="text" value={email} readOnly className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed" />
+                            <input type="text" value={email} readOnly className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed" />
                         </div>
 
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📝 Name</label>
-                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                         </div>
 
                         <div>
@@ -72,7 +72,7 @@ function ProfileRecruiter() {
                             <select
                                 value={userType}
                                 onChange={(e) => setUserType(e.target.value)}
-                                className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 shadow-xl dark:shadow-2xl"
                             >
                                 <option value="Recruiter">Recruiter</option>
                                 <option value="Applicant">Applicant</option>
@@ -81,17 +81,24 @@ function ProfileRecruiter() {
 
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏠 Address Line 1</label>
-                            <input type="text" value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                            <input
+                                type="text"
+                                value={address.line1}
+                                onChange={(e) => setAddress({ ...address, line1: e.target.value })}
+                                className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 
+                                shadow-xl dark:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400"
+                            />
                         </div>
+
 
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏙️ City</label>
-                                <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                                <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                             </div>
                             <div>
                                 <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold"> 🌍 Country</label>
-                                <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                                <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                             </div>
                         </div>
                     </div>
@@ -99,7 +106,7 @@ function ProfileRecruiter() {
                     <div className="flex justify-center mt-6">
                         <button
                             className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
-                            bg-lightTeal dark:bg-darkTeal 
+                            bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                             hover:bg-darkTeal dark:hover:bg-darkGrey"
                         >
                             Update Profile
@@ -111,7 +118,7 @@ function ProfileRecruiter() {
                 {/* Companies Table */}
                 <div className="w-full p-8 mt-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
                     <h3 className="text-2xl font-bold text-center mb-4">🏢 Companies Involved</h3>
-                    <table className="w-full text-left border-collapse border-spacing-2 rounded-lg">
+                    <table className="w-full shadow-xl dark:shadow-2xl text-left border-collapse border-spacing-2 rounded-lg">
                         <thead>
                             <tr className="bg-[#d0fcf4] dark:bg-[#558b88]">
                                 <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tl-lg text-center">Company Name</th>
@@ -135,7 +142,7 @@ function ProfileRecruiter() {
                 {/* Recently Posted Jobs Table */}
                 <div className="w-full p-8 mt-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
                     <h3 className="text-2xl font-bold text-center mb-4">📄 Recently Posted Jobs</h3>
-                    <table className="w-full text-left border-collapse border-spacing-2 rounded-lg">
+                    <table className="w-full shadow-xl dark:shadow-2xl text-left border-collapse border-spacing-2 rounded-lg">
                         <thead>
                             <tr className="bg-[#d0fcf4] dark:bg-[#558b88]">
                                 <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tl-lg text-center">Company Name</th>

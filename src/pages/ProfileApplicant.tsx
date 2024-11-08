@@ -72,12 +72,12 @@ function ProfileApplicant() {
                     <div className="w-full max-w-3xl mx-auto space-y-4">
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📧 Email</label>
-                            <input type="text" value={email} readOnly className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed" />
+                            <input type="text" value={email} readOnly className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed" />
                         </div>
 
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📝 Name</label>
-                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                         </div>
 
                         <div>
@@ -85,7 +85,7 @@ function ProfileApplicant() {
                             <select
                                 value={userType}
                                 onChange={(e) => setUserType(e.target.value)}
-                                className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                             >
                                 <option value="Applicant">Applicant</option>
                                 <option value="Recruiter">Recruiter</option>
@@ -94,17 +94,17 @@ function ProfileApplicant() {
 
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏠 Address Line 1</label>
-                            <input type="text" value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                            <input type="text" value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏙️ City</label>
-                                <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                                <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                             </div>
                             <div>
                                 <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold"> 🌍 Country</label>
-                                <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                                <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                             </div>
                         </div>
 
@@ -117,7 +117,7 @@ function ProfileApplicant() {
                                         type="text"
                                         value={skill}
                                         onChange={(e) => handleSkillChange(index, e.target.value)}
-                                        className="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                        className="w-full shadow-xl dark:shadow-2xl p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                                     />
                                 </div>
                             ))}
@@ -128,7 +128,7 @@ function ProfileApplicant() {
                             <input
                                 type="file"
                                 onChange={handleResumeChange}
-                                className="w-full p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                className="w-full shadow-xl dark:shadow-2xl p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                             />
                             {resume && <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Uploaded: {resume}</p>}
                         </div>
@@ -138,7 +138,7 @@ function ProfileApplicant() {
                         <button
                             className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
                             bg-lightTeal dark:bg-darkTeal 
-                            hover:bg-darkTeal dark:hover:bg-darkGrey"
+                            hover:bg-darkTeal dark:hover:bg-darkGrey shadow-xl dark:shadow-2xl"
                         >
                             Update Profile
                         </button>
@@ -149,7 +149,7 @@ function ProfileApplicant() {
                 {/* Jobs Applied Table */}
                 <div className="w-full p-8 mt-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
                     <h3 className="text-2xl font-bold text-center mb-4">💼 Jobs Applied</h3>
-                    <table className="w-full text-left border-collapse border-spacing-2 rounded-lg">
+                    <table className="w-full shadow-xl dark:shadow-2xl text-left border-collapse border-spacing-2 rounded-lg">
                         <thead>
                             <tr className="bg-[#d0fcf4] dark:bg-[#558b88]">
                                 <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tl-lg text-center">Date</th>
