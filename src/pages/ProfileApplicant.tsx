@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function MyProfile() {
+function ProfileApplicant() {
     const [profileImage, setProfileImage] = useState("/path/to/your/default/profileImage.jpg"); // Replace with the actual image path or import
     const [email, setEmail] = useState("meherun@gmail.com");
     const [name, setName] = useState("Meherun Farzana");
@@ -145,26 +145,26 @@ function MyProfile() {
                     </div>
 
                 </div>
-                {/* Jobs Applied Table */}
 
+                {/* Jobs Applied Table */}
                 <div className="w-full p-8 mt-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
                     <h3 className="text-2xl font-bold text-center mb-4">💼 Jobs Applied</h3>
                     <table className="w-full text-left border-collapse border-spacing-2 rounded-lg">
                         <thead>
                             <tr className="bg-[#d0fcf4] dark:bg-[#558b88]">
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tl-lg">Date</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200">Job Role</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200">Company</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tr-lg">Status</th>
+                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tl-lg text-center">Date</th>
+                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 text-center">Job Role</th>
+                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 text-center">Company</th>
+                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tr-lg text-center">Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             {appliedJobs.map((job, index) => (
                                 <tr key={index} className={index % 2 === 0 ? "bg-gray-100 dark:bg-gray-700" : "bg-white dark:bg-gray-800"}>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300">{job.date}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300">{job.role}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300">{job.company}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300">{job.status}</td>
+                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{job.date}</td>
+                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{job.role}</td>
+                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{job.company}</td>
+                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{job.status}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -177,9 +177,11 @@ function MyProfile() {
                 </div>
 
 
+
+
             </div>
         </div>
     );
 }
 
-export default MyProfile;
+export default ProfileApplicant;

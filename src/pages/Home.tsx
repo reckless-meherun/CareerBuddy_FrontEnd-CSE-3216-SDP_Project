@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 import myImage from '../assets/JobCover2.jpeg';
 
 function Home() {
     const [searchTerm, setSearchTerm] = useState("");
     const [location, setLocation] = useState("");
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const jobCategories = [
         { name: "Fullstack Developer", count: 1285, icon: "🖥️" },
@@ -15,15 +17,14 @@ function Home() {
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Search for:", searchTerm, "in", location);
-        // Add search logic here
+        // Navigate to the FilteredJobs page when the search button is clicked
+        navigate('/filtered-jobs');
     };
 
     return (
         <div className="bg-gray-100 dark:bg-gray-800 min-h-screen text-gray-800 dark:text-gray-100">
             {/* Hero Section with Overlay */}
-            <div
-                className="relative bg-cover bg-center h-[600px] w-full flex items-center justify-center text-center">
+            <div className="relative bg-cover bg-center h-[600px] w-full flex items-center justify-center text-center">
                 <img
                     src={myImage}  // Referencing the imported image
                     alt="Job Interview"
@@ -35,7 +36,7 @@ function Home() {
                     <p className="text-base sm:text-lg text-white">We offer 12,000 job vacancies right now</p>
 
                     {/* Search Bar */}
-                    <form onSubmit={handleSearch} className="flex flex-col sm:flex-row  rounded-lg items-center justify-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2 px-4 sm:px-0">
+                    <form onSubmit={handleSearch} className="flex flex-col sm:flex-row rounded-lg items-center justify-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2 px-4 sm:px-0">
                         <input
                             type="text"
                             placeholder="Job Keyword"
