@@ -37,7 +37,7 @@ function MyProfile() {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
             <div className="w-full p-8 md:p-12 bg-white dark:bg-gray-700 shadow-lg">
-                <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-8">My Profile</h2>
+                <h2 className="text-2xl sm:text-3xl font-semibold text-center mb-8">👩‍💻My Profile</h2>
 
                 <div className="flex justify-center mb-6">
                     <div className="relative">
@@ -59,17 +59,17 @@ function MyProfile() {
 
                 <div className="w-full max-w-3xl mx-auto space-y-4">
                     <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium">Email</label>
+                        <label className="block text-gray-600 dark:text-gray-300 font-medium">📧 Email</label>
                         <input type="text" value={email} readOnly className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed" />
                     </div>
 
                     <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium">Name</label>
+                        <label className="block text-gray-600 dark:text-gray-300 font-medium">📝 Name</label>
                         <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                     </div>
 
                     <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium">User Type</label>
+                        <label className="block text-gray-600 dark:text-gray-300 font-medium">🧑‍💼 User Type</label>
                         <select
                             value={userType}
                             onChange={(e) => setUserType(e.target.value)}
@@ -81,23 +81,23 @@ function MyProfile() {
                     </div>
 
                     <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium">Address Line 1</label>
+                        <label className="block text-gray-600 dark:text-gray-300 font-medium">🏠 Address Line 1</label>
                         <input type="text" value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                     </div>
 
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium">City</label>
+                            <label className="block text-gray-600 dark:text-gray-300 font-medium">🏙️ City</label>
                             <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                         </div>
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium">Country</label>
+                            <label className="block text-gray-600 dark:text-gray-300 font-medium"> 🌍 Country</label>
                             <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                         </div>
                     </div>
 
                     <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium">Skills (tell us about your priority)</label>
+                        <label className="block text-gray-600 dark:text-gray-300 font-medium">🛠️ Skills (tell us about your priority)</label>
                         {skills.map((skill, index) => (
                             <div key={index} className="mt-2">
                                 <label className="block text-gray-500 dark:text-gray-400">Skill {index + 1}</label>
@@ -112,7 +112,7 @@ function MyProfile() {
                     </div>
 
                     <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium">Upload Resume</label>
+                        <label className="block text-gray-600 dark:text-gray-300 font-medium">📄 Upload Resume</label>
                         <input
                             type="file"
                             onChange={handleResumeChange}
