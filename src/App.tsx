@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp.tsx";
+import MyProfile from "./pages/MyProfile.tsx";
+
 
 function App() {
     return (
@@ -12,6 +14,7 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
+                    <Route path="/profile" element={<MyProfile />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
                 </Routes>

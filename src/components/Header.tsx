@@ -31,25 +31,28 @@ function Header() {
             </div>
 
             {/* Navigation Links */}
-            <nav className="flex items-center space-x-6 text-lg font-medium">
-                <Link 
-                    to="/" 
-                    className={`text-xl ${isActive("/") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+            <div className="flex items-center space-x-6 text-lg font-medium">
+                <Link
+                    to="/"
+                    className={`text-xl ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
                 >
                     Home
                 </Link>
-            </nav>
+                <Link
+                    to="/profile"
+                    className={`text-xl ${isActive("/profile") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+                >
+                    My Profile
+                </Link>
 
-            {/* Search and Cart Icons */}
-            <div className="flex items-center space-x-4">
-                <Link 
-                    to="/login" 
+                <Link
+                    to="/login"
                     className={`text-xl ${isActive("/login") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
                 >
                     Login
                 </Link>
-                <Link 
-                    to="/signup" 
+                <Link
+                    to="/signup"
                     className={`text-xl ${isActive("/signup") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
                 >
                     Sign Up

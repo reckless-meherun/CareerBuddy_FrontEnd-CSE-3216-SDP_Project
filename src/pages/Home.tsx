@@ -5,11 +5,11 @@ function Home() {
     const [location, setLocation] = useState("");
     
     const jobCategories = [
-        { name: "Accounting/Finance", count: 1285, icon: "💼" },
-        { name: "Education/Training", count: 612, icon: "📚" },
-        { name: "Engineering/Architects", count: 212, icon: "🛠" },
-        { name: "Garments/Textile", count: 972, icon: "👗" },
-        { name: "Marketing", count: 645, icon: "📈" }
+        { name: "Fullstack Developer", count: 1285, icon: "🖥️" },
+        { name: "Cybersecurity Analyst", count: 612, icon: "🛡️" },
+        { name: "ML Engineers", count: 212, icon: "🤖" },
+        { name: "Graphics Designer", count: 972, icon: "🎨" },
+        { name: "Research Scientist", count: 645, icon: "🔬" }
     ];
 
     const handleSearch = (e: React.FormEvent) => {
