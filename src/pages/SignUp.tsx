@@ -106,7 +106,7 @@ function SignUp() {
                         </div>
                         <button
                             type="submit"
-                            className={`w-full p-3 mt-4 rounded-md ${isDarkMode ? 'bg-gray-600 text-gray-200 hover:bg-gray-500' : 'bg-gray-100 text-black hover:bg-gray-200 border-gray-300'}`}
+                            className={`w-full p-3 mt-4 rounded-md ${isDarkMode ? 'bg-darkTeal text-gray-200 hover:bg-darkGrey' : 'bg-lightTeal text-black hover:bg-darkTeal'}`}
                         >
                             Sign up
                         </button>
@@ -115,7 +115,7 @@ function SignUp() {
                         </div>
                         <button
                             type="button"
-                            className={`w-full p-3 flex items-center justify-center border rounded-md mt-2 ${isDarkMode ? 'border-gray-600 bg-gray-700 text-gray-200 hover:bg-gray-600' : 'border-gray-300 hover:bg-gray-100'}`}
+                            className={`w-full p-3 flex items-center justify-center border rounded-md mt-2 ${isDarkMode ? 'bg-lightGrey text-gray-200 hover:bg-darkGrey' : 'border-lightGrey hover:bg-darkGrey'}`}
                         >
                             <FaGoogle className="text-red-500 mr-2" />
                             Sign up with Google

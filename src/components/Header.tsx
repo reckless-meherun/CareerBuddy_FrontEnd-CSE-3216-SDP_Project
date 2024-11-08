@@ -34,26 +34,26 @@ function Header() {
             <div className="flex items-center space-x-6 text-lg font-medium">
                 <Link
                     to="/"
-                    className={`text-xl ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+                    className={`text-xl font-semibold ${isDarkMode ? "text-gray-200 hover:text-darkTeal" : "text-gray-700 hover:text-black"}`}
                 >
                     Home
                 </Link>
                 <Link
                     to="/profile"
-                    className={`text-xl ${isActive("/profile") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+                    className={`text-xl font-semibold ${isActive("/profile") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-darkTeal" : "text-gray-700 hover:text-black"}`}
                 >
                     My Profile
                 </Link>
 
                 <Link
                     to="/login"
-                    className={`text-xl ${isActive("/login") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+                    className={`text-xl font-semibold ${isActive("/login") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-darkTeal" : "text-gray-700 hover:text-black"}`}
                 >
                     Login
                 </Link>
                 <Link
                     to="/signup"
-                    className={`text-xl ${isActive("/signup") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-blue-300" : "text-gray-700 hover:text-black"}`}
+                    className={`text-xl font-semibold ${isActive("/signup") ? "underline" : ""} ${isDarkMode ? "text-gray-200 hover:text-darkTeal" : "text-gray-700 hover:text-black"}`}
                 >
                     Sign Up
                 </Link>

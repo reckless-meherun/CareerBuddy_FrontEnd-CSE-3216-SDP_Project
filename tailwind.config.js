@@ -10,6 +10,10 @@ export default {
         primary: "#4B5563",  // Customize colors
         secondary: "#9CA3AF",
         accent: "#F59E0B",
+        lightTeal: '#d0fcf4',  
+        darkTeal: '#558b88',   
+        lightGrey: '#808080',
+        darkGrey: '#696969'
       },
     },
   },
