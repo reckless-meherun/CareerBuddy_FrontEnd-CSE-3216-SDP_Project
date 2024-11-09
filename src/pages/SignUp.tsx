@@ -1,69 +1,81 @@
 import { useEffect, useState } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import LoginLeft from '../components/LoginLeft';
+import { useAuth } from '../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 function SignUp() {
-    const [isDarkMode, setIsDarkMode] = useState(false);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-    const [password, setPassword] = useState("");
-    const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [passwordStrength, setPasswordStrength] = useState("");
-    const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [password, setPassword] = useState("");
+  const [isPasswordVisible1, setIsPasswordVisible1] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordStrength, setPasswordStrength] = useState("");
+  const [isPasswordMatch, setIsPasswordMatch] = useState(true);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  
+  const { handleSignup, loading, error } = useAuth();
 
-    useEffect(() => {
-        const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        setIsDarkMode(darkModePreference);
+  useEffect(() => {
+    const darkModePreference = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setIsDarkMode(darkModePreference);
 
-        const handleChange = (e: MediaQueryListEvent) => {
-            setIsDarkMode(e.matches);
-        };
-
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleChange);
-
-        return () => {
-            window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', handleChange);
-        };
-    }, []);
-
-    // Check password strength
-    const evaluatePasswordStrength = (password: string) => {
-        const hasUpperCase = /[A-Z]/.test(password);
-        const hasLowerCase = /[a-z]/.test(password);
-        const hasDigit = /\d/.test(password);
-        const hasSpecialChar = /[!@#$%^&*]/.test(password);
-        const isLongEnough = password.length >= 8;
-
-        if (!isLongEnough) return "Weak";
-        if (hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar) return "Strong";
-        if ((hasUpperCase || hasLowerCase) && hasDigit) return "Medium";
-        return "Weak";
+    const handleChange = (e: MediaQueryListEvent) => {
+      setIsDarkMode(e.matches);
     };
 
-    // Handle password input change
-    const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newPassword = e.target.value;
-        setPassword(newPassword);
-        const strength = evaluatePasswordStrength(newPassword);
-        setPasswordStrength(strength);
-    };
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', handleChange);
 
-    // Handle confirm password input change
-    const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setConfirmPassword(e.target.value);
-        setIsPasswordMatch(e.target.value === password);
+    return () => {
+      window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', handleChange);
     };
+  }, []);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (passwordStrength === "Strong" && isPasswordMatch) {
-            // Submit form logic here (e.g., API call)
-            console.log("Form submitted");
-        } else {
-            console.log("Password does not meet strength criteria or passwords do not match.");
+  const evaluatePasswordStrength = (password: string) => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasDigit = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*]/.test(password);
+    const isLongEnough = password.length >= 8;
+
+    if (!isLongEnough) return "Weak";
+    if (hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar) return "Strong";
+    if ((hasUpperCase || hasLowerCase) && hasDigit) return "Medium";
+    return "Weak";
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newPassword = e.target.value;
+    setPassword(newPassword);
+    const strength = evaluatePasswordStrength(newPassword);
+    setPasswordStrength(strength);
+  };
+
+  const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConfirmPassword(e.target.value);
+    setIsPasswordMatch(e.target.value === password);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordStrength === "Strong" && isPasswordMatch) {
+      try {
+        const result = await handleSignup({ name, email, password });
+        if (result) {
+          console.log("Registration successful!", result);
+          toast.success("Registration successful!");
+          
+          localStorage.setItem("token", result.token);
         }
-    };
-
+      } catch (error) {
+        toast.error("Error during registration:", error);
+        console.error("Error during registration:", error);
+      }
+    } else {
+      console.log("Password does not meet strength criteria or passwords do not match.");
+    }
+  };
     return (
         <div className={`flex h-screen ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'}`}>
             <LoginLeft />
@@ -143,7 +155,8 @@ function SignUp() {
                         </div>
                         <button
                             type="submit"
-                            className={`w-full p-3 mt-4 rounded-md ${isDarkMode ? 'bg-gray-600 text-gray-200 hover:bg-gray-500' : 'bg-gray-100 text-black hover:bg-gray-200 border-gray-300'}`}
+                            disabled={loading}
+                            className={`w-full p-3 mt-4 rounded-md ${isDarkMode ? 'bg-teal-600 text-gray-200 hover:bg-teal-700' : 'bg-teal-500 text-black hover:bg-teal-600'}`}
                         >
                             Sign up
                         </button>

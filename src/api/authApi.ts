@@ -1,21 +1,29 @@
 // src/api/authApi.ts
 import apiClient from './apiClient';
 
-export interface AuthData {
-    email: string;
-    password: string;
-}
-
-export interface SignUpData extends AuthData {
-    name: string;
-}
-
-export const login = async (data: AuthData) => {
-    const response = await apiClient.post('/auth/login', data);
-    return response.data; // Typically contains tokens or user info
+export const loginUser = async (email: string, password: string) => {
+  try {
+    const response = await apiClient.post('/authenticate/user_login', {
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error('Error logging in:', error);
+    throw new Error(error.response?.data?.message || 'Failed to login');
+  }
 };
 
-export const signup = async (data: SignUpData) => {
-    const response = await apiClient.post('/auth/signup', data);
-    return response.data; // Success message or user info
+export const registerUser = async (name: string, email: string, password: string) => {
+  try {
+    const response = await apiClient.post('/user/create-user', {
+      name,
+      email,
+      password,
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error('Error registering user:', error);
+    throw new Error(error.response?.data?.message || 'Failed to register');
+  }
 };

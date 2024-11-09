@@ -45,14 +45,14 @@ function ProfileApplicant() {
         <div className="min-h-screen bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
             <div className="w-full h-5/6 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-8">
                 <div className="w-full p-8 mb-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
-                    <h2 className="text-3xl sm:text-3xl font-bold text-center mb-8">👩‍💻My Profile</h2>
+                    <h2 className="text-3xl sm:text-3xl font-bold text-center mb-8">👩‍💻 My Profile</h2>
 
                     <div className="flex justify-center mb-6">
                         <div className="relative">
                             <img
                                 src={profileImage}
                                 alt="Profile Photo"
-                                className="w-32 h-32 rounded-lg object-cover shadow-md"
+                                className="w-32 h-32 rounded-full object-cover border border-black"
                                 style={{ backgroundColor: "#f0f0f0" }} // Light background for visibility in dark theme
                             />
                             <label
@@ -71,21 +71,21 @@ function ProfileApplicant() {
 
                     <div className="w-full max-w-3xl mx-auto space-y-4">
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📧 Email</label>
-                            <input type="text" value={email} readOnly className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed" />
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold"> 📧 Email</label>
+                            <input type="text" value={email} readOnly className="w-full p-3 border border-gray-500 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed" />
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📝 Name</label>
-                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold"> 📝 Name</label>
+                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3 border border-gray-500 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🧑‍💼 User Type</label>
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold"> 🧑‍💼 User Type</label>
                             <select
                                 value={userType}
                                 onChange={(e) => setUserType(e.target.value)}
-                                className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                className="w-full p-3 border border-gray-500 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                             >
                                 <option value="Applicant">Applicant</option>
                                 <option value="Recruiter">Recruiter</option>
@@ -93,23 +93,23 @@ function ProfileApplicant() {
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏠 Address Line 1</label>
-                            <input type="text" value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold"> 🏠 Address Line 1</label>
+                            <input type="text" value={address.line1} onChange={(e) => setAddress({ ...address, line1: e.target.value })} className="w-full p-3 border border-gray-500 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                         </div>
 
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏙️ City</label>
-                                <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                                <label className="block text-gray-600 dark:text-gray-300 font-semibold"> 🏙️ City</label>
+                                <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full p-3 border border-gray-500 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                             </div>
                             <div>
-                                <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold"> 🌍 Country</label>
-                                <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="w-full shadow-xl dark:shadow-2xl p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                                <label className="block text-gray-600 dark:text-gray-300 font-semibold">  🌍 Country</label>
+                                <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="w-full p-3 border border-gray-500 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🛠️ Skills (tell us about your priority)</label>
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">🛠️ Skills (tell us about your priority)</label>
                             {skills.map((skill, index) => (
                                 <div key={index} className="mt-2">
                                     <label className="block text-gray-500 dark:text-gray-400 font-semibold">Skill {index + 1}</label>
@@ -117,18 +117,18 @@ function ProfileApplicant() {
                                         type="text"
                                         value={skill}
                                         onChange={(e) => handleSkillChange(index, e.target.value)}
-                                        className="w-full shadow-xl dark:shadow-2xl p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                        className="w-full p-2 border border-gray-500 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                                     />
                                 </div>
                             ))}
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📄 Upload Resume</label>
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">📄 Upload Resume</label>
                             <input
                                 type="file"
                                 onChange={handleResumeChange}
-                                className="w-full shadow-xl dark:shadow-2xl p-2 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                className="w-full p-2 border border-gray-500 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                             />
                             {resume && <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">Uploaded: {resume}</p>}
                         </div>
@@ -136,9 +136,9 @@ function ProfileApplicant() {
 
                     <div className="flex justify-center mt-6">
                         <button
-                            className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
+                            className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg border border-black
                             bg-lightTeal dark:bg-darkTeal 
-                            hover:bg-darkTeal dark:hover:bg-darkGrey shadow-xl dark:shadow-2xl"
+                            hover:bg-darkTeal dark:hover:bg-darkGrey "
                         >
                             Update Profile
                         </button>

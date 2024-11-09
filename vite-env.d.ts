@@ -2,7 +2,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-    readonly BACKEND_URL: string;
+    readonly VITE_BASE_URL: string; // Update to VITE_BASE_URL to match the variable name in .env
 }
 
 interface ImportMeta {
