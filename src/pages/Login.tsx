@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FaGoogle } from 'react-icons/fa';
 import LoginLeft from '../components/LoginLeft';
 import { useAuth } from '../hooks/useAuth';
+import { toast } from 'react-toastify';
 
 function Login() {
     const { handleLogin, loading, error } = useAuth();
@@ -29,8 +30,10 @@ function Login() {
         try {
             await handleLogin({ email, password });
             console.log('Login successful');
+            toast.success("successfully logged in!");
         } catch (err) {
             console.error('Error logging in:', err);
+            toast.error("Failed to login. Please check your credentials.");
         }
     };
 

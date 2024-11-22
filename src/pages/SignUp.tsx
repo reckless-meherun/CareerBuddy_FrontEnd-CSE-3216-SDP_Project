@@ -3,8 +3,10 @@ import { FaGoogle } from 'react-icons/fa';
 import LoginLeft from '../components/LoginLeft';
 import { useAuth } from '../hooks/useAuth';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
+  const navigate = useNavigate();
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [password, setPassword] = useState("");
@@ -56,6 +58,12 @@ function SignUp() {
     setConfirmPassword(e.target.value);
     setIsPasswordMatch(e.target.value === password);
   };
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
+  };
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -67,6 +75,8 @@ function SignUp() {
           toast.success("Registration successful!");
           
           localStorage.setItem("token", result.token);
+          navigate("/");
+
         }
       } catch (error) {
         toast.error("Error during registration:", error);
@@ -93,6 +103,7 @@ function SignUp() {
                                 type="text"
                                 placeholder="Full Name"
                                 className={`mt-1 w-full p-3 border rounded-md ${isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-200' : 'bg-gray-50 border-gray-300 text-gray-900'} focus:outline-none focus:border-blue-500`}
+                                onChange={handleNameChange}
                             />
                         </div>
                         <div>
@@ -102,6 +113,7 @@ function SignUp() {
                             <input
                                 type="email"
                                 placeholder="Email"
+                                onChange={handleEmailChange}
                                 className={`mt-1 w-full p-3 border rounded-md ${isDarkMode ? 'bg-gray-700 border-gray-600 text-gray-200' : 'bg-gray-50 border-gray-300 text-gray-900'} focus:outline-none focus:border-blue-500`}
                             />
                         </div>
