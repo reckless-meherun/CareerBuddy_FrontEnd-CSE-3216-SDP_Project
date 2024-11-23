@@ -25,12 +25,12 @@ function Header() {
 
     useEffect(() => {
         // Check if the user is logged in and retrieve their name from localStorage
-        const token = localStorage.getItem("token");
-        const storedUserName = localStorage.getItem("userName");
+        const id = localStorage.getItem("id");
+        const email = localStorage.getItem("email");
 
-        if (token && storedUserName) {
+        if (email && id) {
             setIsLoggedIn(true);
-            setUserName(storedUserName);
+            setUserName(email);
         } else {
             setIsLoggedIn(false);
             setUserName("");
@@ -39,8 +39,8 @@ function Header() {
 
     // Function to handle logout
     const handleLogout = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userName");
+        localStorage.removeItem("id");
+        localStorage.removeItem("email");
         setIsLoggedIn(false);
         setUserName("");
         navigate("/login");

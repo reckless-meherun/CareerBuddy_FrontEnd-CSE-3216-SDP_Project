@@ -3,8 +3,10 @@ import { FaGoogle } from 'react-icons/fa';
 import LoginLeft from '../components/LoginLeft';
 import { useAuth } from '../hooks/useAuth';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+    const navigate = useNavigate();
     const { handleLogin, loading, error } = useAuth();
     const [isDarkMode, setIsDarkMode] = useState(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -28,12 +30,15 @@ function Login() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await handleLogin({ email, password });
+            const rersponse = await handleLogin({ email, password });
+            localStorage.setItem("id", rersponse.id);
+            localStorage.setItem("email", rersponse.email);
             console.log('Login successful');
-            toast.success("successfully logged in!");
+            toast("successfully logged in!");
+            navigate("/");
         } catch (err) {
             console.error('Error logging in:', err);
-            toast.error("Failed to login. Please check your credentials.");
+            toast("Failed to login. Please check your credentials.");
         }
     };
 

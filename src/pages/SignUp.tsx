@@ -74,12 +74,14 @@ function SignUp() {
           console.log("Registration successful!", result);
           toast.success("Registration successful!");
           
-          localStorage.setItem("token", result.token);
+          //localStorage.setItem("token", result.token);
           navigate("/");
+          localStorage.setItem("id", result.id);
+          localStorage.setItem("email", result.email);
 
         }
       } catch (error) {
-        toast.error("Error during registration:", error);
+        toast.error("Error during registration:");
         console.error("Error during registration:", error);
       }
     } else {
