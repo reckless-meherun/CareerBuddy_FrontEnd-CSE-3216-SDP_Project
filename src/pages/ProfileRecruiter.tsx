@@ -1,4 +1,6 @@
 import { useState } from "react";
+import JobPostDialog from "./JobPostDialog";
+import CompanyDialog from "./AddCompanyDialog";
 
 function ProfileRecruiter() {
     const [profileImage, setProfileImage] = useState("/path/to/your/default/profileImage.jpg");
@@ -22,6 +24,12 @@ function ProfileRecruiter() {
         { companyName: "TechCorp", role: "Product Manager", date: "2024-11-05", applicants: 37 },
     ]);
 
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isCompanyDialogOpen, setIsCompanyDialogOpen] = useState(false);
+
+    const [newJob, setNewJob] = useState({ companyName: "", role: "" });
+    const [newCompany, setNewCompany] = useState({ name: "", industry: "", location: "" });
+
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -29,6 +37,22 @@ function ProfileRecruiter() {
             setProfileImage(imageUrl);
         }
     };
+
+    const handleJobPostSubmit = () => {
+        setPostedJobs([
+            ...postedJobs,
+            { ...newJob, date: new Date().toISOString().split("T")[0], applicants: 0 },
+        ]);
+        setIsDialogOpen(false);
+        setNewJob({ companyName: "", role: "" });
+    };
+
+    const handleCompanySubmit = () => {
+        setCompanies([...companies, newCompany]);
+        setIsCompanyDialogOpen(false);
+        setNewCompany({ name: "", industry: "", location: "" });
+    };
+
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
@@ -113,6 +137,44 @@ function ProfileRecruiter() {
                         </button>
                     </div>
                 </div>
+
+                {/* Create Job Post Button */}
+                <div className="flex justify-center mt-6 space-x-4">
+                    <button
+                        className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey"
+                        onClick={() => setIsDialogOpen(true)}
+                    >
+                        Create Job Post
+                    </button>
+                    <button
+                        className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey"
+                        onClick={() => setIsCompanyDialogOpen(true)}
+                    >
+                        Add New Company
+                    </button>
+                </div>
+
+                {/* Job Post Dialog */}
+                <JobPostDialog
+                    isOpen={isDialogOpen}
+                    newJob={newJob}
+                    setNewJob={setNewJob}
+                    onClose={() => setIsDialogOpen(false)}
+                    onSubmit={handleJobPostSubmit}
+                />
+
+                {/* {/* Company Dialog */}
+                <CompanyDialog
+                    isOpen={isCompanyDialogOpen}
+                    newCompany={newCompany}
+                    setNewCompany={setNewCompany}
+                    onClose={() => setIsCompanyDialogOpen(false)}
+                    onSubmit={handleCompanySubmit}
+                />
 
                 {/* Companies Table */}
                 {/* Companies Table */}
