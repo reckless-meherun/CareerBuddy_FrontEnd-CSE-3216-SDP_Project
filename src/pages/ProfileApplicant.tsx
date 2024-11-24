@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function ProfileApplicant() {
-    const [profileImage, setProfileImage] = useState("/path/to/your/default/profileImage.jpg"); // Replace with the actual image path or import
+    const [profileImage, setProfileImage] = useState("human.png"); // Replace with the actual image path or import
     const [email, setEmail] = useState("meherun@gmail.com");
     const [name, setName] = useState("Meherun Farzana");
     const [userType, setUserType] = useState("Applicant"); // Default to "Applicant"
@@ -20,7 +20,7 @@ function ProfileApplicant() {
         { date: "2024-11-07", role: "Project Manager", company: "BizCorp", status: "Rejected" },
     ]);
 
-    const handleImageChange = (e) => {
+    const handleImageChange = (e: { target: { files: any[]; }; }) => {
         const file = e.target.files[0];
         if (file) {
             const imageUrl = URL.createObjectURL(file);

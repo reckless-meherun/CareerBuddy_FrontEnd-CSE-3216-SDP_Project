@@ -1,88 +1,203 @@
+import React, { useEffect } from "react";
 import { useState } from "react";
+import useCompany from "../hooks/useCompany";
+import { useJobPost } from "../hooks/useJobPost";
+import { useNavigate } from "react-router-dom";
+function JobPostPage() {
+    const { getCompanies, loading: companiesLoading, error: companiesError } = useCompany();
+    const { handleJobPost, loading: jobPostLoading, error: jobPostError,success } = useJobPost();
+    const [companies, setCompanies] = useState([]);
+    const navigate = useNavigate();
+    useEffect(() => {
+        // Define the async function inside useEffect
+        const fetchCompanies = async () => {
+            try {
+                const response = await getCompanies();
+                console.log(response);
+                setCompanies(response); // assuming the response is an array of companies
+                //companiesLoading(false); // set loading to false after data is fetched
+            } catch (error) {
+                console.error("Error fetching companies:", error);
+                //companiesLoading(false); // in case of error, still stop loading
+            }
+        };
 
-function JobPostDialog({ isOpen, onClose, onSubmit }) {
-    const [jobTitle, setJobTitle] = useState("");
-    const [companyName, setCompanyName] = useState("");
-    const [jobDescription, setJobDescription] = useState("");
-    const [jobLocation, setJobLocation] = useState("");
+        // Call the async function
+        fetchCompanies();
+    }, []);
 
-    if (!isOpen) return null;
+    const [formData, setFormData] = useState({
+        companyId: "",
+        title: "",
+        description: "",
+        location: "",
+        experience: 0,
+        jobType: "",
+        deadline: "",
+        salary: 0,
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const { title, companyId, description, location, deadline, jobType, salary, experience } = formData;
+
+    // Ensure the deadline is properly formatted (if it's a simple date like '2024-11-30')
+    const formattedDeadline = new Date(deadline).toISOString(); // Formats it as 'yyyy-MM-ddTHH:mm:ss.sssZ'
+
+    // Construct the final job post data with formatted date
+    const jobPostData = {
+        companyId: companyId,  // Assuming companyName is being used for companyId here, adjust if needed
+        title: title,
+        description: description,
+        location: location,
+        jobType,
+        salary,
+        deadline: formattedDeadline,  // Formatted date here
+        experience,
+    };
+
+    // Call the function that handles the job post submission (make sure handleJobPost is defined)
+    handleJobPost(jobPostData);
+    alert("Job post successfully");
+    navigate("/")
+
+    };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div className="w-full max-w-lg p-6 bg-white dark:bg-gray-700 rounded-lg shadow-xl dark:shadow-2xl">
-                <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4">📄 Create Job Post</h2>
-
-                <form
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        onSubmit({ jobTitle, companyName, jobDescription, jobLocation });
-                    }}
-                    className="space-y-4"
-                >
+        <div className="p-6 max-w-3xl mx-auto">
+            <h1 className="text-3xl font-bold text-center mb-6 dark:text-gray-100">📄 Create Job Post</h1>
+            {success && <p className="text-green-500 text-center">Job post created successfully!</p>}
+            {jobPostError && <p className="text-red-500 text-center">{jobPostError}</p>}
+            <form onSubmit={handleSubmit} className="space-y-4">
+                {companiesLoading ? (
+                    <p>Loading companies...</p>
+                ) : companiesError ? (
+                    <p className="text-red-500">{companiesError}</p>
+                ) : (
                     <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏢 Company Name</label>
-                        <input
-                            type="text"
-                            value={companyName}
-                            onChange={(e) => setCompanyName(e.target.value)}
-                            className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 shadow-md dark:shadow-lg"
+                        <label className="block text-gray-600 dark:text-gray-300 font-medium">🏢 Company</label>
+                        <select
+                            name="companyId"
+                            value={formData.companyId}
+                            onChange={handleChange}
+                            className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
                             required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📌 Job Title</label>
-                        <input
-                            type="text"
-                            value={jobTitle}
-                            onChange={(e) => setJobTitle(e.target.value)}
-                            className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 shadow-md dark:shadow-lg"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📝 Job Description</label>
-                        <textarea
-                            value={jobDescription}
-                            onChange={(e) => setJobDescription(e.target.value)}
-                            className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 shadow-md dark:shadow-lg"
-                            rows="4"
-                            required
-                        ></textarea>
-                    </div>
-
-                    <div>
-                        <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🌍 Job Location</label>
-                        <input
-                            type="text"
-                            value={jobLocation}
-                            onChange={(e) => setJobLocation(e.target.value)}
-                            className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 shadow-md dark:shadow-lg"
-                            required
-                        />
-                    </div>
-
-                    <div className="flex justify-end space-x-4 mt-6">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="py-2 px-6 font-semibold rounded-lg text-gray-700 dark:text-gray-300 bg-gray-300 dark:bg-gray-800 hover:bg-gray-400 dark:hover:bg-gray-600 shadow-md dark:shadow-lg"
                         >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            className="py-2 px-6 font-semibold rounded-lg text-black dark:text-white bg-lightTeal dark:bg-darkTeal hover:bg-darkTeal dark:hover:bg-darkGrey shadow-md dark:shadow-lg"
-                        >
-                            Post
-                        </button>
+                            <option value="" disabled>
+                                Select a company
+                            </option>
+                            {companies.map((company: { id: string; companyName: string }) => (
+                                <option key={company.id} value={company.id}>
+                                    {company.companyName}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-                </form>
-            </div>
+                )}
+
+                <div>
+                    <label className="block text-gray-600 dark:text-gray-300 font-medium">📌 Job Title</label>
+                    <input
+                        type="text"
+                        name="title"
+                        value={formData.title}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-gray-600 dark:text-gray-300 font-medium">📝 Job Description</label>
+                    <textarea
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
+                        rows={4}
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-gray-600 dark:text-gray-300 font-medium">🌍 Job Location</label>
+                    <input
+                        type="text"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-gray-600 dark:text-gray-300 font-medium">🔢 Experience (Years)</label>
+                    <input
+                        type="number"
+                        name="experience"
+                        value={formData.experience}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
+                        min="0"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-gray-600 dark:text-gray-300 font-medium">💼 Job Type</label>
+                    <input
+                        type="text"
+                        name="jobType"
+                        value={formData.jobType}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-gray-600 dark:text-gray-300 font-medium">📅 Deadline</label>
+                    <input
+                        type="date"
+                        name="deadline"
+                        value={formData.deadline}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
+                        required
+                    />
+                </div>
+
+                <div>
+                    <label className="block text-gray-600 dark:text-gray-300 font-medium">💰 Salary</label>
+                    <input
+                        type="number"
+                        name="salary"
+                        value={formData.salary}
+                        onChange={handleChange}
+                        className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300"
+                        min="0"
+                        required
+                    />
+                </div>
+
+                <div className="flex justify-end mt-6">
+                    <button
+                        type="submit"
+                        className="py-2 px-6 font-semibold rounded-lg text-white bg-blue-500 hover:bg-blue-600"
+                        disabled={jobPostLoading}
+                    >
+                        {jobPostLoading ? "Posting..." : "Post Job"}
+                    </button>
+                </div>
+            </form>
         </div>
     );
 }
 
-export default JobPostDialog;
+export default JobPostPage;

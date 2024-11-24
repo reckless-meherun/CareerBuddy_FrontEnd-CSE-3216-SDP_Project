@@ -7,6 +7,8 @@ import SignUp from "./pages/SignUp.tsx";
 import ProfileApplicant from "./pages/ProfileApplicant.tsx";
 import ProfileRecruiter from "./pages/ProfileRecruiter.tsx";
 import FilteredJobs from "./pages/FilterJobs.tsx";
+import AddCompanyDialog from "./pages/AddCompanyDialog.tsx";
+import JobPostPage from "./pages/JobPostDialog.tsx";
 
 function App() {
     return (
@@ -19,6 +21,8 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/filtered-jobs" element={<FilteredJobs/>} />
+                    <Route path="/cerate-company" element={<AddCompanyDialog/>}/>
+                    <Route path="/post-job" element={<JobPostPage/>}/>
                 </Routes>
                 <Footer />
             </div>

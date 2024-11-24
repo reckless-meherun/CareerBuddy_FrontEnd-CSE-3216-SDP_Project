@@ -1,13 +1,14 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 import myImage from '../assets/JobCover2.jpeg';
-import { useSearchJobs } from "../hooks/search";
+import qs from 'query-string'; // Install this library for query string manipulation if needed
+
 
 function Home() {
     const [searchTerm, setSearchTerm] = useState("");
     const [location, setLocation] = useState("");
     const navigate = useNavigate(); // Initialize useNavigate
-    const {loading,error,searchJobs} = useSearchJobs();
+    
     
 
     const jobCategories = [
@@ -20,15 +21,20 @@ function Home() {
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
-        try{
-            const response = await searchJobs({jobTitle:searchTerm, location:location});
-            console.log(response);
-            navigate('/filtered-jobs', { state: { results: response, criteria: { jobTitle: searchTerm, location: location } } });
-        }
-        catch(e){
-            console.error("Error fetching search results:", e);
+        const queryParams = qs.stringify({
+            jobTitle: searchTerm,
+            location: location
+        });
+        navigate(`/filtered-jobs?${queryParams}`);
+        // try{
+        //     const response = await searchJobs({jobTitle:searchTerm, location:location});
+        //     console.log(response);
+        //     navigate('/filtered-jobs', { state: { results: response, criteria: { jobTitle: searchTerm, location: location } } });
+        // }
+        // catch(e){
+        //     console.error("Error fetching search results:", e);
 
-        }
+        // }
         // Navigate to the FilteredJobs page when the search button is clicked
         //navigate('/filtered-jobs');
     };

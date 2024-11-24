@@ -1,17 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import JobPostDialog from "./JobPostDialog";
-import CompanyDialog from "./AddCompanyDialog";
+
+import { useProfile } from "../hooks/profile";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 
 function ProfileRecruiter() {
-    const [profileImage, setProfileImage] = useState("/path/to/your/default/profileImage.jpg");
-    const [email, setEmail] = useState("recruiter@example.com");
-    const [name, setName] = useState("John Doe");
-    const [userType, setUserType] = useState("Recruiter");
-    const [address, setAddress] = useState({
-        line1: "Corporate Avenue",
-        city: "New York",
-        country: "USA"
+    const { loading, error, getProfile, makeProfile } = useProfile();
+    const navigate = useNavigate();
+    const [profile, setProfile] = useState({
+        profileImage: "human.png",
+        email: localStorage.getItem("email")||"",
+        name: "John Doe",
+        phoneNumber:"01234567899",
+        userType: "Recruiter",
+        bio:"Software Engineer",
+        address: {
+            line1: "Corporate Avenue",
+            city: "New York",
+            country: "USA",
+        },
     });
+    const[isProfileCreated, setIsProfileCreated] = useState(true);
 
     const [companies, setCompanies] = useState([
         { companyName: "TechCorp", position: "Hiring Manager", joiningDate: "2022-01-15" },
@@ -29,51 +40,122 @@ function ProfileRecruiter() {
 
     const [newJob, setNewJob] = useState({ companyName: "", role: "" });
     const [newCompany, setNewCompany] = useState({ name: "", industry: "", location: "" });
+    const parseAddress = (addressString: string) => {
+        if (!addressString) {
+            return { line1: "", city: "", country: "" };  // Return default values if address is not valid
+        }
+        const [line1, city, country] = addressString.split(',').map(part => part.trim());
+        return { line1, city, country };
+    };
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
+    // Fetch recruiter profile
+    useEffect(() => {
+        const fetchProfile = async () => {
+            const id = localStorage.getItem("id");
+            if (!id || !isProfileCreated) return;
+
+
+            try {
+                const data = await getProfile(id);
+                // console.log(data);
+                if(data){
+                    // console.log(data.address);
+                    const{line1,city,country} = parseAddress(data.address);
+                    setProfile({
+                        profileImage: "human.png",
+                        email: data.email || "recruiter@example.com",
+                        name: data.name || "John Doe",
+                        userType: data.role || "Recruiter",
+                        bio: data.bio || "Software Engineer",
+                        phoneNumber: data.phoneNumber || "01234567899",
+                        address: {
+                            line1: line1||"Corporate Avenue",
+                            city: city||"New York",
+                            country: country||"USA",
+                        } 
+                });
+                    if (data.companies) setCompanies(data.companies);
+                    if (data.postedJobs) setPostedJobs(data.postedJobs);
+                }
+                else{
+                    setIsProfileCreated(false);
+                }
+            } catch (err) {
+                console.error("Error fetching profile:", err);
+                setIsProfileCreated(false);
+            }
+        };
+
+        fetchProfile();
+    }, [getProfile]);
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
         if (file) {
             const imageUrl = URL.createObjectURL(file);
-            setProfileImage(imageUrl);
+            setProfile((prev) => ({ ...prev, profileImage: imageUrl }));
         }
     };
+    const addPostPage = () => {
+        navigate("/post-job")
+    }
 
-    const handleJobPostSubmit = () => {
-        setPostedJobs([
-            ...postedJobs,
-            { ...newJob, date: new Date().toISOString().split("T")[0], applicants: 0 },
-        ]);
-        setIsDialogOpen(false);
-        setNewJob({ companyName: "", role: "" });
+
+    const addCompanyPage = () => {
+        navigate("/cerate-company")
     };
+    const handleProfileUpdate = async () => {
+        if (isProfileCreated) {
+            toast("Profile already created");
+            return;
+        }
 
-    const handleCompanySubmit = () => {
-        setCompanies([...companies, newCompany]);
-        setIsCompanyDialogOpen(false);
-        setNewCompany({ name: "", industry: "", location: "" });
+        try {
+            const id = localStorage.getItem("id");
+            console.log(id);
+            if (!id) throw new Error("User ID not found");
+
+            const { name, email, userType, address,bio,phoneNumber } = profile;
+            console.log(profile);
+            const response = await makeProfile(
+                id,
+                name,
+                bio, // Assuming `userType` corresponds to `bio` or a similar field in the backend
+                email,
+                phoneNumber, // Add phoneNumber if needed
+                userType, // Assuming `userType` maps to role
+                `${address.line1}, ${address.city}, ${address.country}`
+            );
+
+            if(response){
+                setIsProfileCreated(true);
+                toast.success("Profile created successfully!");
+                console.log("Profile created:", response);
+            }
+        } catch (err) {
+            console.error("Error creating profile:", err);
+            toast.error("Failed to create profile");
+        }
     };
-
 
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
             <div className="w-full h-5/6 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-8">
                 <div className="w-full p-8 mb-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
-                    <h2 className="text-3xl sm:text-3xl font-bold text-center mb-8">👔 Recruiter Profile</h2>
+                    <h2 className="text-3xl sm:text-3xl font-bold text-center mb-8">👔 {profile.userType} Profile</h2>
 
                     <div className="flex justify-center mb-6">
                         <div className="relative">
                             <img
-                                src={profileImage}
+                                src={profile.profileImage}
                                 alt="Profile Photo"
                                 className="w-32 h-32 rounded-lg object-cover shadow-md"
                                 style={{ backgroundColor: "#f0f0f0" }}
                             />
-                            <label
-                                className="absolute bottom-2 right-2 p-2 font-semibold rounded-lg cursor-pointer text-xs 
+                            <label className="absolute bottom-2 right-2 p-2 font-semibold rounded-lg cursor-pointer text-xs 
                                 bg-lightTeal dark:bg-darkTeal 
                                 hover:bg-darkTeal dark:hover:bg-darkGrey 
-                                text-black dark:text-white"
-                            >
+                                text-black dark:text-white">
                                 <input type="file" className="hidden" onChange={handleImageChange} />
                                 Edit
                             </label>
@@ -82,20 +164,30 @@ function ProfileRecruiter() {
 
                     <div className="w-full max-w-3xl mx-auto space-y-4">
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📧 Email</label>
-                            <input type="text" value={email} readOnly className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed" />
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">📧 Email</label>
+                            <input
+                                type="text"
+                                value={profile.email}
+                                readOnly
+                                className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed"
+                            />
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">📝 Name</label>
-                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">📝 Name</label>
+                            <input
+                                type="text"
+                                value={profile.name}
+                                onChange={(e) => setProfile({ ...profile, name: e.target.value })}
+                                className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                            />
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🧑‍💼 User Type</label>
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">🧑‍💼 User Type</label>
                             <select
-                                value={userType}
-                                onChange={(e) => setUserType(e.target.value)}
+                                value={profile.userType}
+                                onChange={(e) => setProfile({ ...profile, userType: e.target.value })}
                                 className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 shadow-xl dark:shadow-2xl"
                             >
                                 <option value="Recruiter">Recruiter</option>
@@ -104,47 +196,71 @@ function ProfileRecruiter() {
                         </div>
 
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏠 Address Line 1</label>
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">🏠 Address Line 1</label>
                             <input
                                 type="text"
-                                value={address.line1}
-                                onChange={(e) => setAddress({ ...address, line1: e.target.value })}
+                                value={profile.address.line1}
+                                onChange={(e) =>
+                                    setProfile({
+                                        ...profile,
+                                        address: { ...profile.address, line1: e.target.value },
+                                    })
+                                }
                                 className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 
                                 shadow-xl dark:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400"
                             />
                         </div>
 
-
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold">🏙️ City</label>
-                                <input type="text" value={address.city} onChange={(e) => setAddress({ ...address, city: e.target.value })} className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                                <label className="block text-gray-600 dark:text-gray-300 font-semibold">🏙️ City</label>
+                                <input
+                                    type="text"
+                                    value={profile.address.city}
+                                    onChange={(e) =>
+                                        setProfile({
+                                            ...profile,
+                                            address: { ...profile.address, city: e.target.value },
+                                        })
+                                    }
+                                    className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                />
                             </div>
                             <div>
-                                <label className="block text-gray-600 dark:text-gray-300 font-medium font-semibold"> 🌍 Country</label>
-                                <input type="text" value={address.country} onChange={(e) => setAddress({ ...address, country: e.target.value })} className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300" />
+                                <label className="block text-gray-600 dark:text-gray-300 font-semibold"> 🌍 Country</label>
+                                <input
+                                    type="text"
+                                    value={profile.address.country}
+                                    onChange={(e) =>
+                                        setProfile({
+                                            ...profile,
+                                            address: { ...profile.address, country: e.target.value },
+                                        })
+                                    }
+                                    className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                />
                             </div>
                         </div>
                     </div>
 
                     <div className="flex justify-center mt-6">
                         <button
+                            onClick={handleProfileUpdate}
                             className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
                             bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                             hover:bg-darkTeal dark:hover:bg-darkGrey"
                         >
-                            Update Profile
+                            {isProfileCreated ? "Update Profile" : "Create Profile"}
                         </button>
                     </div>
                 </div>
-
                 {/* Create Job Post Button */}
                 <div className="flex justify-center mt-6 space-x-4">
                     <button
                         className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey"
-                        onClick={() => setIsDialogOpen(true)}
+                        onClick={addPostPage}
                     >
                         Create Job Post
                     </button>
@@ -152,29 +268,17 @@ function ProfileRecruiter() {
                         className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey"
-                        onClick={() => setIsCompanyDialogOpen(true)}
+                        onClick={addCompanyPage}
                     >
                         Add New Company
                     </button>
                 </div>
 
                 {/* Job Post Dialog */}
-                <JobPostDialog
-                    isOpen={isDialogOpen}
-                    newJob={newJob}
-                    setNewJob={setNewJob}
-                    onClose={() => setIsDialogOpen(false)}
-                    onSubmit={handleJobPostSubmit}
-                />
+                
 
                 {/* {/* Company Dialog */}
-                <CompanyDialog
-                    isOpen={isCompanyDialogOpen}
-                    newCompany={newCompany}
-                    setNewCompany={setNewCompany}
-                    onClose={() => setIsCompanyDialogOpen(false)}
-                    onSubmit={handleCompanySubmit}
-                />
+                
 
                 {/* Companies Table */}
                 {/* Companies Table */}
@@ -236,7 +340,6 @@ function ProfileRecruiter() {
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     );
