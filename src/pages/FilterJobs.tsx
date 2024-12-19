@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import FilterSidebar from '../components/FilterSidebar';
 import JobPost from '../components/JobPost';
 import qs from 'query-string';
 import { useSearchJobs } from '../hooks/search';
+import { Button } from '@/components/ui/button';
 
 const FilteredJobs = () => {
     const jobLocation = useLocation();
     const { jobTitle, location } = qs.parse(jobLocation.search); // Extract query parameters
     const { loading, error, searchJobs } = useSearchJobs();
+    const navigate = useNavigate(); // Initialize useNavigate
 
     // State to store fetched jobs and companies
     const [jobPosts, setJobPosts] = useState([]);
@@ -55,30 +57,33 @@ const FilteredJobs = () => {
                 <div className="w-full md:w-3/4 p-8">
                     <h2 className="text-3xl font-bold mb-6">Filtered Results</h2>
 
-                    
+
 
                     {/* Tabs for Jobs and Companies */}
                     <div className="mb-6 flex border-b border-gray-300 dark:border-gray-700">
                         <button
                             onClick={() => setActiveTab('jobs')}
-                            className={`px-4 py-2 text-lg font-semibold focus:outline-none ${
-                                activeTab === 'jobs'
-                                    ? 'border-b-2 border-blue-500 text-blue-500'
-                                    : 'text-gray-600 dark:text-gray-400'
-                            }`}
+                            className={`px-4 py-2 text-lg font-semibold focus:outline-none ${activeTab === 'jobs'
+                                ? 'border-b-2 border-blue-500 text-blue-500'
+                                : 'text-gray-600 dark:text-gray-400'
+                                }`}
                         >
                             Jobs
                         </button>
                         <button
                             onClick={() => setActiveTab('companies')}
-                            className={`px-4 py-2 text-lg font-semibold focus:outline-none ml-3 ${
-                                activeTab === 'companies'
-                                    ? 'border-b-2 border-blue-500 text-blue-500'
-                                    : 'text-gray-600 dark:text-gray-400'
-                            }`}
+                            className={`px-4 py-2 text-lg font-semibold focus:outline-none ml-3 ${activeTab === 'companies'
+                                ? 'border-b-2 border-blue-500 text-blue-500'
+                                : 'text-gray-600 dark:text-gray-400'
+                                }`}
                         >
                             Companies
                         </button>
+                        <Button variant={'outline'} className={`px-4 text-lg font-semibold ml-3`}
+                            onClick={() => navigate('/build-resume')}
+                        >
+                            Build Your Resume
+                        </Button>
                     </div>
                     {/* Show search criteria if available */}
                     <div className="mb-6 p-4 rounded-lg bg-white dark:bg-gray-700 shadow">
