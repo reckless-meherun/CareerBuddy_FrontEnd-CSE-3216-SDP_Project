@@ -4,6 +4,7 @@ import { LoaderCircle } from 'lucide-react';
 import React, { useContext, useEffect, useState } from 'react'
 import { ResumeInfoContext } from '../ResumeInfoContext';
 import RichTextEditor from '@/components/RichTextEditor';
+import { AIChatSession } from '@/service/AIModel';
 
 const formField = {
     title: '',
@@ -17,7 +18,7 @@ const formField = {
 
 function ExperienceForm(enableNext) {
     const [experinceList, setExperinceList] = useState([])
-
+    const [aiGeneratedSummaryList, setAiGeneratedSummaryList] = useState([]);
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext)
     const [loading, setLoading] = useState(false)
 
@@ -52,7 +53,7 @@ function ExperienceForm(enableNext) {
     const handleRichTextEditor = (e, name, index) => {
         const newEntries = experinceList.slice();
         newEntries[index][name] = e.target.value;
-        console.log(newEntries);
+        console.log("handleRichTextEditor"+newEntries);
         setExperinceList(newEntries);
     }
 
@@ -62,12 +63,20 @@ function ExperienceForm(enableNext) {
             ...resumeInfo,
             experience: experinceList
         });
+        // console.log("useEffect"+newEntries);
     }, [experinceList]);
 
 
     const onSave = () => {
         setLoading(true)
+        console.log(experinceList)
     }
+
+    const handleRichTextEditorChange = (e, index) => {
+        const newEntries = [...experinceList];
+        newEntries[index].workSummary = e.target.value;
+        setExperinceList(newEntries);
+    };
 
     return (
         <div>
@@ -112,7 +121,11 @@ function ExperienceForm(enableNext) {
                                     } type="date" name="endDate" onChange={(e) => handleInputChange(index, e)} />
                                 </div>
                                 <div className='col-span-2'>
-                                    <RichTextEditor index={index} defaultValue={item?.workSummary} onRichTextEditorChange={(e) => handleRichTextEditor(e, 'workSummary', index)} />
+                                    <RichTextEditor
+                                        index={index}
+                                        defaultValue={item?.workSummary}
+                                        onRichTextEditorChange={handleRichTextEditor}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -131,6 +144,6 @@ function ExperienceForm(enableNext) {
             </div>
         </div>
     )
-}
+};
 
 export default ExperienceForm

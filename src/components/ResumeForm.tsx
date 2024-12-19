@@ -7,6 +7,8 @@ import ExperienceForm from './ResumeComponents/FormComponents/ExperienceForm';
 import EducationalForm from './ResumeComponents/FormComponents/EducationalForm';
 import SkillsForm from './ResumeComponents/FormComponents/SkillsForm';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import ThemeColor from '@/components/ResumeComponents/ThemeColor';
+
 
 function ResumeForm() {
     const [activeFormIndex, setActiveFormIndex] = useState(1);
@@ -20,7 +22,7 @@ function ResumeForm() {
                 <Link to={"/build-resume"}>
                     <Button><Home /></Button>
                 </Link>
-                <Button variant="outline" size="sm" className="flex gap-2"> <LayoutGrid />Theme</Button>
+                <ThemeColor/>
                 <div className='flex gap-5' >
                     {activeFormIndex > 1 &&
                         <Button size="sm"
