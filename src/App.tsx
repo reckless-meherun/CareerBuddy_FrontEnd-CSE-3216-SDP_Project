@@ -8,10 +8,15 @@ import ProfileApplicant from "./pages/ProfileApplicant.tsx";
 import ProfileRecruiter from "./pages/ProfileRecruiter.tsx";
 import FilteredJobs from "./pages/FilterJobs.tsx";
 import AddCompanyDialog from "./components/AddCompanyDialog.tsx";
-import JobPostPage from "./pages/JobPostDialog.tsx";
+import JobPostPage from "./pages/CreateJobPost.tsx";
 import ResumeDashboard from "./pages/ResumeDashboard.tsx";
 import EditResume from "./pages/Resume/[ResumeId]/Edit/EditResume.tsx";
 import ViewResume from "./pages/Resume/[ResumeId]/View/ViewResume.tsx";
+import DetailJobPostPreview from "./pages/DetailJobPostPreview.tsx";
+import RecentJobPostsTable from "./components/TablePostedJobs/TablePostedJobs.tsx";
+import CompaniesTable from "./components/TableCompaniesInvolved/TableCompanies.tsx";
+import ApplicantsTable from "./components/TableApplicants/TableApplicants.tsx";
+import AppliedJobsTable from "./components/TableAppliedJobs/TableAppliedJobs.tsx";
 
 function App() {
     return (
@@ -20,15 +25,21 @@ function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/profile" element={<ProfileRecruiter/>} />
+                    <Route path="/profile" element={<ProfileRecruiter />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
-                    <Route path="/filtered-jobs" element={<FilteredJobs/>} />
-                    <Route path="/cerate-company" element={<AddCompanyDialog/>}/>
-                    <Route path="/post-job" element={<JobPostPage/>}/>
-                    <Route path="/build-resume" element={<ResumeDashboard/>}/>
-                    <Route path="/resume/:ResumeId/edit" element={<EditResume/>}/>
-                    <Route path="/resume/:ResumeId/view" element={<ViewResume/>}/>
+                    <Route path="/filtered-jobs" element={<FilteredJobs />} />
+                    <Route path="/create-company" element={<AddCompanyDialog />} />
+                    <Route path="/post-job" element={<JobPostPage />} />
+                    <Route path="/detail-job-post-preview" element={<DetailJobPostPreview />} />
+                    <Route path="/recent-job-posts-table" element={<RecentJobPostsTable />} />
+                    <Route path="/companies-table" element={<CompaniesTable />} />
+                    <Route path="/applicants-table" element={<ApplicantsTable />} />
+                    <Route path="/applied-jobs-table" element={<AppliedJobsTable />} />
+                    <Route path="/build-resume" element={<ResumeDashboard />} />
+                    <Route path="/resume/:ResumeId/edit" element={<EditResume />} />
+                    <Route path="/resume/:ResumeId/view" element={<ViewResume />} />
+
                 </Routes>
                 <Footer />
             </div>

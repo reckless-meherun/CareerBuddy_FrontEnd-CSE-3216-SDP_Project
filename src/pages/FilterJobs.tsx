@@ -79,11 +79,6 @@ const FilteredJobs = () => {
                         >
                             Companies
                         </button>
-                        <Button variant={'outline'} className={`px-4 text-lg font-semibold ml-3`}
-                            onClick={() => navigate('/build-resume')}
-                        >
-                            Build Your Resume
-                        </Button>
                     </div>
                     {/* Show search criteria if available */}
                     <div className="mb-6 p-4 rounded-lg bg-white dark:bg-gray-700 shadow">

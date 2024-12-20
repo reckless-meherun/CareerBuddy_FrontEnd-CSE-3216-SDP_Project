@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import JobPostDialog from "./JobPostDialog";
+import JobPostDialog from "./CreateJobPost";
 
 import { useProfile } from "../hooks/profile";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import DemoPage from "@/components/TablePostedJobs/TablePostedJobs";
+import { BookMarked, CalendarDays, ClipboardCheck, ClipboardPlus, History, Store, UserRoundPen, UserRoundPlus } from "lucide-react";
 
 
 function ProfileRecruiter() {
@@ -11,18 +14,18 @@ function ProfileRecruiter() {
     const navigate = useNavigate();
     const [profile, setProfile] = useState({
         profileImage: "human.png",
-        email: localStorage.getItem("email")||"",
+        email: localStorage.getItem("email") || "",
         name: "John Doe",
-        phoneNumber:"01234567899",
+        phoneNumber: "01234567899",
         userType: "Recruiter",
-        bio:"Software Engineer",
+        bio: "Software Engineer",
         address: {
             line1: "Corporate Avenue",
             city: "New York",
             country: "USA",
         },
     });
-    const[isProfileCreated, setIsProfileCreated] = useState(true);
+    const [isProfileCreated, setIsProfileCreated] = useState(true);
 
     const [companies, setCompanies] = useState([
         { companyName: "TechCorp", position: "Hiring Manager", joiningDate: "2022-01-15" },
@@ -58,9 +61,9 @@ function ProfileRecruiter() {
             try {
                 const data = await getProfile(id);
                 // console.log(data);
-                if(data){
+                if (data) {
                     // console.log(data.address);
-                    const{line1,city,country} = parseAddress(data.address);
+                    const { line1, city, country } = parseAddress(data.address);
                     setProfile({
                         profileImage: "human.png",
                         email: data.email || "recruiter@example.com",
@@ -69,15 +72,15 @@ function ProfileRecruiter() {
                         bio: data.bio || "Software Engineer",
                         phoneNumber: data.phoneNumber || "01234567899",
                         address: {
-                            line1: line1||"Corporate Avenue",
-                            city: city||"New York",
-                            country: country||"USA",
-                        } 
-                });
+                            line1: line1 || "Corporate Avenue",
+                            city: city || "New York",
+                            country: country || "USA",
+                        }
+                    });
                     if (data.companies) setCompanies(data.companies);
                     if (data.postedJobs) setPostedJobs(data.postedJobs);
                 }
-                else{
+                else {
                     setIsProfileCreated(false);
                 }
             } catch (err) {
@@ -102,7 +105,7 @@ function ProfileRecruiter() {
 
 
     const addCompanyPage = () => {
-        navigate("/cerate-company")
+        navigate("/create-company")
     };
     const handleProfileUpdate = async () => {
         if (isProfileCreated) {
@@ -115,7 +118,7 @@ function ProfileRecruiter() {
             console.log(id);
             if (!id) throw new Error("User ID not found");
 
-            const { name, email, userType, address,bio,phoneNumber } = profile;
+            const { name, email, userType, address, bio, phoneNumber } = profile;
             console.log(profile);
             const response = await makeProfile(
                 id,
@@ -127,7 +130,7 @@ function ProfileRecruiter() {
                 `${address.line1}, ${address.city}, ${address.country}`
             );
 
-            if(response){
+            if (response) {
                 setIsProfileCreated(true);
                 toast.success("Profile created successfully!");
                 console.log("Profile created:", response);
@@ -139,11 +142,10 @@ function ProfileRecruiter() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
-            <div className="w-full h-5/6 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-8">
-                <div className="w-full p-8 mb-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
+        <div className="min-h-screen flex gap-6 p-6 bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
+            <div className="w-[700px] flex-1 h-5/6 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-8">
+                <div className="w-full p-8 mb-10 border-8 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
                     <h2 className="text-3xl sm:text-3xl font-bold text-center mb-8">👔 {profile.userType} Profile</h2>
-
                     <div className="flex justify-center mb-6">
                         <div className="relative">
                             <img
@@ -169,7 +171,7 @@ function ProfileRecruiter() {
                                 type="text"
                                 value={profile.email}
                                 readOnly
-                                className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed"
+                                className="w-full p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed"
                             />
                         </div>
 
@@ -179,7 +181,7 @@ function ProfileRecruiter() {
                                 type="text"
                                 value={profile.name}
                                 onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                                className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                className="w-full p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                             />
                         </div>
 
@@ -188,7 +190,7 @@ function ProfileRecruiter() {
                             <select
                                 value={profile.userType}
                                 onChange={(e) => setProfile({ ...profile, userType: e.target.value })}
-                                className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 shadow-xl dark:shadow-2xl"
+                                className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 shadow-md dark:shadow-2xl"
                             >
                                 <option value="Recruiter">Recruiter</option>
                                 <option value="Applicant">Applicant</option>
@@ -207,7 +209,7 @@ function ProfileRecruiter() {
                                     })
                                 }
                                 className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 
-                                shadow-xl dark:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400"
+                                shadow-md dark:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400"
                             />
                         </div>
 
@@ -223,7 +225,7 @@ function ProfileRecruiter() {
                                             address: { ...profile.address, city: e.target.value },
                                         })
                                     }
-                                    className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                    className="w-full p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                                 />
                             </div>
                             <div>
@@ -237,110 +239,118 @@ function ProfileRecruiter() {
                                             address: { ...profile.address, country: e.target.value },
                                         })
                                     }
-                                    className="w-full p-3 shadow-xl dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                    className="w-full p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
                                 />
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex justify-center mt-6">
+                    <div className="flex justify-center mt-6 gap-4">
                         <button
                             onClick={handleProfileUpdate}
                             className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
-                            bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                            bg-lightTeal dark:bg-darkTeal shadow-md dark:shadow-2xl 
                             hover:bg-darkTeal dark:hover:bg-darkGrey"
                         >
                             {isProfileCreated ? "Update Profile" : "Create Profile"}
                         </button>
+                        <button className="py-3 h-30 px-8 text-black dark:text-white font-semibold rounded-lg 
+                            bg-lightTeal dark:bg-darkTeal shadow-md dark:shadow-2xl 
+                            hover:bg-darkTeal dark:hover:bg-darkGrey"
+                            onClick={() => navigate('/build-resume')}
+                        >
+                            <h2 className="text-md">Build Your Resume with AI</h2>
+                        </button>
                     </div>
                 </div>
-                {/* Create Job Post Button */}
-                <div className="flex justify-center mt-6 space-x-4">
-                    <button
-                        className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey"
-                        onClick={addPostPage}
-                    >
-                        Create Job Post
-                    </button>
-                    <button
-                        className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-lightTeal dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey"
-                        onClick={addCompanyPage}
-                    >
-                        Add New Company
-                    </button>
-                </div>
-
-                {/* Job Post Dialog */}
-                
-
-                {/* {/* Company Dialog */}
-                
-
-                {/* Companies Table */}
-                {/* Companies Table */}
-                <div className="w-full p-8 mt-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
-                    <h3 className="text-2xl font-bold text-center mb-4">🏢 Companies Involved</h3>
-                    <table className="w-full shadow-xl dark:shadow-2xl text-left border-collapse border-spacing-2 rounded-lg">
-                        <thead>
-                            <tr className="bg-[#d0fcf4] dark:bg-[#558b88]">
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tl-lg text-center">Company Name</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 text-center">Position</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tr-lg text-center">Joining Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {companies.map((company, index) => (
-                                <tr key={index} className={index % 2 === 0 ? "bg-gray-100 dark:bg-gray-700" : "bg-white dark:bg-gray-800"}>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{company.companyName}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{company.position}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{company.joiningDate}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Recently Posted Jobs Table */}
-                {/* Recently Posted Jobs Table */}
-                <div className="w-full p-8 mt-10 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
-                    <h3 className="text-2xl font-bold text-center mb-4">📄 Recently Posted Jobs</h3>
-                    <table className="w-full shadow-xl dark:shadow-2xl text-left border-collapse border-spacing-2 rounded-lg">
-                        <thead>
-                            <tr className="bg-[#d0fcf4] dark:bg-[#558b88]">
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tl-lg text-center">Company Name</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 text-center">Role</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 text-center">Date</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 text-center">Applicants</th>
-                                <th className="p-3 border-b font-medium font-semibold text-gray-700 dark:text-gray-200 rounded-tr-lg text-center">Edit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {postedJobs.map((job, index) => (
-                                <tr key={index} className={index % 2 === 0 ? "bg-gray-100 dark:bg-gray-700" : "bg-white dark:bg-gray-800"}>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{job.companyName}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{job.role}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{job.date}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">{job.applicants}</td>
-                                    <td className="p-3 border-b text-gray-600 dark:text-gray-300 text-center">
-                                        <button
-                                            className="py-2 px-4 font-semibold rounded-lg
-                            bg-lightTeal dark:bg-darkTeal
-                            hover:bg-darkTeal dark:hover:bg-darkGrey
-                            text-black dark:text-white"
-                                        >
-                                            Edit
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
             </div>
+
+            {profile.userType == 'Recruiter' ? (
+                <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-4">
+                    <div className="flex flex-col justify-evenly h-full">
+                        <div
+                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            onClick={addPostPage}
+                        >
+                            <h2 className="text-xl">Create A Job Post</h2><ClipboardPlus className="flex w-[60px] h-[60px]" />
+                        </div>
+                        <div
+                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            onClick={addCompanyPage}
+                        >
+                            <span className="text-xl">Add A New Company</span>
+                            <UserRoundPlus className="flex w-[60px] h-[60px]" />
+                        </div>
+                        <div
+                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            onClick={() => navigate("/recent-job-posts-table")}
+                        >
+                            <span className="text-xl">Recent Job Posts</span>
+                            <History className="flex w-[60px] h-[60px]" />
+                        </div>
+
+                        <div
+                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            onClick={() => navigate("/companies-table")}
+                        >
+                            <span className="text-xl">My Companies</span>
+                            <Store className="flex w-[60px] h-[60px]" />
+                        </div>
+
+                    </div>
+                </div>
+            ) : (
+                <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-4">
+                    <div className="flex flex-col justify-evenly h-full">
+                        <div
+                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                        onClick={() => navigate("/applied-jobs-table")}
+                        >
+                            <h2 className="text-xl">Applied Jobs</h2><ClipboardCheck className="flex w-[60px] h-[60px]" />
+                        </div>
+                        <div
+                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            onClick={() => navigate("/filtered-jobs")}
+                        >
+                            <span className="text-xl">Recommended Jobs</span>
+                            <UserRoundPen className="flex w-[60px] h-[60px]" />
+                        </div>
+                        <div
+                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            onClick={() => navigate("/recent-job-posts-table")}
+                        >
+                            <span className="text-xl">My Calender</span>
+                            <CalendarDays className="flex w-[60px] h-[60px]" />
+                        </div>
+
+                        <div
+                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            onClick={() => navigate("/filtered-jobs")}
+                        >
+                            <span className="text-xl">Saved Jobs</span>
+                            <BookMarked className="flex w-[60px] h-[60px]" />
+                        </div>
+
+                    </div>
+                </div>
+            )}
+
         </div>
     );
 }
