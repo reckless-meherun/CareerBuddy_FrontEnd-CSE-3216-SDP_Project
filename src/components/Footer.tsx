@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Footer() {
     return (
-        <footer className="p-4 bg-primary text-white text-center bottom-0 w-full">
+        <footer className="p-4 bg-primary text-white text-center bottom-0 ">
             <p>© {new Date().getFullYear()} CareerBuddy. All rights reserved.</p>
             <nav className="flex justify-center space-x-4">
                 <Link to="/privacy">Privacy Policy</Link>

@@ -4,6 +4,8 @@ import LoginLeft from '../components/LoginLeft';
 import { useAuth } from '../hooks/useAuth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import UserStorage from '@/utilities/UserStorage';
+import { User } from '@/models/user';
 
 function SignUp() {
   const navigate = useNavigate();
@@ -75,9 +77,18 @@ function SignUp() {
           toast.success("Registration successful!");
           
           //localStorage.setItem("token", result.token);
+          
+        //   localStorage.setItem("id", result.id);
+        //   localStorage.setItem("email", result.email);
+          const user: User = {
+            id: result.id,
+            email: result.email,
+            name: result.name, // If available
+            // role: result.role, // If available
+          };
+          
+          UserStorage.saveUser(user);
           navigate("/");
-          localStorage.setItem("id", result.id);
-          localStorage.setItem("email", result.email);
 
         }
       } catch (error) {

@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
-import JobPostDialog from "./CreateJobPost";
-
+import UserStorage from "@/utilities/UserStorage";
 import { useProfile } from "../hooks/profile";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import DemoPage from "@/components/TablePostedJobs/TablePostedJobs";
 import { BookMarked, CalendarDays, ClipboardCheck, ClipboardPlus, History, Store, UserRoundPen, UserRoundPlus } from "lucide-react";
 
+type SkillDTO = { id: string; name: string };
+type SkillRequest = { name: string; };
 
 function ProfileRecruiter() {
-    const { loading, error, getProfile, makeProfile } = useProfile();
+    const { getProfile, makeProfile, fetchSkills } = useProfile();
+    const [skills, setSkills] = useState<SkillDTO[]>([]);
+    const [isSkills, setIsSkills] = useState(false);
+
     const navigate = useNavigate();
+    const user = UserStorage.getUser();
     const [profile, setProfile] = useState({
         profileImage: "human.png",
-        email: localStorage.getItem("email") || "",
-        name: "John Doe",
+        email: user?.email || "",
+        name: user?.name || "",
         phoneNumber: "01234567899",
         userType: "Recruiter",
         bio: "Software Engineer",
@@ -24,8 +27,11 @@ function ProfileRecruiter() {
             city: "New York",
             country: "USA",
         },
+        readySkills: [] as SkillDTO[], // Pre-existing skills
+        newSkills: [] as SkillRequest[],   // New skills to add
     });
     const [isProfileCreated, setIsProfileCreated] = useState(true);
+    const [isProfile,setIsProfile] = useState(false);
 
     const [companies, setCompanies] = useState([
         { companyName: "TechCorp", position: "Hiring Manager", joiningDate: "2022-01-15" },
@@ -37,9 +43,6 @@ function ProfileRecruiter() {
         { companyName: "InnovateX", role: "Data Scientist", date: "2024-11-03", applicants: 23 },
         { companyName: "TechCorp", role: "Product Manager", date: "2024-11-05", applicants: 37 },
     ]);
-
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [isCompanyDialogOpen, setIsCompanyDialogOpen] = useState(false);
 
     const [newJob, setNewJob] = useState({ companyName: "", role: "" });
     const [newCompany, setNewCompany] = useState({ name: "", industry: "", location: "" });
@@ -54,16 +57,19 @@ function ProfileRecruiter() {
     // Fetch recruiter profile
     useEffect(() => {
         const fetchProfile = async () => {
-            const id = localStorage.getItem("id");
-            if (!id || !isProfileCreated) return;
-
+            const id = user?.id;
+            console.log(!id || isProfile)
+            // return
+            
+            if (!id || isProfile) return;
+            setIsProfile(true);
 
             try {
                 const data = await getProfile(id);
                 // console.log(data);
                 if (data) {
-                    // console.log(data.address);
-                    const { line1, city, country } = parseAddress(data.address);
+                    console.log(data);
+                    const { line1, city, country } = parseAddress(data.adress);
                     setProfile({
                         profileImage: "human.png",
                         email: data.email || "recruiter@example.com",
@@ -75,7 +81,9 @@ function ProfileRecruiter() {
                             line1: line1 || "Corporate Avenue",
                             city: city || "New York",
                             country: country || "USA",
-                        }
+                        },
+                        readySkills: data.readySkills || [], // Pre-existing skills
+                        newSkills: data.newSkills || [],   // New skills to add
                     });
                     if (data.companies) setCompanies(data.companies);
                     if (data.postedJobs) setPostedJobs(data.postedJobs);
@@ -83,14 +91,40 @@ function ProfileRecruiter() {
                 else {
                     setIsProfileCreated(false);
                 }
+
+
             } catch (err) {
                 console.error("Error fetching profile:", err);
                 setIsProfileCreated(false);
             }
         };
+        const getSkills = async () => {
+            if(isSkills){
+                return;
+            }
+            setIsSkills(true);
+            try {
+                const data = await fetchSkills();
+                console.log(data, "Skills");
+                setSkills(data);
+            }
+            catch (err) {
+                console.error("Error fetching skills:", err);
+                toast.error("Failed to fetch skills");
+            }
 
+        };
+        getSkills();
         fetchProfile();
-    }, [getProfile]);
+    }, [getProfile,fetchSkills]);
+    const handleSkillSelect = (skill: SkillDTO) => {
+        setProfile((prev) => ({
+            ...prev,
+            readySkills: prev.readySkills.includes(skill)
+                ? prev.readySkills.filter((s) => s !== skill) // Remove skill if already selected
+                : [...prev.readySkills, skill], // Add skill if not selected
+        }));
+    };
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -114,11 +148,11 @@ function ProfileRecruiter() {
         }
 
         try {
-            const id = localStorage.getItem("id");
+            const id = user?.id;
             console.log(id);
             if (!id) throw new Error("User ID not found");
 
-            const { name, email, userType, address, bio, phoneNumber } = profile;
+            const { name, email, userType, address, bio, phoneNumber, readySkills, newSkills } = profile;
             console.log(profile);
             const response = await makeProfile(
                 id,
@@ -127,17 +161,20 @@ function ProfileRecruiter() {
                 email,
                 phoneNumber, // Add phoneNumber if needed
                 userType, // Assuming `userType` maps to role
-                `${address.line1}, ${address.city}, ${address.country}`
+                `${address.line1}, ${address.city}, ${address.country}`,
+                readySkills,
+                newSkills
             );
 
             if (response) {
                 setIsProfileCreated(true);
-                toast.success("Profile created successfully!");
+                toast("Profile created successfully!");
                 console.log("Profile created:", response);
             }
         } catch (err) {
             console.error("Error creating profile:", err);
-            toast.error("Failed to create profile");
+            toast("Failed to create profile");
+            console.log("Error creating profile:", err)
         }
     };
 
@@ -165,6 +202,7 @@ function ProfileRecruiter() {
                     </div>
 
                     <div className="w-full max-w-3xl mx-auto space-y-4">
+                        {/* Email */}
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-semibold">📧 Email</label>
                             <input
@@ -175,6 +213,7 @@ function ProfileRecruiter() {
                             />
                         </div>
 
+                        {/* Name */}
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-semibold">📝 Name</label>
                             <input
@@ -185,6 +224,7 @@ function ProfileRecruiter() {
                             />
                         </div>
 
+                        {/* User Type */}
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-semibold">🧑‍💼 User Type</label>
                             <select
@@ -197,6 +237,7 @@ function ProfileRecruiter() {
                             </select>
                         </div>
 
+                        {/* Address */}
                         <div>
                             <label className="block text-gray-600 dark:text-gray-300 font-semibold">🏠 Address Line 1</label>
                             <input
@@ -213,6 +254,7 @@ function ProfileRecruiter() {
                             />
                         </div>
 
+                        {/* City & Country */}
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-gray-600 dark:text-gray-300 font-semibold">🏙️ City</label>
@@ -243,6 +285,72 @@ function ProfileRecruiter() {
                                 />
                             </div>
                         </div>
+
+                        {/* Ready Skills */}
+                        <div>
+                            Add new Skills
+                            <ul>
+                                {skills.map((skill) => (
+                                    <li key={skill.id}>
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                checked={profile.readySkills.some((s) => s.id === skill.id)}
+                                                onChange={() => handleSkillSelect(skill)}
+                                            />
+                                            {skill.name}
+                                        </label>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* New Skills */}
+                        <div>
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">📚 New Skills</label>
+                            {profile.newSkills.map((skill, index) => (
+                                <div key={index} className="flex items-center mb-2">
+                                    <input
+                                        type="text"
+                                        value={skill.name}
+                                        onChange={(e) =>
+                                            setProfile({
+                                                ...profile,
+                                                newSkills: profile.newSkills.map((s, i) =>
+                                                    i === index ? { ...s, name: e.target.value } : s
+                                                ),
+                                            })
+                                        }
+                                        className="flex-1 p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 mr-2"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setProfile({
+                                                ...profile,
+                                                newSkills: profile.newSkills.filter((_, i) => i !== index),
+                                            })
+                                        }
+                                        className="text-red-500 hover:text-red-700"
+                                    >
+                                        ✖
+                                    </button>
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={() =>
+                                    setProfile({
+                                        ...profile,
+                                        newSkills: [...profile.newSkills, { name: "" }],
+                                    })
+                                }
+                                className="mt-2 text-green-500 hover:text-green-700 font-semibold"
+                            >
+                                ➕ Add Skill
+                            </button>
+                        </div>
+
                     </div>
 
                     <div className="flex justify-center mt-6 gap-4">
@@ -254,12 +362,12 @@ function ProfileRecruiter() {
                         >
                             {isProfileCreated ? "Update Profile" : "Create Profile"}
                         </button>
-                        <button className="py-3 h-30 px-8 text-black dark:text-white font-semibold rounded-lg 
+                        <button className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
                             bg-lightTeal dark:bg-darkTeal shadow-md dark:shadow-2xl 
                             hover:bg-darkTeal dark:hover:bg-darkGrey"
                             onClick={() => navigate('/build-resume')}
                         >
-                            <h2 className="text-md">Build Your Resume with AI</h2>
+                            Build Your Resume with AI
                         </button>
                     </div>
                 </div>
@@ -314,7 +422,7 @@ function ProfileRecruiter() {
                             className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/applied-jobs-table")}
+                            onClick={() => navigate("/applied-jobs-table")}
                         >
                             <h2 className="text-xl">Applied Jobs</h2><ClipboardCheck className="flex w-[60px] h-[60px]" />
                         </div>

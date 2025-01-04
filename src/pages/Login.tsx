@@ -4,6 +4,8 @@ import LoginLeft from '../components/LoginLeft';
 import { useAuth } from '../hooks/useAuth';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import UserStorage from '@/utilities/UserStorage';
+import { User } from '@/models/user';
 
 function Login() {
     const navigate = useNavigate();
@@ -31,8 +33,14 @@ function Login() {
         e.preventDefault();
         try {
             const rersponse = await handleLogin({ email, password });
-            localStorage.setItem("id", rersponse.id);
-            localStorage.setItem("email", rersponse.email);
+            const user: User = {
+                id: rersponse.id,
+                email: rersponse.email,
+                name: rersponse.name, // If available
+                // role: result.role, // If available
+              };
+              
+            UserStorage.saveUser(user);
             console.log('Login successful');
             toast("successfully logged in!");
             navigate("/");

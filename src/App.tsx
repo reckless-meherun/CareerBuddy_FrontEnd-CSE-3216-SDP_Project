@@ -21,8 +21,9 @@ import AppliedJobsTable from "./components/TableAppliedJobs/TableAppliedJobs.tsx
 function App() {
     return (
         <Router>
-            <div className="min-h-screen w-screen flex flex-col">
+            <div className="min-h-screen w-screen  flex flex-col">
                 <Header />
+                <div className="flex-grow">
                 <Routes>
                     <Route path="/" element={<Home />} />
                     <Route path="/profile" element={<ProfileRecruiter />} />
@@ -31,7 +32,7 @@ function App() {
                     <Route path="/filtered-jobs" element={<FilteredJobs />} />
                     <Route path="/create-company" element={<AddCompanyDialog />} />
                     <Route path="/post-job" element={<JobPostPage />} />
-                    <Route path="/detail-job-post-preview" element={<DetailJobPostPreview />} />
+                    <Route path="/jobs/:id" element={<DetailJobPostPreview />} />
                     <Route path="/recent-job-posts-table" element={<RecentJobPostsTable />} />
                     <Route path="/companies-table" element={<CompaniesTable />} />
                     <Route path="/applicants-table" element={<ApplicantsTable />} />
@@ -41,6 +42,7 @@ function App() {
                     <Route path="/resume/:ResumeId/view" element={<ViewResume />} />
 
                 </Routes>
+                </div>
                 <Footer />
             </div>
         </Router>

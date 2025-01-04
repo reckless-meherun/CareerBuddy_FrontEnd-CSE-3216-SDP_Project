@@ -11,6 +11,7 @@ export const useSearchJobs = () => {
 
         try {
             const response = await jobSearch(criteria);
+            console.log(response);
             return response;
         } catch (err) {
             setError('error fetching jobs');

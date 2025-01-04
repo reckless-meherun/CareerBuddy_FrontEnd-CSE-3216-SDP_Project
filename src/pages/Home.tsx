@@ -12,7 +12,7 @@ function Home() {
     
 
     const jobCategories = [
-        { name: "Fullstack Developer", count: 1285, icon: "🖥️" },
+        { name: "Fullstack Developer", count: 1287, icon: "🖥️" },
         { name: "Cybersecurity Analyst", count: 612, icon: "🛡️" },
         { name: "ML Engineers", count: 212, icon: "🤖" },
         { name: "Graphics Designer", count: 972, icon: "🎨" },

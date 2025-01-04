@@ -40,7 +40,7 @@ function AddCompanyDialog() {
 
         try {
             await handleAddCompany(companyData);
-            alert("Company added successfully!");
+            toast.success("company added successfully")
             // Clear form after success
             setCompanyName("");
             setLocation("");
@@ -62,7 +62,7 @@ function AddCompanyDialog() {
     return (
         <div className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
             <div className="gap-4 p-10">
-                <div className="p-8 bg-white rounded-xl shadow-lg border-8">
+                <div className="p-8 rounded-xl shadow-lg border-8">
 
                     <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-4">
                         🏢 Add New Company

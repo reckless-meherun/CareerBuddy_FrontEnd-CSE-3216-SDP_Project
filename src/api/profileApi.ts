@@ -22,13 +22,28 @@ export const createProfile = async (profileData: {
     email?: string;
     phoneNumber?: string;
     role?: string;
-    adress?: string;
-}) => {
+    address?: string;
+    readySkills?: { id: string; name: string }[]; // Array of SkillDTO objects
+    newSkills?: { name: string }[]; // Array of SkillRequest objects
+    }) => {
+        try {
+            // Use a template literal to insert the user_id
+            console.log(profileData)
+            const response = await apiClient.post(`/profile/${profileData.user_id}`, profileData);
+            return response.data; // This will be the ProfileDTO from the backend
+        } catch (error) {
+            console.error("Error creating or updating profile:", error);
+            throw error;
+        }
+    };
+
+export const getskills = async ()=> {
     try {
-        const response = await apiClient.post("/profile", profileData);
-        return response.data; // This will be the ProfileDTO from the backend
-    } catch (error) {
-        console.error("Error creating or updating profile:", error);
-        throw error;
+        const response = await apiClient.get('/skill/all');
+        return response.data;
+    } catch (error:any) {
+        console.error("Error fetching skills:", error);
+        throw new Error(error.response?.data?.message || "Failed to fetch skills");
     }
-};
+}
+
