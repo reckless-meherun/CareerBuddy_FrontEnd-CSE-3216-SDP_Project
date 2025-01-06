@@ -14,3 +14,20 @@ export const jobSearch = async (criteria: Record<string, any>)=>{
 
     }
 };
+
+export const getRecommendation = async (id: string) => {
+    try {
+        // Use template literals to dynamically insert the `id`
+        const response = await apiClient.get(`/profile/recommendation/${id}`);
+        console.log(response.data)
+        return response.data;
+    } catch (error: any) {
+        console.error("Error during job search:", error);
+
+        // Provide more detailed error handling and re-throw with a descriptive message
+        throw new Error(
+            error.response?.data?.message || "Failed to perform the job search"
+        );
+    }
+};
+

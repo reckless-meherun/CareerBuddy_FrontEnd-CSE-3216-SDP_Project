@@ -21,7 +21,7 @@ export const useAuth = () => {
     setLoading(true);
     try {
       const response = await loginUser(email, password);
-      console.log('Login successful:', response);
+      // console.log('Login successful:', response);
       setError(null);
       return response;
     } catch (err) {
@@ -35,7 +35,7 @@ export const useAuth = () => {
     setLoading(true);
     try {
       const response = await registerUser(name, email, password);
-      console.log('Signup successful:', response);
+      // console.log('Signup successful:', response);
       setError(null);
       return response;
     } catch (err) {

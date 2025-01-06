@@ -1,38 +1,42 @@
 import { useEffect, useState } from "react";
 import { Applicant, columns } from "./columns";
 import { DataTable } from "./data-table";
-
-async function getData(): Promise<Applicant[]> {
-    return [
-        {
-            id: "728ed52f",
-            name: "Meherun Farzana",
-            role: "Software Engineer",
-            date: new Date("2024-12-25"),
-            status: "Processing"
-        },
-        {
-            id: "2428ed52f",
-            name: "Aniket Joarder",
-            role: "Frontend Developer",
-            date: new Date("2024-12-25"),
-            status: "Pending"
-        }
-    ];
-}
+import useApplyForJob from "@/hooks/useApplyForJob";
+import { useParams } from "react-router-dom";
+import { searchProfile } from "@/api/profileApi";
 
 export default function ApplicantsTable() {
-    const [data, setData] = useState<Applicant[] | null>(null);
+    const { jobId } = useParams<{ jobId: string }>(); // Replace with a real job ID.
+    const [data, setData] = useState<Applicant[]>([]);
+    const { isLoading, usegetJobApplications } = useApplyForJob(); // Assuming `useApplyForJob` exposes `getJobApplications`.
+    const [isData, setIsData] = useState(false); //
 
     useEffect(() => {
         async function fetchData() {
-            const result = await getData();
-            setData(result);
+            console.log(jobId);
+            if (!jobId) return; // Ensure `jobId` is set.
+            try {
+                const jobApplications = await usegetJobApplications(jobId); // Fetch job applications.
+                const detailedJobs = await Promise.all(
+                    jobApplications.map(async (job: Applicant) => {
+                        const jobDetails = await searchProfile(job.userId); // Fetch job details using jobId
+                        return {  ...jobDetails, ...job }; // Merge original job data with fetched details
+                    })
+                );
+                console.log(detailedJobs)
+                setData(detailedJobs);
+            } catch (error) {
+                console.error("Error fetching applicants:", error);
+            }
         }
-        fetchData();
-    }, []);
+        if (!isData) {
 
-    if (!data) {
+            fetchData();
+            setIsData(true);  // Set isData to true once data is fetched.
+        }
+    }, [jobId, usegetJobApplications, isData, setIsData]);
+
+    if (isLoading) {
         return <div>Loading...</div>;
     }
 

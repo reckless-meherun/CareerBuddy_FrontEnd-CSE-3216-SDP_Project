@@ -1,43 +1,46 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
-import { ArrowUpDown } from "lucide-react"
-
-import { Button } from "@/components/ui/button"
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { useNavigate } from "react-router-dom"
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import useApplyForJob from "@/hooks/useApplyForJob";
 
 export type Applicant = {
-    id: string
-    name: string
-    role: string
-    date: Date
-    status: "Pending" | "Processing" | "Called for an Interview" | "Accept" | "Reject"
-}
+    id: string;
+    name: string;
+    role: string;
+    date: Date;
+    userId: string;
+    status: "Pending" | "Processing" | "Called for an Interview" | "Accept" | "Reject";
+};
 
 export const columns: ColumnDef<Applicant>[] = [
     {
-        accessorKey: "id",
-        header: "Applicant ID",
+        accessorKey: "email",
+        header: "Email",
     },
     {
         accessorKey: "name",
         header: "Name",
     },
     {
-        accessorKey: "role",
-        header: "Current Job",
+        accessorKey: "phoneNumber",
+        header: "Phone Number",
     },
     {
-        accessorKey: "date", // or the key for your date column
+        accessorKey: "adress",
+        header: "Address",
+    },
+    {
+        accessorKey: "appliedAt",
         header: "Applying Date",
         cell: ({ getValue }) => {
             const date = new Date(getValue());
@@ -45,19 +48,61 @@ export const columns: ColumnDef<Applicant>[] = [
                 day: "2-digit",
                 month: "short",
                 year: "numeric",
-            }); // Output: "25 Dec 2024"
+            });
+        },
+    },
+    {
+        accessorKey: "updatedAt",
+        header: "Updating Date",
+        cell: ({ getValue }) => {
+            const date = new Date(getValue());
+            return date.toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "short",
+                year: "numeric",
+            });
         },
     },
     {
         accessorKey: "status",
-        header: "Status"
+        header: "Status",
+        cell: ({ getValue }) => {
+            const status = getValue() as Applicant["status"];
+            const statusColors = {
+                Pending: "bg-yellow-200 text-yellow-800",
+                Processing: "bg-blue-200 text-blue-800",
+                "Called for an Interview": "bg-purple-200 text-purple-800",
+                Accepted: "bg-green-200 text-green-800",
+                Rejected: "bg-red-200 text-red-800",
+            };
+
+            return (
+                <span
+                    className={`px-2 py-1 rounded-md font-semibold ${statusColors[status]}`}
+                >
+                    {status}
+                </span>
+            );
+        },
     },
     {
         id: "actions",
         header: "Actions",
         cell: ({ row }) => {
-            const applicant = row.original
-            const navigate = useNavigate();
+            const [currentStatus, setCurrentStatus] = useState(row.original.status);
+            const {isLoading, useUpdateJobApplications} = useApplyForJob();
+
+            const handleStatusUpdate = async (newStatus: Applicant["status"]) => {
+                try {
+                    // Example: Replace with your API call
+                    // await updateApplicantStatus(row.original.id, newStatus);
+                    await useUpdateJobApplications(row.original.id, newStatus)
+                    setCurrentStatus(newStatus);
+                    toast.success(`Status updated to: ${newStatus}`);
+                } catch (error) {
+                    console.error("Failed to update status:", error);
+                }
+            };
 
             return (
                 <DropdownMenu>
@@ -68,19 +113,19 @@ export const columns: ColumnDef<Applicant>[] = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
-                        {/* <DropdownMenuSeparator /> */}
-                        {/* <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(company.id)}
-                        >Edit Company</DropdownMenuItem> */}
-                        <DropdownMenuItem >Pending</DropdownMenuItem>
-                        <DropdownMenuItem >Call for an Interview</DropdownMenuItem>
-                        <DropdownMenuItem >Processing</DropdownMenuItem>
-                        <DropdownMenuItem >Accept</DropdownMenuItem>
-                        <DropdownMenuItem >Reject</DropdownMenuItem>
+                        {["Pending",  "Accepted", "Rejected"].map(
+                            (status) => (
+                                <DropdownMenuItem
+                                    key={status}
+                                    onClick={() => handleStatusUpdate(status as Applicant["status"])}
+                                >
+                                    {status}
+                                </DropdownMenuItem>
+                            )
+                        )}
                     </DropdownMenuContent>
                 </DropdownMenu>
-            )
+            );
         },
     },
-]
+];

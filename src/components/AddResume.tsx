@@ -23,12 +23,12 @@ function AddResume() {
 
     const onCreate = () => {
         const uuid = uuidv4();
-        console.log(resumeTitle, uuid);        
+        // console.log(resumeTitle, uuid);        
     };
 
     const handleCreate = (title: string) => {
         setLoading(true);
-        console.log("Resume title:", title);
+        // console.log("Resume title:", title);
 
         // Simulate an API call or other logic
         setTimeout(() => {

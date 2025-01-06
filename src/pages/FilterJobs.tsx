@@ -4,6 +4,9 @@ import FilterSidebar from '../components/FilterSidebar';
 import JobPost from '../components/JobPost';
 import qs from 'query-string';
 import { useSearchJobs } from '../hooks/search';
+import useCompany from '@/hooks/useCompany';
+import { toast } from 'react-toastify';
+import CompanyCard from '@/components/companyCard';
 interface Job {
     id: string;
     title: string;
@@ -20,29 +23,29 @@ interface Skill {
     id: string;
     name: string;
 }
-interface Company {
+
+type Company = {
     id: string;
     companyName: string;
-    location: string;
-    phoneNumber: string;
-    email: string;
-    website: string;
-    domain: string;
-    description: string;
-    size: string;
-    foundationYear: string;
-    registrationYear: string;
-    jobs: any; // Adjust type if necessary
     active: boolean;
-}
+    location?: string;
+    website?: string;
+    phoneNumber?: string;
+    email?: string;
+    size?: string;
+    foundationYear?: string | Date;
+    domain?: string;
+    description?: string;
+  };
+  
 
 const FilteredJobs = () => {
     const jobLocation = useLocation();
     const { jobTitle, location } = qs.parse(jobLocation.search); // Extract query parameters
     const { loading, error, searchJobs } = useSearchJobs();
-    const navigate = useNavigate(); // Initialize useNavigate
+    // const navigate = useNavigate(); // Initialize useNavigate
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+    const {useSubscribetoCompany,usegetSubscription,useUnsubscribe} = useCompany();
     // State to store fetched jobs and companies
     const [jobPosts, setJobPosts] = useState<Array<any>>([]); // Ensure type safety if using TypeScript
     const [companies, setCompanies] = useState([]);
@@ -58,13 +61,13 @@ const FilteredJobs = () => {
         if (jobTitle || location) {
             fetchResults();
         }
-        console.log(jobPosts, "job")
+        // console.log(jobPosts, "job")
     }, [jobTitle, location]);
 
     const fetchResults = async () => {
         try {
             const response = await searchJobs({ jobTitle, location });
-            console.log(response);
+            // console.log(response);
 
             // Safely extract jobs and companies from the response
             const jobs = response.jobs;
@@ -74,20 +77,44 @@ const FilteredJobs = () => {
             setJobPosts(jobs);
             setCompanies(gotcompanies);
 
-            console.log("Response Jobs:", jobs);
-            console.log("Response Companies:", gotcompanies);
-            console.log("Job Posts:", jobPosts);
-            console.log(companies)
+            // console.log("Response Jobs:", jobs);
+            // console.log("Response Companies:", gotcompanies);
+            // console.log("Job Posts:", jobPosts);
+            // console.log(companies)
         } catch (e) {
             console.log('Error fetching search results:', e);
         }
     };
-    useEffect(() => {
-        console.log("Updated Job Posts:", jobPosts);
-    }, [jobPosts]);
+    // useEffect(() => {
+    //     console.log("Updated Job Posts:", jobPosts);
+    // }, [jobPosts]);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
+    const handleSubscription = (company:any)=>{
+        console.log(company.id);
+        if(!company.id){
+            toast.error("Company not found");
+            return;
+        }
+        const response = useSubscribetoCompany(company.id);
+        console.log(response);
+        toast.success("Sucessfully subscribed to company", company.companyName)
+        // navigate(`/company/${company.id}`); // Navigate to company page
+
+    }
+    const handleUnSubscription = (company:Company)=>{
+        console.log(company.id);
+        if(!company.id){
+            toast.error("Company not found");
+            return;
+        }
+        const response = useUnsubscribe(company.id);
+        console.log(response);
+        toast.success("Sucessfully Unsubscribed to company "+company.companyName)
+        // navigate(`/company/${company.id}`); // Navigate to company page
+
+    }
 
 
     // Apply additional filtering based on sidebar filters
@@ -145,8 +172,8 @@ const FilteredJobs = () => {
                         <button
                             onClick={() => setActiveTab("jobs")}
                             className={`px-4 py-2 text-lg font-semibold focus:outline-none transition ${activeTab === "jobs"
-                                    ? "border-b-2 border-blue-500 text-blue-500"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-blue-500"
+                                ? "border-b-2 border-blue-500 text-blue-500"
+                                : "text-gray-600 dark:text-gray-400 hover:text-blue-500"
                                 }`}
                         >
                             Jobs
@@ -154,8 +181,8 @@ const FilteredJobs = () => {
                         <button
                             onClick={() => setActiveTab("companies")}
                             className={`ml-4 px-4 py-2 text-lg font-semibold focus:outline-none transition ${activeTab === "companies"
-                                    ? "border-b-2 border-blue-500 text-blue-500"
-                                    : "text-gray-600 dark:text-gray-400 hover:text-blue-500"
+                                ? "border-b-2 border-blue-500 text-blue-500"
+                                : "text-gray-600 dark:text-gray-400 hover:text-blue-500"
                                 }`}
                         >
                             Companies
@@ -178,7 +205,7 @@ const FilteredJobs = () => {
                                             description: post.description,
                                             existingSkills: post.existingSkills,
                                             newSkills: post.skills,
-                                            deadline:post.deadline,
+                                            deadline: post.deadline,
                                             jobType: post.jobType,
                                             experience: post.experience,
                                         }}
@@ -190,24 +217,16 @@ const FilteredJobs = () => {
                                 </p>
                             )
                         ) : companies.length > 0 ? (
-                            companies.map((company) => (
-                                <div
-                                    key={company.id}
-                                    className="p-6 bg-white dark:bg-gray-700 shadow rounded-lg transition transform hover:scale-105"
-                                >
-                                    <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-                                        {company.companyName}
-                                    </h3>
-                                    <p className="text-gray-600 dark:text-gray-300 mb-2">
-                                        {company.location}
-                                    </p>
-                                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-4">
-                                        {company.description || "No description available."}
-                                    </p>
-                                    {/* Additional company details */}
-                                </div>
+                            companies.map((company:Company) => (
+                              <CompanyCard
+                                key={company.id}
+                                company={company}
+                                handleSubscription={handleSubscription}
+                                handleUnsubscription={handleUnSubscription}
+                                fetchSubscriptionStatus={usegetSubscription}
+                              />
                             ))
-                        ) : (
+                          ) : (
                             <p className="col-span-full text-center text-gray-500 dark:text-gray-400">
                                 No companies found.
                             </p>

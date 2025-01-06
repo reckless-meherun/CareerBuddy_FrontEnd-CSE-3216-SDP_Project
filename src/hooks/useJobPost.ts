@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { submitJobPost } from "../api/jobPostApi";
+import { submitJobPost, getJObPosts, getJObPost } from "../api/jobPostApi";
 
 
 
@@ -21,6 +21,32 @@ export const useJobPost = () => {
         }
     }
 
-    return { handleJobPost, loading, error,success };
+    const useGetJobPost = async (companyId:string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await getJObPosts(companyId);
+            return data;
+        } catch (err) {
+            setError('Error fetching job post');
+        } finally {
+            setLoading(false);
+        }
+    }
+    const useGetJobPosts = async (jobId:string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await getJObPost(jobId);
+            return data;
+        } catch (err) {
+            setError('Error fetching job post');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+
+    return { handleJobPost,useGetJobPost,useGetJobPosts, loading, error,success };
 
 }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { applyForJobApi } from "../api/jobApplicationApi";
+import { applyForJobApi, getAppliedJobs, getJobApplications,updateJobApplications } from "../api/jobApplicationApi";
 import UserStorage from "@/utilities/UserStorage"; // Adjust the path to your UserStorage utility
 
 const useApplyForJob = () => {
@@ -9,6 +9,8 @@ const useApplyForJob = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
+  const user = UserStorage.getUser();
+  const userId = user?.id;
 
   const applyForJob = async (jobId: string) => {
     setIsLoading(true);
@@ -16,12 +18,7 @@ const useApplyForJob = () => {
     setSuccessMessage("");
 
     try {
-      // Get userId from localStorage or your auth context
-      const user = UserStorage.getUser();
-      const userId = user?.id; // Adjust based on your auth implementation
-
       if (!userId) {
-        // Redirect to login if user is not authenticated
         navigate("/login", { state: { from: location.pathname } });
         return;
       }
@@ -38,12 +35,67 @@ const useApplyForJob = () => {
       setIsLoading(false);
     }
   };
+  const useGetAppliedlJobs = async () => {
+    setIsLoading(true);
+    setError(null);
+    // setSuccessMessage("");
+
+    try {
+      if (!userId) {
+        navigate("/login", { state: { from: location.pathname } });
+        return;
+      }
+
+      // Call the API function
+      const response =await getAppliedJobs( userId);
+      return response;
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const usegetJobApplications = async (jobId:string) => {
+    setIsLoading(true);
+    setError(null);
+    // setSuccessMessage("");
+    try {
+      const response = getJobApplications(jobId)
+      return response;
+    }
+    catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+
+  }
+  const useUpdateJobApplications = async (applicationId:string,status:string)=>{
+    setIsLoading(true);
+    setError(null);
+    try {
+      await updateJobApplications(applicationId,status);
+      return "Application status updated successfully";
+    }
+    
+    catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  
 
   return {
     isLoading,
     error,
     successMessage,
     applyForJob,
+    useGetAppliedlJobs, // Add this function to your component to fetch applied jobs for a user.
+    usegetJobApplications, // Add this function to your component to fetch job applications for a job.
+    useUpdateJobApplications
   };
 };
 

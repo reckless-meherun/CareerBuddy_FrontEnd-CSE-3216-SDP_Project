@@ -18,9 +18,18 @@ import { useNavigate } from "react-router-dom"
 export type Company = {
     id: string
     companyName: string
-    role: string
-    date: Date
-    status: string
+    email: string
+    foundationYear: string
+    active: boolean
+    description: string
+    domain: string
+    location : string   
+    phoneNumber: string
+    registrationYear:string 
+    size: string
+    userId: string
+    website: string 
+
 }
 
 export const columns: ColumnDef<Company>[] = [
@@ -29,30 +38,54 @@ export const columns: ColumnDef<Company>[] = [
         header: "Company Name",
     },
     {
-        accessorKey: "role",
-        header: "Role",
+        accessorKey: "description",
+        header: "Description",
+        cell: ({ getValue }) => {
+            const description = getValue() as string;
+            const maxLength = 50; // Adjust the maximum length as needed
+            return description.length > maxLength
+                ? `${description.substring(0, maxLength)}...`
+                : description;
+        },
     },
     {
-        accessorKey: "date", // or the key for your date column
+        accessorKey: "foundationYear", // or the key for your date column
         header: "Joining Date",
         cell: ({ getValue }) => {
-            const date = new Date(getValue());
+            const dateString = getValue() as string; // ISO format date
+            const date = new Date(dateString);
             return date.toLocaleDateString("en-GB", {
                 day: "2-digit",
                 month: "short",
                 year: "numeric",
-            }); // Output: "25 Dec 2024"
+            }); // Output: "11 Dec 2024"
         },
     },
     {
-        accessorKey: "status",
-        header: "Status"
+        accessorKey: "active",
+        header: "Status",
+        cell: ({ getValue }) => {
+            const isActive = getValue() as boolean;
+            return (
+                <span
+                    className={`px-2 py-1 rounded ${
+                        isActive ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"
+                    }`}
+                >
+                    {isActive ? "Active" : "Inactive"}
+                </span>
+            );
+        },
+    },
+    {
+        accessorKey: "domain",
+        header: "Domain",
     },
     {
         id: "actions",
         header: "Actions",
         cell: ({ row }) => {
-            const company = row.original
+            const company = row.original;
             const navigate = useNavigate();
 
             return (
@@ -64,17 +97,19 @@ export const columns: ColumnDef<Company>[] = [
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
-                        {/* <DropdownMenuSeparator /> */}
-                        {/* <DropdownMenuItem
-                            onClick={() => navigator.clipboard.writeText(company.id)}
-                        >Edit Company</DropdownMenuItem> */}
-                        <DropdownMenuItem onClick={() => navigate("/create-company")}>Edit Company</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => navigate("/create-company")}>Delete Company</DropdownMenuItem>
-                        <DropdownMenuItem onClick={() => navigate("/create-company")}>Leave Company</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => navigate("/create-company")}>
+                            Edit Company
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => navigate("/create-company")}>
+                            Delete Company
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => navigate(`/job-posts-table/${company.id}`)}>
+                            Jobs
+                        </DropdownMenuItem>
+                        
                     </DropdownMenuContent>
                 </DropdownMenu>
-            )
+            );
         },
     },
-]
+];
