@@ -51,7 +51,7 @@ function Header() {
   };
 
   return (
-    <header className={`flex flex-col md:flex-row justify-between items-center px-5 py-2 ${isDarkMode ? "bg-primary text-white" : "bg-teal-100 text-gray-900"}`}>
+    <header className={`flex flex-col md:flex-row justify-between items-center px-5 py-6 ${isDarkMode ? "bg-primary text-white" : "bg-teal-100 text-gray-900"}`}>
       {/* Logo */}
       <div className="flex justify-between items-center w-full md:w-auto">
         <Link to="/" className="text-3xl font-bold dark:text-slate-300 text-gray-900 ">

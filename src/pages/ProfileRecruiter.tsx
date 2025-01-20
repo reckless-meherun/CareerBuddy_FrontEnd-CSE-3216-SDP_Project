@@ -234,9 +234,9 @@ function ProfileRecruiter() {
     };
 
     return (
-        <div className="min-h-screen flex flex-wrap lg:flex-nowrap  bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
+        <div className="min-h-screen flex flex-wrap lg:flex-nowrap bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
             <div className="w-full lg:w-[700px] flex-1 h-auto lg:h-5/6 bg-gray-200 dark:bg-gray-800 p-8">
-                <div className="w-full p-6  lg:mb-10 border-8 border-gray-300 dark:border-2 dark:border-white dark:bg-transparent bg-white rounded-lg ">
+                <div className="w-full p-6  lg:mb-10 border-8 shadow-lg dark:border-2 dark:border-white dark:bg-transparent bg-white rounded-lg ">
                     <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
                         👔 {profile.userType} Profile
                     </h2>
@@ -460,8 +460,8 @@ function ProfileRecruiter() {
                         </button>
                     </div>
                 </div>
-            </div>
 
+            </div>
             {/* {profile.userType == 'Recruiter' ? ( */}
             <div className="w-full min-h-screen flex-1 bg-gray-200 dark:bg-gray-800 p-4">
                 <div className="flex flex-col justify-evenly min-h-screen">
@@ -484,13 +484,13 @@ function ProfileRecruiter() {
                     </div>
                     {/* <div
                             className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                            hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
                             onClick={() => navigate("/recent-job-posts-table")}
-                        >
+                            >
                             <span className="text-xl">Recent Job Posts</span>
                             <History className="flex w-[60px] h-[60px]" />
-                        </div> */}
+                            </div> */}
 
                     <div
                         className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
@@ -525,9 +525,9 @@ function ProfileRecruiter() {
                         className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/recent-job-posts-table")}
+                        onClick={() => navigate("/my-calendar")}
                     >
-                        <span className="text-xl">My Calender</span>
+                        <span className="text-xl">My Calendar</span>
                         <CalendarDays className="flex w-[80px] h-[80px]" />
                     </div>
 
@@ -535,56 +535,66 @@ function ProfileRecruiter() {
                         className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/filtered-jobs")}
+                        onClick={() => navigate("/saved-jobs")}
                     >
                         <span className="text-xl">Saved Jobs</span>
                         <BookMarked className="flex w-[80px] h-[80px]" />
                     </div>
 
+                    <div
+                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                        onClick={() => navigate("/subscribed-companies")}
+                    >
+                        <span className="text-xl">Subscribed Companies</span>
+                        <BookMarked className="flex w-[80px] h-[80px]" />
+                    </div>
                 </div>
             </div>
+
             {/* ) : ( */}
             {/* <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-4">
                     <div className="flex flex-col justify-evenly h-full">
-                        <div
-                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                            onClick={() => navigate("/applied-jobs-table")}
-                        >
-                            <h2 className="text-xl">Applied Jobs</h2><ClipboardCheck className="flex w-[60px] h-[60px]" />
-                        </div>
-                        <div
-                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                    <div
+                    className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                    bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                    hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                    onClick={() => navigate("/applied-jobs-table")}
+                    >
+                    <h2 className="text-xl">Applied Jobs</h2><ClipboardCheck className="flex w-[60px] h-[60px]" />
+                    </div>
+                    <div
+                    className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                    bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
                             onClick={() => navigate(`/job-recommendations/${profileId}`)}
                         >
-                            <span className="text-xl">Recommended Jobs</span>
-                            <UserRoundPen className="flex w-[60px] h-[60px]" />
+                        <span className="text-xl">Recommended Jobs</span>
+                        <UserRoundPen className="flex w-[60px] h-[60px]" />
                         </div>
                         <div
-                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                            onClick={() => navigate("/recent-job-posts-table")}
+                        onClick={() => navigate("/recent-job-posts-table")}
                         >
-                            <span className="text-xl">My Calender</span>
-                            <CalendarDays className="flex w-[60px] h-[60px]" />
+                        <span className="text-xl">My Calender</span>
+                        <CalendarDays className="flex w-[60px] h-[60px]" />
                         </div>
 
                         <div
                             className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                            hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
                             onClick={() => navigate("/filtered-jobs")}
-                        >
+                            >
                             <span className="text-xl">Saved Jobs</span>
                             <BookMarked className="flex w-[60px] h-[60px]" />
-                        </div>
-
-                    </div>
-                </div> */}
+                            </div>
+                            
+                            </div>
+                            </div> */}
             {/* )} */}
 
         </div>

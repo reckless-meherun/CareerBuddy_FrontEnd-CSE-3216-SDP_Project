@@ -19,6 +19,9 @@ import CompaniesTable from "./components/TableCompaniesInvolved/TableCompanies.t
 import ApplicantsTable from "./components/TableApplicants/TableApplicants.tsx";
 import AppliedJobsTable from "./components/TableAppliedJobs/TableAppliedJobs.tsx";
 import JobRecommendations from "./pages/JobRecommendations.tsx";
+import MyCalendar from "./pages/MyCalendar.tsx";
+import SavedJobs from "./pages/SavedJobs.tsx";
+import SubscribedCompanies from "./pages/SubscribedCompanies.tsx";
 
 function App() {
     return (
@@ -26,26 +29,29 @@ function App() {
             <div className="min-h-screen w-screen overflow-hidden  flex flex-col">
                 <Header />
                 <div className="flex-grow">
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/profile" element={<ProfileRecruiter />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<SignUp />} />
-                    <Route path="/filtered-jobs" element={<FilteredJobs />} />
-                    <Route path="/create-company" element={<AddCompanyDialog />} />
-                    <Route path="/post-job" element={<JobPostPage />} />
-                    <Route path="/jobs/:id" element={<DetailJobPostPreview />} />
-                    <Route path="/recent-job-posts-table" element={<RecentJobPostsTable />} />
-                    <Route path="/job-posts-table/:companyId" element={<JobPostsTable />} />
-                    <Route path="/companies-table" element={<CompaniesTable />} />
-                    <Route path="/applicants-table/:jobId" element={<ApplicantsTable />} />
-                    <Route path="/applied-jobs-table" element={<AppliedJobsTable />} />
-                    <Route path="/build-resume" element={<ResumeDashboard />} />
-                    <Route path="/resume/:ResumeId/edit" element={<EditResume />} />
-                    <Route path="/resume/:ResumeId/view" element={<ViewResume />} />
-                    <Route path="/job-recommendations/:profileId" element={<JobRecommendations />} />
-
-                </Routes>
+                    <Routes>
+                        <Route path="/" element={<Home />} />
+                        <Route path="/profile" element={<ProfileRecruiter />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<SignUp />} />
+                        <Route path="/filtered-jobs" element={<FilteredJobs />} />
+                        <Route path="/create-company" element={<AddCompanyDialog />} />
+                        <Route path="/post-job" element={<JobPostPage />} />
+                        <Route path="/jobs/:id" element={<DetailJobPostPreview />} />
+                        <Route path="/recent-job-posts-table" element={<RecentJobPostsTable />} />
+                        <Route path="/job-posts-table/:companyId" element={<JobPostsTable />} />
+                        <Route path="/companies-table" element={<CompaniesTable />} />
+                        <Route path="/applicants-table/:jobId" element={<ApplicantsTable />} />
+                        <Route path="/applied-jobs-table" element={<AppliedJobsTable />} />
+                        <Route path="/build-resume" element={<ResumeDashboard />} />
+                        <Route path="/resume/:ResumeId/edit" element={<EditResume />} />
+                        <Route path="/resume/:ResumeId/view" element={<ViewResume />} />
+                        <Route path="/job-recommendations/:profileId" element={<JobRecommendations />} />
+                        <Route path="/my-calendar" element={<MyCalendar />} />
+                        <Route path="/saved-jobs" element={<SavedJobs />} />
+                        
+                        <Route path="/subscribed-companies" element={<SubscribedCompanies />} />
+                    </Routes>
                 </div>
                 <Footer />
             </div>
