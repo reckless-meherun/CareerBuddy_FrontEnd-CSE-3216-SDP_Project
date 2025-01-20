@@ -23,7 +23,7 @@ import JobRecommendations from "./pages/JobRecommendations.tsx";
 function App() {
     return (
         <Router>
-            <div className="min-h-screen w-screen  flex flex-col">
+            <div className="min-h-screen w-screen overflow-hidden  flex flex-col">
                 <Header />
                 <div className="flex-grow">
                 <Routes>

@@ -75,52 +75,54 @@ function AddCompanyDialog() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-300 dark:from-gray-800 dark:to-gray-900 text-gray-800 dark:text-gray-100">
-            <div className="p-8 max-w-7xl mx-auto">
-                <div className="p-8 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
-                    <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-6">
+        <div className="flex justify-center items-center bg-gradient-to-br from-gray-100 dark:from-gray-800 to-gray-300 dark:to-gray-900 mx- min-h-screen text-gray-800 dark:text-gray-100">
+            <div className="p-6 md:p-8 lg:p-12 w-full max-w-4xl">
+                <div className="border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-10 border rounded-3xl">
+                    <h2 className="mb-8 font-extrabold text-4xl text-center text-gray-800 dark:text-gray-100">
                         🏢 Add New Company
                     </h2>
 
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <form onSubmit={handleSubmit} className="space-y-8">
                         {/* Company Name and Location */}
-                        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
+                        <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                                <label className="block mb-2 font-semibold text-gray-600 text-sm dark:text-gray-300">
                                     🏢 Company Name
                                 </label>
                                 <input
                                     type="text"
                                     value={companyName}
                                     onChange={(e) => setCompanyName(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
+                                    className="hover:border-gray-300 bg-gray-100 dark:bg-gray-900 shadow p-4 border border-transparent rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full text-gray-700 dark:text-gray-300 focus:outline-none"
+                                    placeholder="Enter company name"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                                <label className="block mb-2 font-semibold text-gray-600 text-sm dark:text-gray-300">
                                     🌍 Location
                                 </label>
                                 <input
                                     type="text"
                                     value={location}
                                     onChange={(e) => setLocation(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
+                                    className="hover:border-gray-300 bg-gray-100 dark:bg-gray-900 shadow p-4 border border-transparent rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full text-gray-700 dark:text-gray-300 focus:outline-none"
+                                    placeholder="Enter location"
                                     required
                                 />
                             </div>
                         </div>
 
                         {/* Company Size, Phone Number, and Email */}
-                        <div className="grid gap-6 grid-cols-1 sm:grid-cols-3">
+                        <div className="gap-6 grid grid-cols-1 md:grid-cols-3">
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                                <label className="block mb-2 font-semibold text-gray-600 text-sm dark:text-gray-300">
                                     🏢 Company Size
                                 </label>
                                 <select
                                     value={size}
                                     onChange={(e) => setSize(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
+                                    className="hover:border-gray-300 bg-gray-100 dark:bg-gray-900 shadow p-4 border border-transparent rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full text-gray-700 dark:text-gray-300 focus:outline-none"
                                 >
                                     <option value="SMALL">Small</option>
                                     <option value="MEDIUM">Medium</option>
@@ -128,114 +130,93 @@ function AddCompanyDialog() {
                                 </select>
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                                <label className="block mb-2 font-semibold text-gray-600 text-sm dark:text-gray-300">
                                     📞 Phone Number
                                 </label>
                                 <input
                                     type="tel"
                                     value={phoneNumber}
                                     onChange={(e) => setPhoneNumber(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
+                                    className="hover:border-gray-300 bg-gray-100 dark:bg-gray-900 shadow p-4 border border-transparent rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full text-gray-700 dark:text-gray-300 focus:outline-none"
+                                    placeholder="Enter phone number"
                                     required
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                                <label className="block mb-2 font-semibold text-gray-600 text-sm dark:text-gray-300">
                                     📧 Email
                                 </label>
                                 <input
                                     type="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
+                                    className="hover:border-gray-300 bg-gray-100 dark:bg-gray-900 shadow p-4 border border-transparent rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full text-gray-700 dark:text-gray-300 focus:outline-none"
+                                    placeholder="Enter email"
                                     required
                                 />
                             </div>
                         </div>
 
                         {/* Domain and Website */}
-                        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
+                        <div className="gap-6 grid grid-cols-1 md:grid-cols-2">
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                                <label className="block mb-2 font-semibold text-gray-600 text-sm dark:text-gray-300">
                                     🏢 Domain
                                 </label>
                                 <input
                                     type="text"
                                     value={domain}
                                     onChange={(e) => setDomain(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
+                                    className="hover:border-gray-300 bg-gray-100 dark:bg-gray-900 shadow p-4 border border-transparent rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full text-gray-700 dark:text-gray-300 focus:outline-none"
+                                    placeholder="Enter domain"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                                <label className="block mb-2 font-semibold text-gray-600 text-sm dark:text-gray-300">
                                     🌐 Website
                                 </label>
                                 <input
                                     type="url"
                                     value={website}
                                     onChange={(e) => setWebsite(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
+                                    className="hover:border-gray-300 bg-gray-100 dark:bg-gray-900 shadow p-4 border border-transparent rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full text-gray-700 dark:text-gray-300 focus:outline-none"
+                                    placeholder="Enter website"
                                 />
                             </div>
                         </div>
 
                         {/* Description */}
                         <div>
-                            <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
+                            <label className="block mb-2 font-semibold text-gray-600 text-sm dark:text-gray-300">
                                 📝 Description
                             </label>
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
+                                className="hover:border-gray-300 bg-gray-100 dark:bg-gray-900 shadow p-4 border border-transparent rounded-xl focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full text-gray-700 dark:text-gray-300 focus:outline-none"
                                 rows="4"
+                                placeholder="Enter description"
                             ></textarea>
                         </div>
 
-                        {/* Founding and Registration Years */}
-                        <div className="grid gap-6 grid-cols-1 sm:grid-cols-2">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
-                                    📅 Founding Year
-                                </label>
-                                <input
-                                    type="date"
-                                    value={foundationYear}
-                                    onChange={(e) => setFoundationYear(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-600 dark:text-gray-300">
-                                    📅 Registration Year
-                                </label>
-                                <input
-                                    type="text"
-                                    value={registrationYear}
-                                    onChange={(e) => setRegistrationYear(e.target.value)}
-                                    className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 shadow-sm focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 focus:outline-none"
-                                />
-                            </div>
-                        </div>
-
                         {/* Active Checkbox */}
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-4">
                             <input
                                 type="checkbox"
                                 checked={active}
                                 onChange={(e) => setActive(e.target.checked)}
-                                className="h-5 w-5 accent-teal-500"
+                                className="w-6 h-6 accent-teal-500"
                             />
-                            <label className="text-sm font-medium text-gray-600 dark:text-gray-300">
+                            <label className="font-semibold text-gray-600 text-sm dark:text-gray-300">
                                 Active
                             </label>
                         </div>
 
                         {/* Submit Button */}
-                        <div className="flex justify-end">
+                        <div className="flex justify-center">
                             <button
                                 type="submit"
-                                className="px-6 py-3 text-white bg-teal-500 rounded-lg shadow-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-400 dark:focus:ring-teal-300"
+                                className="bg-teal-500 hover:bg-teal-600 shadow-lg px-8 py-4 rounded-xl focus:ring-2 focus:ring-teal-400 dark:focus:ring-teal-300 font-semibold text-lg text-white transform transition hover:scale-105 focus:outline-none"
                             >
                                 Add Company
                             </button>
@@ -244,6 +225,8 @@ function AddCompanyDialog() {
                 </div>
             </div>
         </div>
+
+
 
     );
 }

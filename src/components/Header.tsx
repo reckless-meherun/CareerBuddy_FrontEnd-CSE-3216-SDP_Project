@@ -38,8 +38,7 @@ function Header() {
   }, [location]);
 
   const handleLogout = () => {
-    localStorage.removeItem("id");
-    localStorage.removeItem("email");
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
     setUserName("");
     navigate("/login");
@@ -65,7 +64,7 @@ function Header() {
       </div>
 
       {/* Navigation Links */}
-      <nav className={`flex flex-col md:flex-row items-center w-full md:w-auto ${menuOpen ? "block" : "hidden"} md:block md:mt-0`}>
+      <nav className={`flex flex-col mr-6 md:flex-row items-center w-full md:w-auto ${menuOpen ? "block" : "hidden"} md:block md:mt-0`}>
         <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6 text-lg font-medium">
           <Link
             to="/"

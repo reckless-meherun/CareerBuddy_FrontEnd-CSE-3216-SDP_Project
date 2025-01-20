@@ -60,32 +60,32 @@ function Home() {
     };
 
     return (
-        <div className="bg-gray-100 dark:bg-gray-800 min-h-screen text-gray-800 dark:text-gray-100">
+        <div className="bg-gray-100 dark:bg-gray-800 min-h-screen text-gray-800 dark:text-gray-100 overflow-hidden">
             {/* Hero Section */}
-            <div className="relative bg-cover bg-center h-[600px] w-full flex items-center justify-center text-center">
-                <img src={myImage} alt="Job Interview" className="absolute left-0 w-full h-full object-cover" />
+            <div className="relative flex justify-center items-center bg-center w-full h-[600px] text-center overflow-hidden">
+                <img src={myImage} alt="Job Interview" className="absolute w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black opacity-50"></div>
-                <div className="relative z-10 p-6 space-y-4">
-                    <h1 className="text-2xl sm:text-4xl font-bold text-white">The Easiest Way to Get Your New Job</h1>
-                    <p className="text-base sm:text-lg text-white">We offer 12,000 job vacancies right now</p>
-                    <form onSubmit={handleSearch} className="flex flex-col sm:flex-row rounded-lg items-center justify-center w-full sm:w-auto space-y-2 sm:space-y-0 sm:space-x-2 px-4 sm:px-0">
+                <div className="relative z-10 space-y-4 p-6">
+                    <h1 className="font-bold text-2xl text-white sm:text-4xl">The Easiest Way to Get Your New Job</h1>
+                    <p className="text-base text-white sm:text-lg">We offer 12,000 job vacancies right now</p>
+                    <form onSubmit={handleSearch} className="flex sm:flex-row flex-col justify-center items-center sm:space-x-2 space-y-2 sm:space-y-0 px-4 sm:px-0 rounded-lg w-full sm:w-auto">
                         <input
                             type="text"
                             placeholder="Job Keyword"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full sm:w-72 p-3 rounded-lg focus:outline-none border dark:bg-gray-700 dark:border-gray-900 dark:text-gray-100"
+                            className="dark:border-gray-900 dark:bg-gray-700 p-3 border rounded-lg w-full sm:w-72 dark:text-gray-100 focus:outline-none"
                         />
                         <input
                             type="text"
                             placeholder="Location"
                             value={location}
                             onChange={(e) => setLocation(e.target.value)}
-                            className="w-full sm:w-72 p-3 border rounded-lg focus:outline-none dark:bg-gray-700 dark:border-gray-900 dark:text-gray-100"
+                            className="dark:border-gray-900 dark:bg-gray-700 p-3 border rounded-lg w-full sm:w-72 dark:text-gray-100 focus:outline-none"
                         />
                         <button
                             type="submit"
-                            className="w-full sm:w-auto px-6 py-3 bg-teal-100 dark:bg-gray-800 text-black dark:text-white rounded-lg hover:bg-[#558b88] dark:hover:bg-lightGrey focus:outline-none"
+                            className="bg-teal-100 hover:bg-[#558b88] dark:hover:bg-lightGrey dark:bg-gray-800 px-6 py-3 rounded-lg w-full sm:w-auto text-black dark:text-white focus:outline-none"
                         >
                             Search
                         </button>
@@ -94,26 +94,26 @@ function Home() {
             </div>
 
             {/* Job Categories Section */}
-            <div className="container mx-auto px-6 py-12">
-                <h2 className="text-xl sm:text-2xl font-semibold text-center mb-6">Browse Jobs by Category</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+            <div className="mx-auto mr-5 px-6 py-12 container">
+                <h2 className="mb-6 font-semibold text-center text-xl sm:text-2xl">Browse Jobs by Category</h2>
+                <div className="gap-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5">
                     {jobCategories.map((category, index) => (
                         <div
                             key={index}
-                            className="flex flex-col items-center p-4 rounded-lg bg-white dark:bg-gray-700 shadow-md text-center hover:shadow-lg transition-shadow duration-200 cursor-pointer"
+                            className="flex flex-col items-center bg-white dark:bg-gray-700 shadow-md hover:shadow-lg p-4 rounded-lg text-center transition-shadow duration-200 cursor-pointer"
                         >
                             <div className="text-4xl">{category.icon}</div>
-                            <h3 className="text-lg font-medium mt-2">{category.name}</h3>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">({category.count} jobs)</p>
+                            <h3 className="mt-2 font-medium text-lg">{category.name}</h3>
+                            <p className="text-gray-500 text-sm dark:text-gray-400">({category.count} jobs)</p>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Job Recommendations Section */}
-            <div className="container mx-auto px-6 py-12">
-                <h2 className="text-xl sm:text-2xl font-semibold text-center mb-6">Job Recommendations</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="mx-auto px-6 py-12 container">
+                <h2 className="mb-6 font-semibold text-center text-xl sm:text-2xl">Job Recommendations</h2>
+                <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {jobPosts.length > 0 ? (
                         jobPosts.map((post) => (
                             <JobPost
@@ -130,6 +130,8 @@ function Home() {
                                     deadline: post.deadline,
                                     jobType: post.jobType,
                                     experience: post.experience,
+                                    contact:post.company.phoneNumber,
+                                    email: post.company.email,
                                 }}
                             />
                         ))

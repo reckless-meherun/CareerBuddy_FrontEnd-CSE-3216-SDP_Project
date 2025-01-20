@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@page{
+@page {
   size: auto;
   margin: 0mm;
 }
@@ -20,6 +20,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 a {
@@ -53,7 +57,7 @@ button {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
-  font-size: 0.80em;
+  font-size: 0.8em;
   font-weight: 00;
   font-family: inherit;
   background-color: #1a1a1a;
@@ -79,11 +83,11 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-  #no-print{
+  #no-print {
     display: none;
   }
-  #print-area{
-    display:block;
+  #print-area {
+    display: block;
   }
 }
 
@@ -103,9 +107,10 @@ button:focus-visible {
   padding-left: 2em;
 }
 
-ol, ul, menu {
+ol,
+ul,
+menu {
   list-style: disc;
   margin: 0;
   padding: 0;
 }
-

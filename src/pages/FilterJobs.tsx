@@ -125,7 +125,7 @@ const FilteredJobs = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 text-gray-800 dark:text-gray-100">
+        <div className="bg-gradient-to-b from-gray-100 dark:from-gray-800 to-gray-200 dark:to-gray-900 min-h-screen text-gray-800 dark:text-gray-100">
             <div className="flex">
                 {/* Sidebar */}
                 <FilterSidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
@@ -133,7 +133,7 @@ const FilteredJobs = () => {
                 {/* Overlay for mobile sidebar */}
                 {isSidebarOpen && (
                     <div
-                        className="fixed inset-0 bg-black opacity-50 z-40 md:hidden"
+                        className="z-40 fixed inset-0 md:hidden bg-black opacity-50"
                         onClick={toggleSidebar}
                     ></div>
                 )}
@@ -142,7 +142,7 @@ const FilteredJobs = () => {
                 {/* Overlay for mobile sidebar */}
                 {isSidebarOpen && (
                     <div
-                        className="fixed inset-0 bg-black opacity-50 z-40 md:hidden"
+                        className="z-40 fixed inset-0 md:hidden bg-black opacity-50"
                         onClick={() => setIsSidebarOpen(false)}
                     ></div>
                 )}
@@ -151,7 +151,7 @@ const FilteredJobs = () => {
                 <main className="flex-1 p-6 md:p-8">
                     {/* Hamburger Menu */}
                     <button
-                        className="mb-4 px-4 py-2 bg-blue-500 text-white rounded-lg md:hidden"
+                        className="md:hidden bg-blue-500 mb-4 px-4 py-2 rounded-lg text-white"
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                     >
                         ☰
@@ -159,16 +159,16 @@ const FilteredJobs = () => {
 
                     {/* Header */}
                     <header className="mb-6">
-                        <h2 className="text-3xl font-bold tracking-wide mb-2 text-center md:text-left">
+                        <h2 className="mb-2 font-bold text-3xl text-center md:text-left tracking-wide">
                             Filtered Results
                         </h2>
-                        <p className="text-gray-600 dark:text-gray-400 text-center md:text-left">
+                        <p className="text-center text-gray-600 md:text-left dark:text-gray-400">
                             Explore jobs and companies tailored to your preferences.
                         </p>
                     </header>
 
                     {/* Tabs */}
-                    <div className="mb-6 flex justify-center md:justify-start border-b border-gray-300 dark:border-gray-700">
+                    <div className="flex justify-center md:justify-start border-gray-300 dark:border-gray-700 mb-6 border-b">
                         <button
                             onClick={() => setActiveTab("jobs")}
                             className={`px-4 py-2 text-lg font-semibold focus:outline-none transition ${activeTab === "jobs"
@@ -190,7 +190,7 @@ const FilteredJobs = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                         {activeTab === "jobs" ? (
                             filteredPosts.length > 0 ? (
                                 filteredPosts.map((post) => (
@@ -208,6 +208,8 @@ const FilteredJobs = () => {
                                             deadline: post.deadline,
                                             jobType: post.jobType,
                                             experience: post.experience,
+                                            contact:post.company.phoneNumber,
+                                            email: post.company.email,
                                         }}
                                     />
                                 ))

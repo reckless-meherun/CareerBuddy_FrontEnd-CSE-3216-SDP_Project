@@ -19,6 +19,7 @@ function ProfileRecruiter() {
     const [userSkills, setUserSkills] = useState<SkillDTO[]>([]);
     const [isUserSkills, setIsUserSkills] = useState(false);
     const [profileId, setProfileId] = useState(null);
+    const [isRecruter, setRecruter] = useState(false);
 
 
     const navigate = useNavigate();
@@ -82,7 +83,7 @@ function ProfileRecruiter() {
                         profileImage: "human.png",
                         email: data.email || "recruiter@example.com",
                         name: data.name || "John Doe",
-                        userType: data.role || "Recruiter",
+                        userType: data.role || "Applicant",
                         bio: data.bio || "Software Engineer",
                         phoneNumber: data.phoneNumber || "01234567899",
                         address: {
@@ -189,6 +190,7 @@ function ProfileRecruiter() {
                 if (response) {
                     setIsProfileCreated(true);
                     toast("Profie Updated successfully!");
+                    setIsProfile(false)
                     // console.log("Profile created:", response);
                 }
             } catch (err) {
@@ -234,7 +236,7 @@ function ProfileRecruiter() {
     return (
         <div className="min-h-screen flex flex-wrap lg:flex-nowrap  bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
             <div className="w-full lg:w-[700px] flex-1 h-auto lg:h-5/6 bg-gray-200 dark:bg-gray-800 p-8">
-                <div className="w-full p-6  lg:mb-10 border-2 rounded-lg ">
+                <div className="w-full p-6  lg:mb-10 border-8 border-gray-300 dark:border-2 dark:border-white dark:bg-transparent bg-white rounded-lg ">
                     <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
                         👔 {profile.userType} Profile
                     </h2>
@@ -283,7 +285,7 @@ function ProfileRecruiter() {
 
                         {/* User Type */}
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">🧑‍💼 User Type</label>
+                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">🧑‍💼  View As</label>
                             <select
                                 value={profile.userType}
                                 onChange={(e) => setProfile({ ...profile, userType: e.target.value })}
@@ -460,27 +462,27 @@ function ProfileRecruiter() {
                 </div>
             </div>
 
-            {profile.userType == 'Recruiter' ? (
-                <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 p-4">
-                    <div className="flex flex-col justify-evenly h-full">
-                        <div
-                            className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+            {/* {profile.userType == 'Recruiter' ? ( */}
+            <div className="w-full min-h-screen flex-1 bg-gray-200 dark:bg-gray-800 p-4">
+                <div className="flex flex-col justify-evenly min-h-screen">
+                    <div
+                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                            onClick={addPostPage}
-                        >
-                            <h2 className="text-xl">Create A Job Post</h2><ClipboardPlus className="flex w-[60px] h-[60px]" />
-                        </div>
-                        <div
-                            className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        onClick={addPostPage}
+                    >
+                        <h2 className="text-xl">Create A Job Post</h2><ClipboardPlus className="flex w-[80px] h-[80px]" />
+                    </div>
+                    <div
+                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                            onClick={addCompanyPage}
-                        >
-                            <span className="text-xl">Add A New Company</span>
-                            <UserRoundPlus className="flex w-[60px] h-[60px]" />
-                        </div>
-                        {/* <div
+                        onClick={addCompanyPage}
+                    >
+                        <span className="text-xl">Add A New Company</span>
+                        <UserRoundPlus className="flex w-[80px] h-[80px]" />
+                    </div>
+                    {/* <div
                             className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
@@ -490,20 +492,59 @@ function ProfileRecruiter() {
                             <History className="flex w-[60px] h-[60px]" />
                         </div> */}
 
-                        <div
-                            className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                    <div
+                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                         bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                         hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                            onClick={() => navigate("/companies-table")}
-                        >
-                            <span className="text-xl">My Companies</span>
-                            <Store className="flex w-[60px] h-[60px]" />
-                        </div>
-
+                        onClick={() => navigate("/companies-table")}
+                    >
+                        <span className="text-xl">My Companies</span>
+                        <Store className="flex w-[80px] h-[80px]" />
                     </div>
+
+
+
+                    <div
+                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                        onClick={() => navigate("/applied-jobs-table")}
+                    >
+                        <h2 className="text-xl">Applied Jobs</h2><ClipboardCheck className="flex w-[80px] h-[80px]" />
+                    </div>
+                    <div
+                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                        onClick={() => navigate(`/job-recommendations/${profileId}`)}
+                    >
+                        <span className="text-xl">Recommended Jobs</span>
+                        <UserRoundPen className="flex w-[80px] h-[80px]" />
+                    </div>
+                    <div
+                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                        onClick={() => navigate("/recent-job-posts-table")}
+                    >
+                        <span className="text-xl">My Calender</span>
+                        <CalendarDays className="flex w-[80px] h-[80px]" />
+                    </div>
+
+                    <div
+                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
+                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
+                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                        onClick={() => navigate("/filtered-jobs")}
+                    >
+                        <span className="text-xl">Saved Jobs</span>
+                        <BookMarked className="flex w-[80px] h-[80px]" />
+                    </div>
+
                 </div>
-            ) : (
-                <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-4">
+            </div>
+            {/* ) : ( */}
+            {/* <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-4">
                     <div className="flex flex-col justify-evenly h-full">
                         <div
                             className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
@@ -543,8 +584,8 @@ function ProfileRecruiter() {
                         </div>
 
                     </div>
-                </div>
-            )}
+                </div> */}
+            {/* )} */}
 
         </div>
     );
