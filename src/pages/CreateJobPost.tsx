@@ -307,7 +307,29 @@ function JobPostPage() {
                                             setNewSkillInput("");
                                         }
                                     }}
-                                    className="py-2 px-4 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600"
+                                    className={`
+                                        m-4 rounded-lg
+                                        flex justify-center items-center
+                                        cursor-pointer
+                                        transition-all duration-300
+                                        h-[50px] w-[130px] /* Control height and width directly */
+                                        
+                                        /* Light mode gradient */
+                                        bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300
+                                        hover:from-gray-300 hover:via-gray-400 hover:to-gray-500
+                                        text-gray-800 hover:text-white
+                                        shadow-lg hover:shadow-xl
+                                        
+                                        /* Dark mode gradient */
+                                        dark:from-gray-700 dark:via-gray-800 dark:to-gray-900
+                                        dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800
+                                        dark:text-white dark:shadow-2xl
+                                        
+                                        /* Hover effect */
+                                        hover:-translate-y-1
+                                    `}
+
+
                                 >
                                     Add
                                 </button>
@@ -333,7 +355,7 @@ function JobPostPage() {
                         <div className="flex justify-end mt-6">
                             <button
                                 type="submit"
-                                className="py-2 px-6 font-semibold rounded-lg text-black dark:text-white bg-lightTeal dark:bg-darkTeal hover:bg-darkTeal dark:hover:bg-darkGrey shadow-md dark:shadow-lg"
+                                className={`px-6 py-4 h-[50px] w-[150px] text-white bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95`}
                                 disabled={jobPostLoading}
                             >
                                 {jobPostLoading ? "Posting..." : "Post Job"}

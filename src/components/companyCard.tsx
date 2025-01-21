@@ -140,11 +140,11 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
           <button
             onClick={handleButtonClick}
             disabled={isLoading}
-            className={`px-6 py-3 font-bold rounded-lg shadow-lg transition-all transform hover:-translate-y-1 focus:outline-none focus:ring-2 ${
+            className={`px-6 py-3 h-[50px] w-[240px] font-bold rounded-lg shadow-lg text-white transition-all transform hover:-translate-y-1 focus:outline-none focus:ring-2 ${
               isSubscribed
-                ? "bg-red-600 text-white hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 focus:ring-red-400 dark:focus:ring-red-700"
-                : "bg-teal-600 text-white hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 focus:ring-teal-400 dark:focus:ring-teal-700"
-            }`}
+                  ? "bg-red-600 hover:bg-red-700 dark:bg-red-500 dark:hover:bg-red-600 focus:ring-red-400 dark:focus:ring-red-700"
+                  : "px-6 py-4 h-[50px] w-[240px] text-white bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95"
+          }`}
           >
             {isSubscribed ? "Unsubscribe" : "Subscribe"}
           </button>

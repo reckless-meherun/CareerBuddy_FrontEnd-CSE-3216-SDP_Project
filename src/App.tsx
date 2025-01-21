@@ -22,6 +22,7 @@ import JobRecommendations from "./pages/JobRecommendations.tsx";
 import MyCalendar from "./pages/MyCalendar.tsx";
 import SavedJobs from "./pages/SavedJobs.tsx";
 import SubscribedCompanies from "./pages/SubscribedCompanies.tsx";
+import Statistics from "./pages/Statistics.tsx";
 
 function App() {
     return (
@@ -48,9 +49,10 @@ function App() {
                         <Route path="/resume/:ResumeId/view" element={<ViewResume />} />
                         <Route path="/job-recommendations/:profileId" element={<JobRecommendations />} />
                         <Route path="/my-calendar" element={<MyCalendar />} />
-                        <Route path="/saved-jobs" element={<SavedJobs />} />
-                        
+                        <Route path="/saved-jobs" element={<SavedJobs />} />                        
                         <Route path="/subscribed-companies" element={<SubscribedCompanies />} />
+                        <Route path="/statistics" element={<Statistics />} />
+                        
                     </Routes>
                 </div>
                 <Footer />

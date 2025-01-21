@@ -3,11 +3,12 @@ import UserStorage from "@/utilities/UserStorage";
 import { useProfile } from "../hooks/profile";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { BookMarked, CalendarDays, ClipboardCheck, ClipboardPlus, History, Store, UserRoundPen, UserRoundPlus } from "lucide-react";
+import { BellRing, BookMarked, CalendarDays, ChartNoAxesCombined, CircleUserRound, ClipboardCheck, ClipboardPlus, History, Store, UserRoundPen, UserRoundPlus } from "lucide-react";
 import React from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Chip from "@mui/material/Chip";
+import CuteButton from "@/components/CuteButton";
 
 type SkillDTO = { id: string; name: string };
 type SkillRequest = { name: string; };
@@ -62,6 +63,55 @@ function ProfileRecruiter() {
         const [line1, city, country] = addressString.split(',').map(part => part.trim());
         return { line1, city, country };
     };
+
+    interface DashboardButtonProps {
+        onClick: () => void;
+        title: string;
+        Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+        width?: string; // Optional width for the button
+        height?: string; // Optional height for the button
+        iconSize?: string; // Optional size for the icon
+    }
+
+    const DashboardButton: React.FC<DashboardButtonProps> = ({
+        onClick,
+        title,
+        Icon,
+        width = "100%", // Default width
+        height = "auto", // Default height
+        iconSize = "80px", // Default icon size
+    }) => {
+        return (
+            <div
+                onClick={onClick}
+                className={`
+              m-4 p-6 rounded-lg
+              flex justify-between items-center px-8
+              cursor-pointer
+              transition-all duration-300
+      
+              /* Light mode */
+              bg-gradient-to-r from-white via-teal-50 to-white
+              hover:from-teal-500 hover:via-teal-400 hover:to-blue-500
+              text-gray-800 hover:text-white
+              shadow-lg hover:shadow-xl
+      
+              /* Dark mode */
+              dark:from-gray-800 dark:via-gray-700 dark:to-gray-800
+              dark:hover:from-teal-600 dark:hover:via-teal-500 dark:hover:to-blue-600
+              dark:text-white dark:shadow-2xl
+      
+              /* Hover effect */
+              hover:scale-105
+            `}
+                style={{ width, height }} // Apply custom width and height
+            >
+                <span className="text-xl font-semibold">{title}</span>
+                <Icon className={`w-[100px] h-[100px] transition-transform duration-300 group-hover:rotate-3`} />
+            </div>
+        );
+    };
+
 
     // Fetch recruiter profile
     useEffect(() => {
@@ -235,11 +285,12 @@ function ProfileRecruiter() {
 
     return (
         <div className="min-h-screen flex flex-wrap lg:flex-nowrap bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
-            <div className="w-full lg:w-[700px] flex-1 h-auto lg:h-5/6 bg-gray-200 dark:bg-gray-800 p-8">
+            <div className="w-full lg:w-[700px] flex-1 h-full lg:h-5/6 bg-gray-200 dark:bg-gray-800 p-8">
                 <div className="w-full p-6  lg:mb-10 border-8 shadow-lg dark:border-2 dark:border-white dark:bg-transparent bg-white rounded-lg ">
-                    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-8">
-                        👔 {profile.userType} Profile
+                    <h2 className="flex items-center justify-center gap-2 text-2xl sm:text-3xl font-bold text-center mb-8">
+                        <CircleUserRound className="w-12 h-12" /> {profile.userType} Profile
                     </h2>
+
                     <div className="flex justify-center mb-6">
                         <div className="relative">
                             <img
@@ -434,7 +485,27 @@ function ProfileRecruiter() {
                                         newSkills: [...profile.newSkills, { name: "" }],
                                     })
                                 }
-                                className="mt-2 text-green-500 hover:text-green-700 font-semibold"
+                                className={`
+                                    m-4 rounded-lg
+                                    flex justify-center items-center
+                                    cursor-pointer
+                                    transition-all duration-300
+                                    h-[50px] w-[130px] /* Control height and width directly */
+                                    
+                                    /* Light mode gradient */
+                                    bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300
+                                    hover:from-gray-300 hover:via-gray-400 hover:to-gray-500
+                                    text-gray-800 hover:text-white
+                                    shadow-lg hover:shadow-xl
+                                    
+                                    /* Dark mode gradient */
+                                    dark:from-gray-700 dark:via-gray-800 dark:to-gray-900
+                                    dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800
+                                    dark:text-white dark:shadow-2xl
+                                    
+                                    /* Hover effect */
+                                    hover:-translate-y-1
+                                `}
                             >
                                 ➕ Add Skill
                             </button>
@@ -445,44 +516,36 @@ function ProfileRecruiter() {
                     <div className="flex justify-center mt-6 gap-4">
                         <button
                             onClick={handleProfileUpdate}
-                            className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
-                            bg-lightTeal dark:bg-darkTeal shadow-md dark:shadow-2xl 
-                            hover:bg-darkTeal dark:hover:bg-darkGrey"
-                        >
+                            className={`px-6 py-4 h-[50px] text-white bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95`}>
                             {isProfileCreated ? "Update Profile" : "Create Profile"}
                         </button>
-                        <button className="py-3 px-8 text-black dark:text-white font-semibold rounded-lg 
-                            bg-lightTeal dark:bg-darkTeal shadow-md dark:shadow-2xl 
-                            hover:bg-darkTeal dark:hover:bg-darkGrey"
-                            onClick={() => navigate('/build-resume')}
+                        <button
+                            onClick={() => navigate("/build-resume")}
+                            className={`px-6 py-4 h-[50px] w-[240px] text-white bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95`}
                         >
-                            Build Your Resume with AI
+                            Build Your Resume
                         </button>
+
                     </div>
                 </div>
 
             </div>
-            {/* {profile.userType == 'Recruiter' ? ( */}
-            <div className="w-full min-h-screen flex-1 bg-gray-200 dark:bg-gray-800 p-4">
-                <div className="flex flex-col justify-evenly min-h-screen">
-                    <div
-                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={addPostPage}
-                    >
-                        <h2 className="text-xl">Create A Job Post</h2><ClipboardPlus className="flex w-[80px] h-[80px]" />
-                    </div>
-                    <div
-                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={addCompanyPage}
-                    >
-                        <span className="text-xl">Add A New Company</span>
-                        <UserRoundPlus className="flex w-[80px] h-[80px]" />
-                    </div>
-                    {/* <div
+            {profile.userType == 'Recruiter' ? (
+                <div className="w-full min-h-screen flex-1 bg-gray-200 dark:bg-gray-800 p-4">
+                    <div className="flex flex-col justify-evenly min-h-screen">
+                        <DashboardButton
+                            onClick={addPostPage}
+                            title="Create A Job Post"
+                            Icon={ClipboardPlus}
+                            height="200px"
+                        />
+                        <DashboardButton
+                            onClick={addCompanyPage}
+                            title="Add A New Company"
+                            Icon={UserRoundPlus}
+                            height="200px"
+                        />
+                        {/* <div
                             className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
                             bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
                             hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
@@ -492,111 +555,58 @@ function ProfileRecruiter() {
                             <History className="flex w-[60px] h-[60px]" />
                             </div> */}
 
-                    <div
-                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/companies-table")}
-                    >
-                        <span className="text-xl">My Companies</span>
-                        <Store className="flex w-[80px] h-[80px]" />
-                    </div>
-
-
-
-                    <div
-                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/applied-jobs-table")}
-                    >
-                        <h2 className="text-xl">Applied Jobs</h2><ClipboardCheck className="flex w-[80px] h-[80px]" />
-                    </div>
-                    <div
-                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate(`/job-recommendations/${profileId}`)}
-                    >
-                        <span className="text-xl">Recommended Jobs</span>
-                        <UserRoundPen className="flex w-[80px] h-[80px]" />
-                    </div>
-                    <div
-                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/my-calendar")}
-                    >
-                        <span className="text-xl">My Calendar</span>
-                        <CalendarDays className="flex w-[80px] h-[80px]" />
-                    </div>
-
-                    <div
-                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/saved-jobs")}
-                    >
-                        <span className="text-xl">Saved Jobs</span>
-                        <BookMarked className="flex w-[80px] h-[80px]" />
-                    </div>
-
-                    <div
-                        className="py-3 border-4 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/subscribed-companies")}
-                    >
-                        <span className="text-xl">Subscribed Companies</span>
-                        <BookMarked className="flex w-[80px] h-[80px]" />
+                        <DashboardButton
+                            onClick={() => navigate("/companies-table")}
+                            title="My Companies"
+                            Icon={Store}
+                            height="200px"
+                        />
+                        <DashboardButton
+                            onClick={() => navigate("/statistics")}
+                            title="Statistics"
+                            Icon={ChartNoAxesCombined}
+                            height="200px"
+                        />
                     </div>
                 </div>
-            </div>
 
-            {/* ) : ( */}
-            {/* <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 rounded-lg shadow-lg p-4">
+            ) : (
+                <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 p-4">
                     <div className="flex flex-col justify-evenly h-full">
-                    <div
-                    className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                    bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                    hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                    onClick={() => navigate("/applied-jobs-table")}
-                    >
-                    <h2 className="text-xl">Applied Jobs</h2><ClipboardCheck className="flex w-[60px] h-[60px]" />
+                        <DashboardButton
+                            onClick={() => navigate("/applied-jobs-table")}
+                            title="Applied Jobs"
+                            Icon={ClipboardCheck}
+                            height="140px"
+                        />
+                        <DashboardButton
+                            onClick={() => navigate("/job-recommendations/${profileId}")}
+                            title="Recommended Jobs"
+                            Icon={UserRoundPen}
+                            height="140px"
+                        />
+                        <DashboardButton
+                            onClick={() => navigate("/my-calendar")}
+                            title="My Calendar"
+                            Icon={CalendarDays}
+                            height="140px"
+                        />
+                        <DashboardButton
+                            onClick={() => navigate("/saved-jobs")}
+                            title="Saved Jobs"
+                            Icon={BookMarked}
+                            height="140px"
+                        />
+                        <DashboardButton
+                            onClick={() => navigate("/subscribed-companies")}
+                            title="Subscribed Companies"
+                            Icon={BellRing}
+                            height="140px"
+                        />
+
                     </div>
-                    <div
-                    className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                    bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                            onClick={() => navigate(`/job-recommendations/${profileId}`)}
-                        >
-                        <span className="text-xl">Recommended Jobs</span>
-                        <UserRoundPen className="flex w-[60px] h-[60px]" />
-                        </div>
-                        <div
-                        className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                        bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                        hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                        onClick={() => navigate("/recent-job-posts-table")}
-                        >
-                        <span className="text-xl">My Calender</span>
-                        <CalendarDays className="flex w-[60px] h-[60px]" />
-                        </div>
-
-                        <div
-                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                            bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                            hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
-                            onClick={() => navigate("/filtered-jobs")}
-                            >
-                            <span className="text-xl">Saved Jobs</span>
-                            <BookMarked className="flex w-[60px] h-[60px]" />
-                            </div>
-                            
-                            </div>
-                            </div> */}
-            {/* )} */}
-
+                </div>
+            )}
         </div>
     );
 }

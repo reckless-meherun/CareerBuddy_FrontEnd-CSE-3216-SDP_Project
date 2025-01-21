@@ -216,7 +216,23 @@ function AddCompanyDialog() {
                         <div className="flex justify-center">
                             <button
                                 type="submit"
-                                className="bg-teal-500 hover:bg-teal-600 shadow-lg px-8 py-4 rounded-xl focus:ring-2 focus:ring-teal-400 dark:focus:ring-teal-300 font-semibold text-lg text-white transform transition hover:scale-105 focus:outline-none"
+                                className={`m-4 p-6 rounded-lg
+                                    h-[50px] w-[150px]
+                                    flex justify-center items-center
+                                    cursor-pointer
+                                    transition-all duration-300
+                                    /* Light mode */
+                                    bg-gradient-to-r from-white via-teal-50 to-white
+                                    hover:from-teal-500 hover:via-teal-400 hover:to-blue-500
+                                    text-gray-800 hover:text-white
+                                    shadow-lg hover:shadow-xl
+                                    /* Dark mode */
+                                    dark:from-gray-800 dark:via-gray-700 dark:to-gray-800
+                                    dark:hover:from-teal-600 dark:hover:via-teal-500 dark:hover:to-blue-600
+                                    dark:text-white dark:shadow-3xl            
+                                    /* Hover effect */
+                                    hover:scale-105
+                                    `}
                             >
                                 Add Company
                             </button>

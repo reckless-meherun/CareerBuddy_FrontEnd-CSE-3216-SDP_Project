@@ -105,7 +105,7 @@ function FilterSidebar({ isSidebarOpen, toggleSidebar }) {
                 {/* Apply Filters Button */}
                 <button
                     onClick={handleFilterChange}
-                    className="w-full px-4 py-2 text-sm sm:text-base bg-teal-100 dark:bg-[#558b88] text-black dark:text-white rounded-lg hover:bg-[#558b88] dark:hover:bg-darkGrey focus:outline-none"
+                    className="px-6 py-2 text-white bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95"
                 >
                     Apply Filters
                 </button>
