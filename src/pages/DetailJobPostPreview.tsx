@@ -91,7 +91,7 @@ const DetailJobPostPreview = () => {
         )}
 
         {/* Header Card */}
-        <div className="bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+        <div className="bg-white dark:bg-gray-800 shadow-lg p-4 rounded-lg overflow-hidden">
           <div className="flex md:flex-row flex-col md:justify-between md:items-center gap-6 p-6">
             {/* Previous header content... */}
             <div className="flex items-center gap-6">

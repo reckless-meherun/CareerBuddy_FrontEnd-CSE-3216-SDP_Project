@@ -106,7 +106,7 @@ function ProfileRecruiter() {
             `}
                 style={{ width, height }} // Apply custom width and height
             >
-                <span className="text-xl font-semibold">{title}</span>
+                <span className="font-semibold text-xl">{title}</span>
                 <Icon className={`w-[100px] h-[100px] transition-transform duration-300 group-hover:rotate-3`} />
             </div>
         );
@@ -284,10 +284,10 @@ function ProfileRecruiter() {
     };
 
     return (
-        <div className="min-h-screen flex flex-wrap lg:flex-nowrap bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
-            <div className="w-full lg:w-[700px] flex-1 h-full lg:h-5/6 bg-gray-200 dark:bg-gray-800 p-8">
-                <div className="w-full p-6  lg:mb-10 border-8 shadow-lg dark:border-2 dark:border-white dark:bg-transparent bg-white rounded-lg ">
-                    <h2 className="flex items-center justify-center gap-2 text-2xl sm:text-3xl font-bold text-center mb-8">
+        <div className="flex flex-wrap lg:flex-nowrap bg-gray-100 dark:bg-gray-500 min-h-screen text-gray-800 dark:text-gray-100">
+            <div className="flex-1 bg-gray-200 dark:bg-gray-800 p-8 w-full lg:w-[700px] h-full lg:h-5/6">
+                <div className="border-8 dark:border-2 dark:border-white bg-white dark:bg-transparent shadow-lg lg:mb-10 p-6 rounded-lg w-full">
+                    <h2 className="flex justify-center items-center gap-2 mb-8 font-bold text-2xl text-center sm:text-3xl">
                         <CircleUserRound className="w-12 h-12" /> {profile.userType} Profile
                     </h2>
 
@@ -296,51 +296,48 @@ function ProfileRecruiter() {
                             <img
                                 src={profile.profileImage}
                                 alt="Profile Photo"
-                                className="w-20 h-20 sm:w-32 sm:h-32 rounded-lg object-cover shadow-md"
+                                className="shadow-md rounded-lg w-20 sm:w-32 h-20 sm:h-32 object-cover"
                                 style={{ backgroundColor: "#f0f0f0" }}
                             />
-                            <label className="absolute bottom-2 right-2 p-2 font-semibold rounded-lg cursor-pointer text-xs 
-              bg-lightTeal dark:bg-darkTeal 
-              hover:bg-darkTeal dark:hover:bg-darkGrey 
-              text-black dark:text-white">
+                            <label className="right-2 bottom-2 absolute bg-lightTeal hover:bg-darkTeal dark:hover:bg-darkGrey dark:bg-darkTeal p-2 rounded-lg font-semibold text-black text-xs dark:text-white cursor-pointer">
                                 <input type="file" className="hidden" onChange={handleImageChange} />
                                 Edit
                             </label>
                         </div>
                     </div>
 
-                    <div className="w-full max-w-3xl mx-auto space-y-4">
+                    <div className="space-y-4 mx-auto w-full max-w-3xl">
                         {/* Email */}
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">
+                            <label className="block font-semibold text-gray-600 dark:text-gray-300">
                                 📧 Email
                             </label>
                             <input
                                 type="text"
                                 value={profile.email}
                                 readOnly
-                                className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 dark:bg-gray-800 dark:text-gray-300 cursor-not-allowed"
+                                className="border-gray-300 bg-gray-100 dark:bg-gray-800 p-3 border rounded-lg w-full dark:text-gray-300 cursor-not-allowed"
                             />
                         </div>
 
                         {/* Name */}
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">📝 Name</label>
+                            <label className="block font-semibold text-gray-600 dark:text-gray-300">📝 Name</label>
                             <input
                                 type="text"
                                 value={profile.name}
                                 onChange={(e) => setProfile({ ...profile, name: e.target.value })}
-                                className="w-full p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                className="border-gray-300 dark:bg-gray-800 shadow-md dark:shadow-2xl p-3 border rounded-lg w-full dark:text-gray-300"
                             />
                         </div>
 
                         {/* User Type */}
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">🧑‍💼  View As</label>
+                            <label className="block font-semibold text-gray-600 dark:text-gray-300">🧑‍💼  View As</label>
                             <select
                                 value={profile.userType}
                                 onChange={(e) => setProfile({ ...profile, userType: e.target.value })}
-                                className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 shadow-md dark:shadow-2xl"
+                                className="border-gray-300 dark:bg-gray-800 shadow-md dark:shadow-2xl p-3 border rounded-lg w-full dark:text-gray-300"
                             >
                                 <option value="Recruiter">Recruiter</option>
                                 <option value="Applicant">Applicant</option>
@@ -349,7 +346,7 @@ function ProfileRecruiter() {
 
                         {/* Address */}
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">🏠 Address Line 1</label>
+                            <label className="block font-semibold text-gray-600 dark:text-gray-300">🏠 Address Line 1</label>
                             <input
                                 type="text"
                                 value={profile.address.line1}
@@ -359,15 +356,14 @@ function ProfileRecruiter() {
                                         address: { ...profile.address, line1: e.target.value },
                                     })
                                 }
-                                className="w-full p-3 border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 
-                                shadow-md dark:shadow-2xl focus:outline-none focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400"
+                                className="border-gray-300 dark:bg-gray-800 shadow-md dark:shadow-2xl p-3 border rounded-lg focus:ring-2 focus:ring-teal-500 dark:focus:ring-teal-400 w-full dark:text-gray-300 focus:outline-none"
                             />
                         </div>
 
                         {/* City & Country */}
-                        <div className="grid grid-cols-2 gap-4">
+                        <div className="gap-4 grid grid-cols-2">
                             <div>
-                                <label className="block text-gray-600 dark:text-gray-300 font-semibold">🏙️ City</label>
+                                <label className="block font-semibold text-gray-600 dark:text-gray-300">🏙️ City</label>
                                 <input
                                     type="text"
                                     value={profile.address.city}
@@ -377,11 +373,11 @@ function ProfileRecruiter() {
                                             address: { ...profile.address, city: e.target.value },
                                         })
                                     }
-                                    className="w-full p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                    className="border-gray-300 dark:bg-gray-800 shadow-md dark:shadow-2xl p-3 border rounded-lg w-full dark:text-gray-300"
                                 />
                             </div>
                             <div>
-                                <label className="block text-gray-600 dark:text-gray-300 font-semibold"> 🌍 Country</label>
+                                <label className="block font-semibold text-gray-600 dark:text-gray-300"> 🌍 Country</label>
                                 <input
                                     type="text"
                                     value={profile.address.country}
@@ -391,14 +387,14 @@ function ProfileRecruiter() {
                                             address: { ...profile.address, country: e.target.value },
                                         })
                                     }
-                                    className="w-full p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300"
+                                    className="border-gray-300 dark:bg-gray-800 shadow-md dark:shadow-2xl p-3 border rounded-lg w-full dark:text-gray-300"
                                 />
                             </div>
                         </div>
 
                         {/* Ready Skills */}
                         <div>
-                            <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                            <h5 className="mb-2 font-semibold text-gray-800 text-lg dark:text-gray-200">
                                 Add Skills
                             </h5>
                             <Autocomplete
@@ -430,7 +426,7 @@ function ProfileRecruiter() {
 
                             {/* {profile.readySkills?.length > 0 && (
                                 <div className="mt-4">
-                                    <h5 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
+                                    <h5 className="mb-2 font-semibold text-gray-800 text-lg dark:text-gray-200">
                                         User Skills:
                                     </h5>
                                     <div className="flex flex-wrap gap-2">
@@ -438,7 +434,7 @@ function ProfileRecruiter() {
                                             <Chip
                                                 key={skill.id}
                                                 label={skill.name}
-                                                className="bg-blue-100 text-blue-700 text-xs font-medium rounded-lg shadow-sm"
+                                                className="bg-blue-100 shadow-sm rounded-lg font-medium text-blue-700 text-xs"
                                             />
                                         ))}
                                     </div>
@@ -447,7 +443,7 @@ function ProfileRecruiter() {
                         </div>
                         {/* New Skills */}
                         <div>
-                            <label className="block text-gray-600 dark:text-gray-300 font-semibold">📚 New Skills</label>
+                            <label className="block font-semibold text-gray-600 dark:text-gray-300">📚 New Skills</label>
                             {profile.newSkills.map((skill, index) => (
                                 <div key={index} className="flex items-center mb-2">
                                     <input
@@ -461,7 +457,7 @@ function ProfileRecruiter() {
                                                 ),
                                             })
                                         }
-                                        className="flex-1 p-3 shadow-md dark:shadow-2xl border border-gray-300 rounded-lg dark:bg-gray-800 dark:text-gray-300 mr-2"
+                                        className="flex-1 border-gray-300 dark:bg-gray-800 shadow-md dark:shadow-2xl mr-2 p-3 border rounded-lg dark:text-gray-300"
                                     />
                                     <button
                                         type="button"
@@ -513,7 +509,7 @@ function ProfileRecruiter() {
 
                     </div>
 
-                    <div className="flex justify-center mt-6 gap-4">
+                    <div className="flex justify-center gap-4 mt-6">
                         <button
                             onClick={handleProfileUpdate}
                             className={`px-6 py-4 h-[50px] text-white bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg shadow-md transform transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95`}>
@@ -531,7 +527,7 @@ function ProfileRecruiter() {
 
             </div>
             {profile.userType == 'Recruiter' ? (
-                <div className="w-full min-h-screen flex-1 bg-gray-200 dark:bg-gray-800 p-4">
+                <div className="flex-1 bg-gray-200 dark:bg-gray-800 p-4 w-full min-h-screen">
                     <div className="flex flex-col justify-evenly min-h-screen">
                         <DashboardButton
                             onClick={addPostPage}
@@ -546,9 +542,7 @@ function ProfileRecruiter() {
                             height="200px"
                         />
                         {/* <div
-                            className="py-3 border-8 m-4 h-full flex justify-between items-center px-8 text-black dark:text-white font-semibold rounded-lg 
-                            bg-white dark:bg-darkTeal shadow-xl dark:shadow-2xl 
-                            hover:bg-darkTeal dark:hover:bg-darkGrey cursor-pointer"
+                            className="flex justify-between items-center border-8 bg-white hover:bg-darkTeal dark:hover:bg-darkGrey dark:bg-darkTeal shadow-xl dark:shadow-2xl m-4 px-8 py-3 rounded-lg h-full font-semibold text-black dark:text-white cursor-pointer"
                             onClick={() => navigate("/recent-job-posts-table")}
                             >
                             <span className="text-xl">Recent Job Posts</span>
@@ -571,7 +565,7 @@ function ProfileRecruiter() {
                 </div>
 
             ) : (
-                <div className="w-[200px] flex-1 bg-gray-200 dark:bg-gray-800 p-4">
+                <div className="flex-1 bg-gray-200 dark:bg-gray-800 p-4 w-[200px]">
                     <div className="flex flex-col justify-evenly h-full">
                         <DashboardButton
                             onClick={() => navigate("/applied-jobs-table")}
@@ -580,7 +574,7 @@ function ProfileRecruiter() {
                             height="140px"
                         />
                         <DashboardButton
-                            onClick={() => navigate("/job-recommendations/${profileId}")}
+                            onClick={() => navigate(`/job-recommendations/${profileId}`)}
                             title="Recommended Jobs"
                             Icon={UserRoundPen}
                             height="140px"
@@ -592,7 +586,7 @@ function ProfileRecruiter() {
                             height="140px"
                         />
                         <DashboardButton
-                            onClick={() => navigate("/saved-jobs")}
+                            onClick={() => navigate(`/saved-jobs/${profileId}`)}
                             title="Saved Jobs"
                             Icon={BookMarked}
                             height="140px"

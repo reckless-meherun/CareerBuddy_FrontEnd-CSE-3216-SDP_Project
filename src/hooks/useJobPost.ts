@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { submitJobPost, getJObPosts, getJObPost } from "../api/jobPostApi";
+import { submitJobPost, getJObPosts, getJObPost, saveJObPost, getSavedJObPost, deleteSavedJObPost } from "../api/jobPostApi";
 
 
 
@@ -45,8 +45,41 @@ export const useJobPost = () => {
             setLoading(false);
         }
     }
-
-
-    return { handleJobPost,useGetJobPost,useGetJobPosts, loading, error,success };
+    const useSaveJobPost = async (jobId:string,profileId:string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await saveJObPost(jobId,profileId);
+            return data;
+        } catch (err) {
+            setError('Error fetching job post');
+        } finally {
+            setLoading(false);
+        }
+    }
+    const useGetSavedJobPosts = async (profileId:string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await getSavedJObPost(profileId);
+            return data;
+        } catch (err) {
+            setError('Error fetching job post');
+        } finally {
+            setLoading(false);
+        }
+    }
+    const useDeleteSavedJobPosts = async (jobId:string,profileId:string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            await deleteSavedJObPost(jobId,profileId);
+        } catch (err) {
+            setError('Error deleting job post');
+        } finally {
+            setLoading(false);
+        }
+    }
+    return { handleJobPost,useGetJobPost,useGetJobPosts, loading, error,success, useSaveJobPost,useGetSavedJobPosts,deleteSavedJObPost };
 
 }

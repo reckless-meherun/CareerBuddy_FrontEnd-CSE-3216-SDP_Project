@@ -27,7 +27,7 @@ import Statistics from "./pages/Statistics.tsx";
 function App() {
     return (
         <Router>
-            <div className="min-h-screen w-screen overflow-hidden  flex flex-col">
+            <div className="flex flex-col w-screen min-h-screen overflow-hidden">
                 <Header />
                 <div className="flex-grow">
                     <Routes>
@@ -49,7 +49,7 @@ function App() {
                         <Route path="/resume/:ResumeId/view" element={<ViewResume />} />
                         <Route path="/job-recommendations/:profileId" element={<JobRecommendations />} />
                         <Route path="/my-calendar" element={<MyCalendar />} />
-                        <Route path="/saved-jobs" element={<SavedJobs />} />                        
+                        <Route path="/saved-jobs/:profileId" element={<SavedJobs />} />                        
                         <Route path="/subscribed-companies" element={<SubscribedCompanies />} />
                         <Route path="/statistics" element={<Statistics />} />
                         

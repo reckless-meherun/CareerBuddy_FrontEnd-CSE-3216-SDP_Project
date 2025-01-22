@@ -9,7 +9,7 @@ const JobRecommendations = () => {
 //   const [showRecommendations, setShowRecommendations] = useState(
 //     initialShowRecommendations || false
 //   );
-    const{profileId} = useParams();
+  const{profileId} = useParams();
   const { useGetRecommendation } = useSearchJobs();
   const [jobPosts, setJobPosts] = useState<Array<any>>([]);
   const [isRecommendation, setIsRecommendation] = useState(false);
@@ -37,13 +37,13 @@ const JobRecommendations = () => {
   }, [ isRecommendation,profileId]);
 
   return (
-    <div className="container mx-auto px-6 py-12">
+    <div className="mx-auto px-6 py-12 container">
 
         <div>
-          <h2 className="text-xl sm:text-2xl font-semibold text-center mb-6">
+          <h2 className="mb-6 font-semibold text-center text-xl sm:text-2xl">
             Job Recommendations
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {jobPosts.length > 0 ? (
               jobPosts.map((post) => (
                 <JobPost

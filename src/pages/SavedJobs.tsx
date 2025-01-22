@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import FilterSidebar from '../components/FilterSidebar';
 import JobPost from '../components/JobPost';
-import qs from 'query-string';
-import { useSearchJobs } from '../hooks/search';
+// import qs from 'query-string';
+// import { useSearchJobs } from '../hooks/search';
 import useCompany from '@/hooks/useCompany';
 import { toast } from 'react-toastify';
 import CompanyCard from '@/components/companyCard';
+import { useJobPost } from "@/hooks/useJobPost";
 interface Job {
     id: string;
     title: string;
@@ -36,18 +37,18 @@ type Company = {
     foundationYear?: string | Date;
     domain?: string;
     description?: string;
-  };
-  
+};
+
 
 const SavedJobs = () => {
     const jobLocation = useLocation();
-    const { jobTitle, location } = qs.parse(jobLocation.search); // Extract query parameters
-    const { loading, error, searchJobs } = useSearchJobs();
-    // const navigate = useNavigate(); // Initialize useNavigate
+    // const { jobTitle, location } = qs.parse(jobLocation.search); // Extract query parameters
+    // const { loading, error, searchJobs } = useSearchJobs();
+    // // const navigate = useNavigate(); // Initialize useNavigate
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const {useSubscribetoCompany,usegetSubscription,useUnsubscribe} = useCompany();
+    const { useSubscribetoCompany, usegetSubscription, useUnsubscribe } = useCompany();
     // State to store fetched jobs and companies
-    const [jobPosts, setJobPosts] = useState<Array<any>>([]); // Ensure type safety if using TypeScript
+    // const [jobPosts, setJobPosts] = useState<Array<any>>([]); // Ensure type safety if using TypeScript
     const [companies, setCompanies] = useState([]);
     const [activeTab, setActiveTab] = useState('jobs'); // State to track active tab
     const [filters, setFilters] = useState({
@@ -56,44 +57,43 @@ const SavedJobs = () => {
         salary: ''
     });
 
-    // Fetch jobs and companies on component mount or when query params change
-    useEffect(() => {
-        if (jobTitle || location) {
-            fetchResults();
-        }
-        // console.log(jobPosts, "job")
-    }, [jobTitle, location]);
+    const { profileId } = useParams();
+    const { useGetSavedJobPosts } = useJobPost();
+    const [jobPosts, setJobPosts] = useState<Array<any>>([]);
+    const [isRecommendation, setIsRecommendation] = useState(false);
 
     const fetchResults = async () => {
         try {
-            const response = await searchJobs({ jobTitle, location });
-            // console.log(response);
-
-            // Safely extract jobs and companies from the response
-            const jobs = response.jobs;
-            const gotcompanies = response.companies;
-
-            // Set the state for job posts and companies
-            setJobPosts(jobs);
-            setCompanies(gotcompanies);
-
-            // console.log("Response Jobs:", jobs);
-            // console.log("Response Companies:", gotcompanies);
-            // console.log("Job Posts:", jobPosts);
-            // console.log(companies)
+            if (!profileId) {
+                setIsRecommendation(false);
+                return;
+            }
+            console.log(profileId)
+            const response = await useGetSavedJobPosts(profileId);
+            console.log(response);
+            setJobPosts(response);
         } catch (e) {
-            console.log('Error fetching search results:', e);
+            console.error("Error fetching search results:", e);
         }
     };
+
+    useEffect(() => {
+        if (!isRecommendation) {
+            setIsRecommendation(true);
+            fetchResults();
+
+        }
+    }, [isRecommendation, profileId]);
+
     // useEffect(() => {
     //     console.log("Updated Job Posts:", jobPosts);
     // }, [jobPosts]);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-    const handleSubscription = (company:any)=>{
+    const handleSubscription = (company: any) => {
         console.log(company.id);
-        if(!company.id){
+        if (!company.id) {
             toast.error("Company not found");
             return;
         }
@@ -103,15 +103,15 @@ const SavedJobs = () => {
         // navigate(`/company/${company.id}`); // Navigate to company page
 
     }
-    const handleUnSubscription = (company:Company)=>{
+    const handleUnSubscription = (company: Company) => {
         console.log(company.id);
-        if(!company.id){
+        if (!company.id) {
             toast.error("Company not found");
             return;
         }
         const response = useUnsubscribe(company.id);
         console.log(response);
-        toast.success("Sucessfully Unsubscribed to company "+company.companyName)
+        toast.success("Sucessfully Unsubscribed to company " + company.companyName)
         // navigate(`/company/${company.id}`); // Navigate to company page
 
     }
@@ -196,6 +196,7 @@ const SavedJobs = () => {
                                 filteredPosts.map((post) => (
                                     <JobPost
                                         key={post.id}
+                                        isSaved={true}
                                         post={{
                                             id: post.id,
                                             title: post.title,
@@ -208,9 +209,8 @@ const SavedJobs = () => {
                                             deadline: post.deadline,
                                             jobType: post.jobType,
                                             experience: post.experience,
-                                            contact:post.company.phoneNumber,
-                                            email: post.company.email,
-                                        }}
+                                        }
+                                    }
                                     />
                                 ))
                             ) : (
@@ -219,16 +219,16 @@ const SavedJobs = () => {
                                 </p>
                             )
                         ) : companies.length > 0 ? (
-                            companies.map((company:Company) => (
-                              <CompanyCard
-                                key={company.id}
-                                company={company}
-                                handleSubscription={handleSubscription}
-                                handleUnsubscription={handleUnSubscription}
-                                fetchSubscriptionStatus={usegetSubscription}
-                              />
+                            companies.map((company: Company) => (
+                                <CompanyCard
+                                    key={company.id}
+                                    company={company}
+                                    handleSubscription={handleSubscription}
+                                    handleUnsubscription={handleUnSubscription}
+                                    fetchSubscriptionStatus={usegetSubscription}
+                                />
                             ))
-                          ) : (
+                        ) : (
                             <p className="col-span-full text-center text-gray-500 dark:text-gray-400">
                                 No companies found.
                             </p>

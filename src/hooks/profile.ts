@@ -27,6 +27,7 @@ export const useProfile = () => {
             }
             const response = await searchProfile(userId);
             return response;
+            
         } catch (err) {
             console.error("Error fetching profile:", err);
             setError("Error fetching profile");
