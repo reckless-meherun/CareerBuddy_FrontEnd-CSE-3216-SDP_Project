@@ -98,6 +98,7 @@ export const useResumeApi = () => {
         setLoading(true);
         setError(null);
         try {
+            console.log(resumeId,"resumeId");
             const data = await finaliseResume(resumeId);
             return data;
         } catch (err) {

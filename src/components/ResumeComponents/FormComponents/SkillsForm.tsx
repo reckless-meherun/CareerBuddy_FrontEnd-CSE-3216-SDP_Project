@@ -110,7 +110,8 @@ function SkillsForm({ enableNext }: { enableNext: (value: boolean) => void }) {
         try {
             const response = await useUpdateResume(resumeInfo.resumeId, formattedResumeInfo);
             if (response) {
-                await useFinalaseResume(resumeInfo.resumeId);
+                const response1  = await useFinalaseResume(resumeInfo.resumeId);
+                console.log(response1, "finalise Resume");
                 toast.success('Successfully saved resume');
                 enableNext(true);
             }

@@ -96,6 +96,7 @@ export const updateResuemState = async (id: string) => {
 };
 export const finaliseResume = async (id: string) => {
     try {
+        console.log(id, 'in side api')
         const response = await apiClient.post(`/resume/finalise/${id}`,
         );
         return response.data;
