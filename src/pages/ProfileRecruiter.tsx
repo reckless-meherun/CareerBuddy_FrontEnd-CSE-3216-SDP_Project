@@ -83,7 +83,7 @@ function ProfileRecruiter() {
 
             try {
                 const data = await getProfile();
-                //console.log(data);
+                console.log(data);
 
                 if (data) {
                     localStorage.setItem('profileId', data.id);

@@ -9,7 +9,7 @@ import { toast } from 'react-toastify'
 function PersonalDetailForm({ enableNext }) {
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext)
     const [loading, setLoading] = useState(false);
-    const { useUpdateResume } = useResumeApi();
+    const { useUpdateResume,useUpdateResueStatus } = useResumeApi();
     const handleInputChange = (e) => {
         enableNext(false)
         const { name, value } = e.target;
@@ -43,6 +43,7 @@ function PersonalDetailForm({ enableNext }) {
             const response = await useUpdateResume(resumeInfo.resumeId, formattedResumeInfo);
             if (response) {
                 toast.success("Successfully saved resume");
+                await useUpdateResueStatus(resumeInfo.resumeId);
                 enableNext(true); // Enable the "Next" button if save was successful
             }
         } catch (error) {

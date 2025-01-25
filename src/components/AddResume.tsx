@@ -56,9 +56,13 @@ function AddResume() {
 
             // Send API request
             const response = await useCreateResume(profile.id, payload)
+            console.log(response);
+            if(response){
+                navigate(`/resume/${response.resumeId}/edit`);
+            }
 
             // Redirect to edit page with new resume ID
-            navigate(`/resume/${response.id}/edit`);
+            
         } catch (err) {
             console.error("Error creating resume:", err);
         } finally {

@@ -112,7 +112,8 @@ export const columns: ColumnDef<Applicant>[] = [
             async function handeviewResume(profileId: string): Promise<void> {
                 const response1 = await searchProfile(profileId);
                 const response = await getResumes(response1.id);
-                const resumeId = response[0].resumeId;
+                const resumeId = response.filter(item => item.state === 'FINALISED').resumeId;
+
                 console.log(response);
                 navigate(`/resume/${resumeId}/view`);
             }

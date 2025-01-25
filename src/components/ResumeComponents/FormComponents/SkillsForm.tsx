@@ -23,7 +23,7 @@ function SkillsForm({ enableNext }: { enableNext: (value: boolean) => void }) {
     const [skills, setSkills] = useState<SkillDTO[]>([]);
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
     const [loading, setLoading] = useState(false);
-    const { useUpdateResume } = useResumeApi();
+    const { useUpdateResume ,useFinalaseResume } = useResumeApi();
     const [isSkillsFetched, setIsSkillsFetched] = useState(false);
     const { fetchSkills } = useProfile();
     const [isUpdating, setIsUpdating] = useState(false);
@@ -110,6 +110,7 @@ function SkillsForm({ enableNext }: { enableNext: (value: boolean) => void }) {
         try {
             const response = await useUpdateResume(resumeInfo.resumeId, formattedResumeInfo);
             if (response) {
+                await useFinalaseResume(resumeInfo.resumeId);
                 toast.success('Successfully saved resume');
                 enableNext(true);
             }

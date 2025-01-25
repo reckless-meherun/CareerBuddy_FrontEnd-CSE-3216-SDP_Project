@@ -1,4 +1,4 @@
-import { createResume, getResume, getUserResumes, updateEducation, updateExperience, updateResume } from "@/api/resumeApi";
+import { createResume, finaliseResume, getResume, getUserResumes, rejectResume, updateEducation, updateExperience, updateResuemState, updateResume } from "@/api/resumeApi";
 import { useState } from "react";
 
 export const useResumeApi = () => {
@@ -82,6 +82,42 @@ export const useResumeApi = () => {
             setLoading(false);
         }
     }
+    const useUpdateResueStatus = async (resumeId:string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await updateResuemState(resumeId);
+            return data;
+        } catch (err) {
+            setError('Error updating state of resumes');
+        } finally {
+            setLoading(false);
+        }
+    }
+    const useFinalaseResume = async (resumeId:string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await finaliseResume(resumeId);
+            return data;
+        } catch (err) {
+            setError('Error updating state of resumes');
+        } finally {
+            setLoading(false);
+        }
+    }
+    const userejectResume = async (resumeId:string) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await rejectResume(resumeId);
+            return data;
+        } catch (err) {
+            setError('Error updating state of resumes');
+        } finally {
+            setLoading(false);
+        }
+    }
 
-    return { loading, error, getResumes, useCreateResume,useGetResume,useUpdateResume,useUpdateEducation,useUpdateExperienc };
+    return { loading, error, getResumes, useCreateResume,useGetResume,useUpdateResume,useUpdateEducation,useUpdateExperienc,useUpdateResueStatus,useFinalaseResume,userejectResume };
 }

@@ -22,7 +22,7 @@ function EducationalForm(enableNext) {
     const [educationalList, setEducationalList] = useState([])
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext)
     const [loading, setLoading] = useState(false)
-    const { useUpdateResume, useUpdateEducation } = useResumeApi();
+    const { useUpdateResume, useUpdateEducation,useUpdateResueStatus } = useResumeApi();
     const profileId = localStorage.getItem('profileId');
 
     useEffect(() => {
@@ -138,6 +138,7 @@ function EducationalForm(enableNext) {
         try {
             const response = await useUpdateResume(resumeInfo.resumeId, formattedResumeInfo);
             if (response) {
+                await useUpdateResueStatus(resumeInfo.resumeId);
                 toast.success("Successfully saved resume");
                 // enableNext(true); // Enable the "Next" button if save was successful
             }

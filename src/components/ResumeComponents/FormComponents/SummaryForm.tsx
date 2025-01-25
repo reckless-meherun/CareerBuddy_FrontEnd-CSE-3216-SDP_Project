@@ -18,7 +18,7 @@ function SummaryForm({ enableNext }) {
     const [summary, setSummary] = useState('');
     const [aiGeneratedSummaryList, setAiGeneratedSummaryList] = useState([]);
     const [error, setError] = useState(null);
-    const { useUpdateResume } = useResumeApi();
+    const { useUpdateResume ,useUpdateResueStatus } = useResumeApi();
 
     const handleInputChange = (e) => {
         setSummary(e.target.value);
@@ -56,6 +56,7 @@ function SummaryForm({ enableNext }) {
         try {
             const response = await useUpdateResume(resumeInfo.resumeId, formattedResumeInfo);
             if (response) {
+                await useUpdateResueStatus(resumeInfo.resumeId);
                 toast.success("Successfully saved resume");
                 enableNext(true); // Enable the "Next" button if save was successful
             }

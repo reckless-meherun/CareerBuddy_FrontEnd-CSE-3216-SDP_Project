@@ -12,7 +12,7 @@ function ExperienceForm({ enableNext }) {
     const [experienceList, setExperienceList] = useState([]);
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
     const [loading, setLoading] = useState(false);
-    const {useUpdateResume,useUpdateExperienc} = useResumeApi();
+    const {useUpdateResume,useUpdateExperienc,useUpdateResueStatus} = useResumeApi();
     const profileId = localStorage.getItem('profileId');
 
     useEffect(() => {
@@ -121,6 +121,7 @@ function ExperienceForm({ enableNext }) {
         try {
             const response = await useUpdateResume(resumeInfo.resumeId, formattedResumeInfo);
             if (response) {
+                await useUpdateResueStatus(resumeInfo.resumeId);
                 toast.success("Successfully saved resume");
                 enableNext(true); // Enable the "Next" button if save was successful
             }

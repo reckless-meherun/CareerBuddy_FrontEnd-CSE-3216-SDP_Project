@@ -83,3 +83,36 @@ export const updateExperience = async (id: string, resumeData: any) => {
         throw new Error(error.response?.data?.message || 'Failed to update resumes');
     }
 };
+export const updateResuemState = async (id: string) => {
+    try {
+        const response = await apiClient.post(`/resume/modified/${id}`,
+        );
+        return response.data;
+    }
+    catch (error: any) {
+        console.error("Error updating resume status", error);
+        throw new Error(error.response?.data?.message || 'Failed to update resume status');
+    }
+};
+export const finaliseResume = async (id: string) => {
+    try {
+        const response = await apiClient.post(`/resume/finalise/${id}`,
+        );
+        return response.data;
+    }
+    catch (error: any) {
+        console.error("Error finalising resumes", error);
+        throw new Error(error.response?.data?.message || 'Failed to finalise resumes');
+    }
+};
+export const rejectResume = async (id: string) => {
+    try {
+        const response = await apiClient.post(`/resume/reject/${id}`,
+        );
+        return response.data;
+    }
+    catch (error: any) {
+        console.error("Error rejecting resumes", error);
+        throw new Error(error.response?.data?.message || 'Failed to reject resumes');
+    }
+};
