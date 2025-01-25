@@ -17,7 +17,7 @@ function ViewResume() {
   useEffect(() => {
     const fetchResume = async () => {
       try {
-        const fetchedResume = await useGetResume(ResumeId );
+        const fetchedResume = await useGetResume(ResumeId);
         console.log('Fetched resume:', fetchedResume);
         setResumeInfo(fetchedResume);
       } catch (error) {
@@ -31,30 +31,56 @@ function ViewResume() {
     }
   }, [ResumeId, useGetResume]);
 
-  const HandleDownload = async () => {
+  const generatePDF = async (): Promise<Blob | null> => {
     if (previewRef.current) {
-      // Temporarily set text color to black
       const originalStyles = previewRef.current.style.color;
       previewRef.current.style.color = 'black';
-  
+
       try {
-        // Convert the preview section to canvas
         const canvas = await html2canvas(previewRef.current, {
-          scale: 2, // Higher scale for better resolution
+          scale: 2,
         });
-  
-        // Create PDF
+
         const pdf = new jsPDF('portrait', 'mm', 'a4');
         const imgData = canvas.toDataURL('image/png');
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-  
+
         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-        pdf.save('resume.pdf'); // Download the PDF
+
+        // Generate PDF as a Blob
+        return pdf.output('blob');
       } finally {
-        // Restore original text color
         previewRef.current.style.color = originalStyles;
       }
+    }
+    return null;
+  };
+
+  const HandleDownload = async () => {
+    const pdfBlob = await generatePDF();
+    if (pdfBlob) {
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(pdfBlob);
+      link.download = 'resume.pdf';
+      link.click();
+    }
+  };
+
+  const HandleShare = async () => {
+    const pdfBlob = await generatePDF();
+    if (pdfBlob && navigator.canShare && navigator.canShare({ files: [new File([pdfBlob], 'resume.pdf', { type: 'application/pdf' })] })) {
+      try {
+        await navigator.share({
+          title: 'My AI-Generated Resume',
+          text: 'Check out my AI-generated resume!',
+          files: [new File([pdfBlob], 'resume.pdf', { type: 'application/pdf' })],
+        });
+      } catch (error) {
+        console.error('Sharing failed:', error);
+      }
+    } else {
+      alert('Your browser does not support file sharing!');
     }
   };
 
@@ -66,11 +92,11 @@ function ViewResume() {
             Congrats! Your Ultimate AI-generated Resume is ready!
           </h2>
           <p className="text-center text-gray-400">
-            Now you are ready to download your resume and can share the unique resume URL with your friends and family.
+            Now you are ready to download your resume and can share the PDF with your friends and family.
           </p>
           <div className="flex justify-between p-8 w-full">
             <Button onClick={HandleDownload}>Download</Button>
-            <Button>Share</Button>
+            <Button onClick={HandleShare}>Share</Button>
           </div>
         </div>
 

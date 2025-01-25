@@ -13,6 +13,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import useApplyForJob from "@/hooks/useApplyForJob";
 import { useNavigate } from "react-router-dom";
+import { useResumeApi } from "@/hooks/useResumeApi";
+import { searchProfile } from "@/api/profileApi";
 
 export type Applicant = {
     id: string;
@@ -93,6 +95,7 @@ export const columns: ColumnDef<Applicant>[] = [
             const [currentStatus, setCurrentStatus] = useState(row.original.status);
             const {isLoading, useUpdateJobApplications} = useApplyForJob();
             const navigate = useNavigate();
+            const { getResumes} = useResumeApi();
 
             const handleStatusUpdate = async (newStatus: Applicant["status"]) => {
                 try {
@@ -105,6 +108,14 @@ export const columns: ColumnDef<Applicant>[] = [
                     console.error("Failed to update status:", error);
                 }
             };
+
+            async function handeviewResume(profileId: string): Promise<void> {
+                const response1 = await searchProfile(profileId);
+                const response = await getResumes(response1.id);
+                const resumeId = response[0].resumeId;
+                console.log(response);
+                navigate(`/resume/${resumeId}/view`);
+            }
 
             return (
                 <DropdownMenu>
@@ -134,6 +145,11 @@ export const columns: ColumnDef<Applicant>[] = [
                         })}
                         >
                             Schedule meeting
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                        onClick={() => handeviewResume(row.original.userId)}
+                        >
+                            View Resume
                         </DropdownMenuItem>
 
                     </DropdownMenuContent>
