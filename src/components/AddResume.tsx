@@ -62,7 +62,7 @@ function AddResume() {
             }
 
             // Redirect to edit page with new resume ID
-            
+            navigate(`/resume/${response.resumeId}/edit`);
         } catch (err) {
             console.error("Error creating resume:", err);
         } finally {

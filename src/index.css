@@ -8,7 +8,11 @@
 }
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  line-height: 2;
+  font-weight: 400; */
+
+  font-family: Cambria, "Times New Roman", Times, serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -39,6 +43,7 @@ thead tr:hover {
 }
 
 body {
+  font-family: inherit; /* Inherits the font stack from :root */
   margin: 0;
   display: flex;
   place-items: center;

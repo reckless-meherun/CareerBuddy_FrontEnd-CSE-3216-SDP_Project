@@ -260,23 +260,35 @@ function ProfileRecruiter() {
 
     };
     return (
-        <div className="flex flex-wrap lg:flex-nowrap bg-gray-100 dark:bg-gray-500 min-h-screen text-gray-800 dark:text-gray-100">
-            <ProfileDetails
-                profile={profile}
-                setProfile={setProfile}
-                handleImageChange={handleImageChange}
-                handleSkillChange={handleSkillChange}
-                handleProfileUpdate={handleProfileUpdate}
-                isProfileCreated={isProfileCreated}
-                skills={skills}
-                navigate={navigate}
-                profileId={profileId}
-            />
-            {profile.userType === "Recruiter" ? (
-                <RecruiterDashboard addPostPage={() => navigate("/post-job")} addCompanyPage={() => navigate("/create-company")} navigate={navigate} />
-            ) : (
-                <ApplicantDashboard profileId={profileId} user={user} navigate={navigate} />
-            )}
+        <div className="flex flex-col lg:flex-row bg-gray-100 dark:bg-gray-500 min-h-screen text-gray-800 dark:text-gray-100">
+            <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
+                <ProfileDetails
+                    profile={profile}
+                    setProfile={setProfile}
+                    handleImageChange={handleImageChange}
+                    handleSkillChange={handleSkillChange}
+                    handleProfileUpdate={handleProfileUpdate}
+                    isProfileCreated={isProfileCreated}
+                    skills={skills}
+                    navigate={navigate}
+                    profileId={profileId}
+                />
+            </div>
+            <div className={`bg-white lg:w-1/2 h-full lg:overflow-y-auto`}>
+                {profile.userType === "Recruiter" ? (
+                    <RecruiterDashboard 
+                        addPostPage={() => navigate("/post-job")} 
+                        addCompanyPage={() => navigate("/create-company")} 
+                        navigate={navigate} 
+                    />
+                ) : (
+                    <ApplicantDashboard 
+                        profileId={profileId} 
+                        user={user} 
+                        navigate={navigate} 
+                    />
+                )}
+            </div>
         </div>
     );
 }

@@ -16,9 +16,9 @@ const RecruiterDashboard = ({ addPostPage, addCompanyPage, navigate }) => {
         onClick,
         title,
         Icon,
-        width = "100%", // Default width
-        height = "auto", // Default height
-        iconSize = "80px", // Default icon size
+        width = "630px", // Default width
+        height = "120px", // Default height
+        iconSize = "40px", // Default icon size
     }) => {
         return (
             <div
@@ -30,7 +30,7 @@ const RecruiterDashboard = ({ addPostPage, addCompanyPage, navigate }) => {
               transition-all duration-300
       
               /* Light mode */
-              bg-gradient-to-r from-white via-teal-50 to-white
+              bg-gradient-to-r from-white via-teal-100 to-white
               hover:from-teal-500 hover:via-teal-400 hover:to-blue-500
               text-gray-800 hover:text-white
               shadow-lg hover:shadow-xl
@@ -46,37 +46,37 @@ const RecruiterDashboard = ({ addPostPage, addCompanyPage, navigate }) => {
                 style={{ width, height }} // Apply custom width and height
             >
                 <span className="font-semibold text-xl">{title}</span>
-                <Icon className={`w-[100px] h-[100px] transition-transform duration-300 group-hover:rotate-3`} />
+                <Icon className={`w-[50px] h-[50px] transition-transform duration-300 group-hover:rotate-3`} />
             </div>
         );
     };
 
     return (
-        <div className="flex-1 bg-gray-200 dark:bg-gray-800 p-4 w-full min-h-screen">
+        <div className="flex-1 bg-white dark:bg-gray-800 p-4 w-full min-h-screen">
             <div className="flex flex-col justify-evenly min-h-screen">
                 <DashboardButton
                     onClick={addPostPage}
                     title="Create A Job Post"
                     Icon={ClipboardPlus}
-                    height="200px"
+                    
                 />
                 <DashboardButton
                     onClick={addCompanyPage}
                     title="Add A New Company"
                     Icon={UserRoundPlus}
-                    height="200px"
+                    
                 />
                 <DashboardButton
                     onClick={() => navigate("/companies-table")}
                     title="My Companies"
                     Icon={Store}
-                    height="200px"
+                    
                 />
                 <DashboardButton
                     onClick={() => navigate("/statistics")}
                     title="Statistics"
                     Icon={ChartNoAxesCombined}
-                    height="200px"
+                    
                 />
             </div>
         </div>

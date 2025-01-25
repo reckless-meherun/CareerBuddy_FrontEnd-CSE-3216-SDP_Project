@@ -119,7 +119,7 @@ const ExperienceDetails = ({ experiences, setProfile }) => {
                             onClick={() => removeExperience(index)}
                             className="text-red-500 hover:text-red-700"
                         >
-                            Remove
+                            - Remove
                         </button>
                     </div>
                 </div>
@@ -127,9 +127,30 @@ const ExperienceDetails = ({ experiences, setProfile }) => {
             <button
                 type="button"
                 onClick={addExperience}
-                className="bg-blue-500 px-4 py-2 rounded-lg text-white"
+                className={`
+                    m-4 rounded-lg
+                    flex justify-center items-center
+                    cursor-pointer
+                    transition-all duration-300
+                    h-[40px] w-[135px]
+        
+                    /* Light mode gradient */
+                    bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300
+                    hover:from-gray-300 hover:via-gray-400 hover:to-gray-500
+                    text-gray-800 hover:text-white
+                    shadow-lg hover:shadow-xl
+                    
+                    /* Dark mode gradient */
+                    dark:from-gray-700 dark:via-gray-800 dark:to-gray-900
+                    dark:hover:from-gray-600 dark:hover:via-gray-700 dark:hover:to-gray-800
+                    dark:text-white dark:shadow-2xl
+                    
+                    /* Hover effect */
+                    hover:-translate-y-1
+                `}
+                            
             >
-                Add Experience
+                + Add Experience
             </button>
         </div>
     );
