@@ -39,6 +39,16 @@ export const getJobApplications = async (jobId: string): Promise<any> => {
     );
   }
 };
+export const getJobApplication = async (applicationId: string): Promise<any> => {
+  try {
+    const response = await apiClient.get(`/jobApplication/applicationID/${applicationId}`);
+    return response.data;
+  } catch (err: any) {
+    throw new Error(
+      err.response?.data?.message || "Failed to fetch job applications."
+    );
+  }
+};
 
 export const updateJobApplications = async (ApplitionId: string,status:string)=>{
   const update ={

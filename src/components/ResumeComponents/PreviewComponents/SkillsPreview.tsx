@@ -4,7 +4,7 @@ function SkillsPreview({ resumeInfo }) {
   return (
     <div className="my-6">
       <h2
-        className="text-center font-bold text-sm mb-2"
+        className="mb-2 font-bold text-center text-sm"
         style={{
           color: resumeInfo?.themeColor,
         }}
@@ -17,11 +17,11 @@ function SkillsPreview({ resumeInfo }) {
         }}
       />
 
-      <div className="my-4 grid grid-cols-2 gap-3">
+      <div className="gap-3 grid grid-cols-2 my-4">
         {resumeInfo?.skills.map((skill, index) => (
-          <div key={index} className="flex items-center justify-between my-2">
+          <div key={index} className="flex justify-between items-center my-2">
             <h2 className="text-xs">{skill.name}</h2>
-            <div className="h-2 bg-gray-200 w-[120px] overflow-hidden rounded">
+            <div className="bg-gray-200 rounded w-[120px] h-2 overflow-hidden">
               <div
                 className="h-2"
                 style={{

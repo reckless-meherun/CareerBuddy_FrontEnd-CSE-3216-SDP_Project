@@ -80,6 +80,6 @@ export const useJobPost = () => {
             setLoading(false);
         }
     }
-    return { handleJobPost,useGetJobPost,useGetJobPosts, loading, error,success, useSaveJobPost,useGetSavedJobPosts,deleteSavedJObPost };
+    return { handleJobPost,useGetJobPost,useGetJobPosts, loading, error,success, useSaveJobPost,useGetSavedJobPosts,useDeleteSavedJobPosts };
 
 }

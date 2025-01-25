@@ -36,8 +36,8 @@ type Company = {
     foundationYear?: string | Date;
     domain?: string;
     description?: string;
-  };
-  
+};
+
 
 const FilteredJobs = () => {
     const jobLocation = useLocation();
@@ -45,7 +45,7 @@ const FilteredJobs = () => {
     const { loading, error, searchJobs } = useSearchJobs();
     // const navigate = useNavigate(); // Initialize useNavigate
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const {useSubscribetoCompany,usegetSubscription,useUnsubscribe} = useCompany();
+    const { useSubscribetoCompany, usegetSubscription, useUnsubscribe } = useCompany();
     // State to store fetched jobs and companies
     const [jobPosts, setJobPosts] = useState<Array<any>>([]); // Ensure type safety if using TypeScript
     const [companies, setCompanies] = useState([]);
@@ -91,9 +91,9 @@ const FilteredJobs = () => {
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-    const handleSubscription = (company:any)=>{
+    const handleSubscription = (company: any) => {
         console.log(company.id);
-        if(!company.id){
+        if (!company.id) {
             toast.error("Company not found");
             return;
         }
@@ -103,15 +103,15 @@ const FilteredJobs = () => {
         // navigate(`/company/${company.id}`); // Navigate to company page
 
     }
-    const handleUnSubscription = (company:Company)=>{
+    const handleUnSubscription = (company: Company) => {
         console.log(company.id);
-        if(!company.id){
+        if (!company.id) {
             toast.error("Company not found");
             return;
         }
         const response = useUnsubscribe(company.id);
         console.log(response);
-        toast.success("Sucessfully Unsubscribed to company "+company.companyName)
+        toast.success("Sucessfully Unsubscribed to company " + company.companyName)
         // navigate(`/company/${company.id}`); // Navigate to company page
 
     }
@@ -128,8 +128,12 @@ const FilteredJobs = () => {
         <div className="bg-gradient-to-b from-gray-100 dark:from-gray-800 to-gray-200 dark:to-gray-900 min-h-screen text-gray-800 dark:text-gray-100">
             <div className="flex">
                 {/* Sidebar */}
-                <FilterSidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
+                <FilterSidebar
+                    isSidebarOpen={isSidebarOpen}
+                    toggleSidebar={toggleSidebar}
+                    filters={filters}
+                    setFilters={setFilters}
+                />
                 {/* Overlay for mobile sidebar */}
                 {isSidebarOpen && (
                     <div
@@ -208,7 +212,7 @@ const FilteredJobs = () => {
                                             deadline: post.deadline,
                                             jobType: post.jobType,
                                             experience: post.experience,
-                                            contact:post.company.phoneNumber,
+                                            contact: post.company.phoneNumber,
                                             email: post.company.email,
                                         }}
                                     />
@@ -219,16 +223,16 @@ const FilteredJobs = () => {
                                 </p>
                             )
                         ) : companies.length > 0 ? (
-                            companies.map((company:Company) => (
-                              <CompanyCard
-                                key={company.id}
-                                company={company}
-                                handleSubscription={handleSubscription}
-                                handleUnsubscription={handleUnSubscription}
-                                fetchSubscriptionStatus={usegetSubscription}
-                              />
+                            companies.map((company: Company) => (
+                                <CompanyCard
+                                    key={company.id}
+                                    company={company}
+                                    handleSubscription={handleSubscription}
+                                    handleUnsubscription={handleUnSubscription}
+                                    fetchSubscriptionStatus={usegetSubscription}
+                                />
                             ))
-                          ) : (
+                        ) : (
                             <p className="col-span-full text-center text-gray-500 dark:text-gray-400">
                                 No companies found.
                             </p>

@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const JobPost = ({ post, isSaved = false }: { post: any; isSaved?: boolean }) => {
   const navigate = useNavigate();
-  const { useSaveJobPost, deleteSavedJObPost } = useJobPost();
+  const { useSaveJobPost, useDeleteSavedJobPosts } = useJobPost();
   const { getProfile } = useProfile();
 
   const [isVisible, setIsVisible] = useState(true); // State to manage visibility
@@ -23,7 +23,7 @@ const JobPost = ({ post, isSaved = false }: { post: any; isSaved?: boolean }) =>
         await useSaveJobPost(post.id, response.id);
         toast.success("Job Saved Successfully");
       } else {
-        await deleteSavedJObPost(post.id, response.id);
+        await useDeleteSavedJobPosts(post.id, response.id);
         toast.success("Job Deleted Successfully");
         setIsVisible(false); // Hide the component after deletion
       }

@@ -128,8 +128,12 @@ const SavedJobs = () => {
         <div className="bg-gradient-to-b from-gray-100 dark:from-gray-800 to-gray-200 dark:to-gray-900 min-h-screen text-gray-800 dark:text-gray-100">
             <div className="flex">
                 {/* Sidebar */}
-                <FilterSidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
+                <FilterSidebar
+                    isSidebarOpen={isSidebarOpen}
+                    toggleSidebar={toggleSidebar}
+                    filters={filters}
+                    setFilters={setFilters}
+                />
                 {/* Overlay for mobile sidebar */}
                 {isSidebarOpen && (
                     <div

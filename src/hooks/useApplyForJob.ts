@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { applyForJobApi, getAppliedJobs, getJobApplications,updateJobApplications } from "../api/jobApplicationApi";
+import { applyForJobApi, getAppliedJobs, getJobApplication, getJobApplications,updateJobApplications } from "../api/jobApplicationApi";
 import UserStorage from "@/utilities/UserStorage"; // Adjust the path to your UserStorage utility
 
 const useApplyForJob = () => {
@@ -71,6 +71,21 @@ const useApplyForJob = () => {
     }
 
   }
+  const usegetJobApplication = async (applicationId:string) => {
+    setIsLoading(true);
+    setError(null);
+    // setSuccessMessage("");
+    try {
+      const response = getJobApplication(applicationId)
+      return response;
+    }
+    catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+
+  }
   const useUpdateJobApplications = async (applicationId:string,status:string)=>{
     setIsLoading(true);
     setError(null);
@@ -95,7 +110,8 @@ const useApplyForJob = () => {
     applyForJob,
     useGetAppliedlJobs, // Add this function to your component to fetch applied jobs for a user.
     usegetJobApplications, // Add this function to your component to fetch job applications for a job.
-    useUpdateJobApplications
+    useUpdateJobApplications,
+    usegetJobApplication
   };
 };
 

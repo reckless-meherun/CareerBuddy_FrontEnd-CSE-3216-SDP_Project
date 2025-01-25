@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { searchProfile, createProfile, getskills,searchskills, updateProfile } from "../api/profileApi";
+import { searchProfile, createProfile, getskills, searchskills, updateProfile, uploadProfileImage } from "../api/profileApi";
 import UserStorage from "@/utilities/UserStorage";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ type SkillDTO = { id: string; name: string };
 type SkillRequest = { name: string; };
 
 export const useProfile = () => {
-    
+
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const user = UserStorage.getUser();
@@ -21,13 +21,14 @@ export const useProfile = () => {
         setError(null);
 
         try {
-            if(!userId){
+            if (!userId) {
                 navigate("/login", { state: { from: location.pathname } });
                 return;
             }
             const response = await searchProfile(userId);
+            console.log(response);
             return response;
-            
+
         } catch (err) {
             console.error("Error fetching profile:", err);
             setError("Error fetching profile");
@@ -55,16 +56,7 @@ export const useProfile = () => {
 
     // Create or update a profile
     const makeProfile = async (
-        id: string,
-        name: string,
-        bio: string,
-        email: string,
-        phoneNumber: string,
-        role: string,
-        address: string,
-        readySkills: SkillDTO[] = [],
-        newSkills: SkillRequest[] = []
-    ) => {
+        id: string, name: string, bio: string, email: string, phoneNumber: string, role: string, address: string, readySkills: SkillDTO[] = [], newSkills: SkillRequest[] = [], experiences: any, educations: any) => {
         setLoading(true);
         setError(null);
 
@@ -80,6 +72,8 @@ export const useProfile = () => {
                 address,
                 readySkills,
                 newSkills,
+                experiences,
+                educations
             };
 
             // Pass the object to createProfile
@@ -109,16 +103,7 @@ export const useProfile = () => {
         }
     };
     const useUpdateProfile = async (
-        id: string,
-        name: string,
-        bio: string,
-        email: string,
-        phoneNumber: string,
-        role: string,
-        address: string,
-        readySkills: SkillDTO[] = [],
-        newSkills: SkillRequest[] = []
-    ) => {
+        id: string, name: string, bio: string, email: string, phoneNumber: string, role: string, address: string, readySkills: SkillDTO[] = [], newSkills: SkillRequest[] = [], experiences: any, educations: any) => {
         setLoading(true);
         setError(null);
 
@@ -134,6 +119,8 @@ export const useProfile = () => {
                 address,
                 readySkills,
                 newSkills,
+                experiences,
+                educations,
             };
 
             // Pass the object to createProfile
@@ -148,9 +135,25 @@ export const useProfile = () => {
         }
 
     };
+    const useUploadPhoto = async (formData: FormData) => {
+        setLoading(true);
+        setError(null);
+        try {
+            if(!userId) {
+                navigate("/login", { state: { from: location.pathname } });
+                return;
+            }
+            const response = await uploadProfileImage(userId, formData);
+            return response;
+        } catch (err) {
+            console.error("Error uploading photo:", err);
+            setError("Error uploading photo");
+        } finally {
+            setLoading(false);
+        }
+    }
 
-
-    return { loading, error, getProfile, makeProfile,useFetchSkills,fetchSkills,useUpdateProfile };
+    return { loading, error, getProfile, makeProfile, useFetchSkills, fetchSkills, useUpdateProfile,useUploadPhoto };
 };
 
 

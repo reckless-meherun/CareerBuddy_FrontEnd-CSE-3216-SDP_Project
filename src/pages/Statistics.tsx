@@ -1,5 +1,5 @@
-import React from 'react';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import React, { useEffect, useState } from "react";
+import { Bar, Line, Pie } from "react-chartjs-2";
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -11,9 +11,12 @@ import {
     Tooltip,
     Legend,
     ArcElement,
-} from 'chart.js';
-import { motion } from 'framer-motion';
-import { TrendingUp, Users, Briefcase, Award } from 'lucide-react';
+} from "chart.js";
+import { motion } from "framer-motion";
+import { Briefcase, Users, Award } from "lucide-react";
+import { useJobPost } from "@/hooks/useJobPost";
+import useCompany from "@/hooks/useCompany";
+import useApplyForJob from "@/hooks/useApplyForJob";
 
 ChartJS.register(
     CategoryScale,
@@ -27,241 +30,202 @@ ChartJS.register(
     ArcElement
 );
 
+const useInterval = (callback, delay) => {
+    useEffect(() => {
+        const interval = setInterval(callback, delay);
+        return () => clearInterval(interval);
+    }, [callback, delay]);
+};
+
+const ChartCard = ({ title, icon: Icon, children }) => (
+    <motion.div
+        whileHover={{ scale: 1.02 }}
+        className="bg-white dark:bg-gray-700 shadow-lg hover:shadow-xl p-6 rounded-lg transition-shadow duration-300"
+    >
+        <h2 className="flex items-center gap-2 mb-4 font-semibold text-2xl">
+            <Icon className="w-6 h-6 text-blue-500" />
+            {title}
+        </h2>
+        <div className="h-64">{children}</div>
+    </motion.div>
+);
+
+const SummaryCard = ({ title, icon: Icon, value, color }) => (
+    <motion.div
+        whileHover={{ scale: 1.05 }}
+        className="bg-white dark:bg-gray-700 shadow-lg hover:shadow-xl p-6 rounded-lg transition-shadow duration-300"
+    >
+        <h3 className="flex items-center gap-2 font-semibold text-lg">
+            <Icon className={`w-5 h-5 text-${color}-500`} />
+            {title}
+        </h3>
+        <motion.p
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+            className={`font-bold text-2xl text-${color}-600 dark:text-${color}-400`}
+        >
+            {value}
+        </motion.p>
+    </motion.div>
+);
+
 function Statistics() {
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
+    const { useGetJobPost } = useJobPost();
+    const { useGetCompaniesbyUser } = useCompany();
+    const { usegetJobApplications } = useApplyForJob();
+
+    const [companies, setCompanies] = useState([]);
+    const [jobs, setJobs] = useState([]);
+    const [applications, setApplications] = useState([]);
+    const [jobLocations, setJobLocations] = useState({});
+    const [jobMonthlyData, setJobMonthlyData] = useState({});
+
+    const fetchData = async () => {
+        try {
+            const companyData = await useGetCompaniesbyUser();
+            setCompanies(companyData);
+
+            const jobPromises = companyData.map((company) =>
+                useGetJobPost(company.id)
+            );
+            const jobsData = await Promise.all(jobPromises);
+            setJobs(jobsData.flat());
+
+            const applicationPromises = jobsData.flat().map((job) =>
+                usegetJobApplications(job.id)
+            );
+            const applicationsData = await Promise.all(applicationPromises);
+            console.log(applicationsData);
+            setApplications(applicationsData.flat());
+
+            // Aggregate job locations for pie chart
+            const locationCount = {};
+            jobsData.flat().forEach((job) => {
+                const location = job.location || "Unknown";
+                locationCount[location] = (locationCount[location] || 0) + 1;
+            });
+            setJobLocations(locationCount);
+
+            // Aggregate job data by month
+            const monthlyCount = {};
+            jobsData.flat().forEach((job) => {
+                const month = new Date(job.deadline).toLocaleString("default", {
+                    month: "short",
+                });
+                monthlyCount[month] = (monthlyCount[month] || 0) + 1;
+            });
+            setJobMonthlyData(monthlyCount);
+        } catch (error) {
+            console.error("Error fetching data:", error);
         }
     };
 
-    const itemVariants = {
-        hidden: { y: 20, opacity: 0 },
-        visible: {
-            y: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.5
-            }
-        }
-    };
+    useEffect(() => {
+        fetchData();
+    }, []);
 
-    // Chart data configurations remain the same
+    useInterval(fetchData, 600000);
+
     const jobApplicationsData = {
-        labels: ['Software Engineer', 'Designer', 'Product Manager', 'Data Analyst'],
+        
+        // labels:  applications.map(application => {
+        //     console.log(application,"application");
+        //     application.jobId
+        // }),
+        
+        labels: jobs.map((job) => job.title),
         datasets: [
             {
-                label: 'Applications Received',
-                data: [120, 80, 150, 100],
+                label: "Applications Received",
+                data: jobs.map(
+                    (job) =>
+                        applications.filter((app) => app.jobId === job.id).length
+                ),
+                backgroundColor: "rgba(54, 162, 235, 0.6)",
+                borderColor: "rgba(54, 162, 235, 1)",
+                borderWidth: 1,
+            },
+        ],
+    };
+
+    const jobLocationsData = {
+        labels: Object.keys(jobLocations),
+        datasets: [
+            {
+                data: Object.values(jobLocations),
                 backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
+                    "rgba(255, 99, 132, 0.6)",
+                    "rgba(54, 162, 235, 0.6)",
+                    "rgba(255, 206, 86, 0.6)",
+                    "rgba(75, 192, 192, 0.6)",
                 ],
                 borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 206, 86, 1)",
+                    "rgba(75, 192, 192, 1)",
                 ],
                 borderWidth: 1,
             },
         ],
     };
 
-    const hiringTrendData = {
-        labels: ['January', 'February', 'March', 'April', 'May'],
+    const jobMonthlyChartData = {
+        labels: Object.keys(jobMonthlyData),
         datasets: [
             {
-                label: 'Candidates Hired',
-                data: [5, 10, 8, 15, 12],
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                tension: 0.4,
+                label: "Job Posts",
+                data: Object.values(jobMonthlyData),
+                backgroundColor: "rgba(75, 192, 192, 0.6)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 2,
+                fill: true,
             },
         ],
-    };
-
-    const applicationSourcesData = {
-        labels: ['Job Portal', 'Referrals', 'Social Media', 'Direct Applications'],
-        datasets: [
-            {
-                data: [50, 30, 10, 10],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
-                    'rgba(255, 206, 86, 0.6)',
-                    'rgba(75, 192, 192, 0.6)',
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                ],
-                borderWidth: 1,
-            },
-        ],
-    };
-
-    const chartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                display: false
-            }
-        },
-        animation: {
-            duration: 2000,
-            easing: 'easeInOutQuart'
-        }
-    };
-
-    const pieChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'right',
-                align: 'center'
-            }
-        },
-        animation: {
-            duration: 2000,
-            easing: 'easeInOutQuart'
-        }
     };
 
     return (
-        <motion.div 
+        <motion.div
             initial="hidden"
             animate="visible"
-            variants={containerVariants}
-            className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100 p-8"
+            className="bg-gray-100 dark:bg-gray-800 p-8 min-h-screen text-gray-800 dark:text-gray-100"
         >
-            <motion.h1 
-                variants={itemVariants}
-                className="text-3xl font-bold mb-6 text-center"
-            >
+            <motion.h1 className="mb-6 font-bold text-3xl text-center">
                 Recruitment Dashboard
             </motion.h1>
 
-            <motion.div 
-                variants={containerVariants}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
-                {/* Section 1: Job Applications */}
-                <motion.div 
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.02 }}
-                    className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                >
-                    <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-                        <Briefcase className="w-6 h-6 text-blue-500" />
-                        Applications Per Job
-                    </h2>
-                    <div className="h-64">
-                        <Bar data={jobApplicationsData} options={chartOptions} />
-                    </div>
-                </motion.div>
-
-                {/* Section 2: Hiring Trends */}
-                <motion.div 
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.02 }}
-                    className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                >
-                    <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-                        <TrendingUp className="w-6 h-6 text-green-500" />
-                        Hiring Trends
-                    </h2>
-                    <div className="h-64">
-                        <Line data={hiringTrendData} options={chartOptions} />
-                    </div>
-                </motion.div>
-
-                {/* Section 3: Application Sources */}
-                <motion.div 
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.02 }}
-                    className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                >
-                    <h2 className="text-2xl font-semibold mb-4 flex items-center gap-2">
-                        <Users className="w-6 h-6 text-purple-500" />
-                        Application Sources
-                    </h2>
-                    <div className="h-64">
-                        <Pie data={applicationSourcesData} options={pieChartOptions} />
-                    </div>
-                </motion.div>
+            <motion.div className="gap-6 grid grid-cols-1 md:grid-cols-3">
+                <ChartCard title="Applications Per Job" icon={Briefcase}>
+                    <Bar data={jobApplicationsData} />
+                </ChartCard>
+                <ChartCard title="Job Locations" icon={Users}>
+                    <Pie data={jobLocationsData} />
+                </ChartCard>
+                <ChartCard title="Job Posts Per Month" icon={Users}>
+                    <Line data={jobMonthlyChartData} />
+                </ChartCard>
             </motion.div>
 
-            {/* Section 4: Summary Statistics */}
-            <motion.div 
-                variants={containerVariants}
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6"
-            >
-                <motion.div 
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                >
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                        <Users className="w-5 h-5 text-blue-500" />
-                        Total Applications
-                    </h3>
-                    <motion.p 
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                        className="text-2xl font-bold text-blue-600 dark:text-blue-400"
-                    >
-                        450
-                    </motion.p>
-                </motion.div>
-
-                <motion.div 
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                >
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                        <Briefcase className="w-5 h-5 text-green-500" />
-                        Jobs Posted
-                    </h3>
-                    <motion.p 
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                        className="text-2xl font-bold text-green-600 dark:text-green-400"
-                    >
-                        25
-                    </motion.p>
-                </motion.div>
-
-                <motion.div 
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-white dark:bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
-                >
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                        <Award className="w-5 h-5 text-purple-500" />
-                        Candidates Hired
-                    </h3>
-                    <motion.p 
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.5, delay: 0.6 }}
-                        className="text-2xl font-bold text-purple-600 dark:text-purple-400"
-                    >
-                        50
-                    </motion.p>
-                </motion.div>
+            <motion.div className="gap-6 grid grid-cols-1 md:grid-cols-3 mt-6">
+                <SummaryCard
+                    title="Total Applications"
+                    icon={Users}
+                    value={applications.length}
+                    color="blue"
+                />
+                <SummaryCard
+                    title="Jobs Posted"
+                    icon={Briefcase}
+                    value={jobs.length}
+                    color="green"
+                />
+                <SummaryCard
+                    title="Candidates Hired"
+                    icon={Award}
+                    value={applications.filter((app) => app.status === "Accepted").length}
+                    color="purple"
+                />
             </motion.div>
         </motion.div>
     );

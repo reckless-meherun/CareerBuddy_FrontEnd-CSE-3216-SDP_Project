@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import { toast } from "react-toastify";
 import useApplyForJob from "@/hooks/useApplyForJob";
+import { useNavigate } from "react-router-dom";
 
 export type Applicant = {
     id: string;
@@ -91,6 +92,7 @@ export const columns: ColumnDef<Applicant>[] = [
         cell: ({ row }) => {
             const [currentStatus, setCurrentStatus] = useState(row.original.status);
             const {isLoading, useUpdateJobApplications} = useApplyForJob();
+            const navigate = useNavigate();
 
             const handleStatusUpdate = async (newStatus: Applicant["status"]) => {
                 try {
@@ -107,9 +109,9 @@ export const columns: ColumnDef<Applicant>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
+                        <Button variant="ghost" className="p-0 w-8 h-8">
                             <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
+                            <MoreHorizontal className="w-4 h-4" />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
@@ -123,6 +125,17 @@ export const columns: ColumnDef<Applicant>[] = [
                                 </DropdownMenuItem>
                             )
                         )}
+                        <DropdownMenuItem
+                        onClick={() => navigate("/my-calendar", {
+                            state: { userId: row.original.userId,
+                                applicationId: row.original.id,
+                             },
+                            
+                        })}
+                        >
+                            Schedule meeting
+                        </DropdownMenuItem>
+
                     </DropdownMenuContent>
                 </DropdownMenu>
             );

@@ -82,3 +82,4 @@ export const getSavedJObPost = async (profileId: string
         throw new Error(err.response?.data?.message || "Failed to post job post");
     }   
 }
+

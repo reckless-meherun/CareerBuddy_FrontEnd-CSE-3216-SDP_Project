@@ -14,7 +14,7 @@ function ResumeForm() {
     const [activeFormIndex, setActiveFormIndex] = useState(1);
     const [enableNext, setEnableNext] = useState(false)
 
-    const resumeId = useParams();
+    const {ResumeId} = useParams();
 
     return (
         <div>
@@ -45,7 +45,7 @@ function ResumeForm() {
             : activeFormIndex == 3 ? <ExperienceForm enableNext={(v) => setEnableNext(v)} /> 
             : activeFormIndex == 4 ? <EducationalForm enableNext={(v) => setEnableNext(v)} /> 
             : activeFormIndex == 5 ? <SkillsForm enableNext={(v) => setEnableNext(v)} /> 
-            : activeFormIndex >= 6 ? <Navigate to={'/resume/'+123+"/view"}/> // 123 should be replaced with resumeId
+            : activeFormIndex >= 6 ? <Navigate to={`/resume/${ResumeId}/view`}/> // 123 should be replaced with resumeId
             : null}
             
         </div>

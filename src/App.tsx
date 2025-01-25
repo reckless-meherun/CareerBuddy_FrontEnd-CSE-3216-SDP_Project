@@ -44,7 +44,7 @@ function App() {
                         <Route path="/companies-table" element={<CompaniesTable />} />
                         <Route path="/applicants-table/:jobId" element={<ApplicantsTable />} />
                         <Route path="/applied-jobs-table" element={<AppliedJobsTable />} />
-                        <Route path="/build-resume" element={<ResumeDashboard />} />
+                        <Route path="/build-resume/:profileId" element={<ResumeDashboard />} />
                         <Route path="/resume/:ResumeId/edit" element={<EditResume />} />
                         <Route path="/resume/:ResumeId/view" element={<ViewResume />} />
                         <Route path="/job-recommendations/:profileId" element={<JobRecommendations />} />

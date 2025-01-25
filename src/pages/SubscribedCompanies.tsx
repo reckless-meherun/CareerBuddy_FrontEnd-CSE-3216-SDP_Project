@@ -3,22 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import FilterSidebar from '../components/FilterSidebar';
 import JobPost from '../components/JobPost';
 import qs from 'query-string';
-import { useSearchJobs } from '../hooks/search';
 import useCompany from '@/hooks/useCompany';
 import { toast } from 'react-toastify';
 import CompanyCard from '@/components/companyCard';
-interface Job {
-    id: string;
-    title: string;
-    description: string;
-    location: string;
-    experience: number;
-    jobType: string;
-    deadline: string;
-    salary: number;
-    company: Company;
-    skills: Skill[];
-}
+import { useJobPost } from '@/hooks/useJobPost';
+import { promises } from 'dns';
 interface Skill {
     id: string;
     name: string;
@@ -42,13 +31,14 @@ type Company = {
 const SubscribedCompanies = () => {
     const jobLocation = useLocation();
     const { jobTitle, location } = qs.parse(jobLocation.search); // Extract query parameters
-    const { loading, error, searchJobs } = useSearchJobs();
+    // const { loading, error, searchJobs } = useSearchJobs();
     // const navigate = useNavigate(); // Initialize useNavigate
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const {useSubscribetoCompany,usegetSubscription,useUnsubscribe} = useCompany();
+    const {useSubscribetoCompany,usegetSubscription,useUnsubscribe,useGetSubscribedCompanies} = useCompany();
+    const {useGetJobPost} = useJobPost();
     // State to store fetched jobs and companies
     const [jobPosts, setJobPosts] = useState<Array<any>>([]); // Ensure type safety if using TypeScript
-    const [companies, setCompanies] = useState([]);
+    const [companies, setCompanies] = useState<Array<any>>([]);
     const [activeTab, setActiveTab] = useState('jobs'); // State to track active tab
     const [filters, setFilters] = useState({
         location: '',
@@ -58,40 +48,55 @@ const SubscribedCompanies = () => {
 
     // Fetch jobs and companies on component mount or when query params change
     useEffect(() => {
-        if (jobTitle || location) {
             fetchResults();
-        }
         // console.log(jobPosts, "job")
     }, [jobTitle, location]);
 
     const fetchResults = async () => {
         try {
-            const response = await searchJobs({ jobTitle, location });
-            // console.log(response);
-
-            // Safely extract jobs and companies from the response
-            const jobs = response.jobs;
-            const gotcompanies = response.companies;
+            const response = await useGetSubscribedCompanies();
+            console.log(response);
 
             // Set the state for job posts and companies
-            setJobPosts(jobs);
-            setCompanies(gotcompanies);
+            // setJobPosts(jobs);
+            setCompanies(response);
 
-            // console.log("Response Jobs:", jobs);
-            // console.log("Response Companies:", gotcompanies);
-            // console.log("Job Posts:", jobPosts);
-            // console.log(companies)
         } catch (e) {
             console.log('Error fetching search results:', e);
         }
     };
-    // useEffect(() => {
-    //     console.log("Updated Job Posts:", jobPosts);
-    // }, [jobPosts]);
+    const fetchJobPosts = async (companies:any) => {
+        try {
+          // Fetch job posts for each company by its ID
+          const jobPostPromises = companies.map(async (company:any) => {
+            const response = await useGetJobPost(company.companyId); // Fetch posts for this company ID
+            console.log(response);
+            return response; // Return the response for aggregation
+          });
+      
+          // Wait for all promises to resolve
+          const allJobPosts = await Promise.all(jobPostPromises);
+      
+          // Flatten the array of arrays into a single array of job posts
+          const aggregatedJobPosts = allJobPosts.flat();
+      
+          // Set the state for job posts
+          setJobPosts(aggregatedJobPosts);
+        } catch (e) {
+          console.error('Error fetching search results:', e);
+        }
+      };
+      
+
+    useEffect(() => {
+        if(companies.length > 0) {
+            fetchJobPosts(companies);
+        }
+    }, [companies]);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-    const handleSubscription = (company:any)=>{
+    const handleSubscription = async (company:any): Promise<void>=>{
         console.log(company.id);
         if(!company.id){
             toast.error("Company not found");
@@ -103,7 +108,7 @@ const SubscribedCompanies = () => {
         // navigate(`/company/${company.id}`); // Navigate to company page
 
     }
-    const handleUnSubscription = (company:Company)=>{
+    const handleUnSubscription =async (company: any): Promise<void>=>{
         console.log(company.id);
         if(!company.id){
             toast.error("Company not found");
@@ -128,8 +133,12 @@ const SubscribedCompanies = () => {
         <div className="bg-gradient-to-b from-gray-100 dark:from-gray-800 to-gray-200 dark:to-gray-900 min-h-screen text-gray-800 dark:text-gray-100">
             <div className="flex">
                 {/* Sidebar */}
-                <FilterSidebar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-
+                <FilterSidebar
+                    isSidebarOpen={isSidebarOpen}
+                    toggleSidebar={toggleSidebar}
+                    filters={filters}
+                    setFilters={setFilters}
+                />
                 {/* Overlay for mobile sidebar */}
                 {isSidebarOpen && (
                     <div
@@ -169,7 +178,7 @@ const SubscribedCompanies = () => {
 
                     {/* Tabs */}
                     <div className="flex justify-center md:justify-start border-gray-300 dark:border-gray-700 mb-6 border-b">
-                        {/* <button
+                        <button
                             onClick={() => setActiveTab("jobs")}
                             className={`px-4 py-2 text-lg font-semibold focus:outline-none transition ${activeTab === "jobs"
                                 ? "border-b-2 border-blue-500 text-blue-500"
@@ -177,8 +186,8 @@ const SubscribedCompanies = () => {
                                 }`}
                         >
                             Jobs
-                        </button> */}
-                        {/* <button
+                        </button>
+                         <button
                             onClick={() => setActiveTab("companies")}
                             className={`ml-4 px-4 py-2 text-lg font-semibold focus:outline-none transition ${activeTab === "companies"
                                 ? "border-b-2 border-blue-500 text-blue-500"
@@ -186,7 +195,7 @@ const SubscribedCompanies = () => {
                                 }`}
                         >
                             Companies
-                        </button> */}
+                        </button>
                     </div>
 
                     {/* Content */}
@@ -219,10 +228,10 @@ const SubscribedCompanies = () => {
                                 </p>
                             )
                         ) : companies.length > 0 ? (
-                            companies.map((company:Company) => (
+                            companies.map((company:any) => (
                               <CompanyCard
                                 key={company.id}
-                                company={company}
+                                company={company.company}
                                 handleSubscription={handleSubscription}
                                 handleUnsubscription={handleUnSubscription}
                                 fetchSubscriptionStatus={usegetSubscription}

@@ -3,7 +3,7 @@ import React from 'react'
 function EducationalPreview({resumeInfo}) {
   return (
     <div className='my-6'>
-    <h2 className='text-center font-bold text-sm mb-2'
+    <h2 className='mb-2 font-bold text-center text-sm'
     style={{
         color:resumeInfo?.themeColor
     }}
@@ -12,17 +12,17 @@ function EducationalPreview({resumeInfo}) {
         borderColor:resumeInfo?.themeColor
     }} />
 
-    {resumeInfo?.education.map((education,index)=>(
+    {resumeInfo?.educations.map((education,index)=>(
         <div key={index} className='my-5'>
-            <h2 className='text-sm font-bold'
+            <h2 className='font-bold text-sm'
                 style={{
                     color:resumeInfo?.themeColor
                 }}
             >{education.universityName}</h2>
-            <h2 className='text-xs flex justify-between'>{education?.degree} in {education?.major}
-            <span>{education?.startDate} - {education?.endDate}</span>
+            <h2 className='flex justify-between text-xs'>{education?.degree} in {education?.major}
+            <span>{education?.startDate} - {education?.endDate? education?.endDate:'Present'}</span>
             </h2>
-            <p className='text-xs my-2'>
+            <p className='my-2 text-xs'>
                 {education?.description}
             </p>
         </div>

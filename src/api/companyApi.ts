@@ -89,3 +89,13 @@ export const unSubscribe = async (userId: string, companyId: string) => {
     throw new Error(err.response?.data?.message || "Failed to subscribe to company");
   }
 };
+
+export const getSubscribedCompanies = async (userId: string) => {
+  try {
+    const response = await apiClient.get(`/subscribe/user/${userId}`);
+    return response.data;
+  } catch (err: any) {
+    console.error("Error adding company:", err);
+    throw new Error(err.response?.data?.message || "Failed to fetch company");
+  }
+}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { addCompany, fetchCompanies, fetchCompaniesbyUser, isSubscribed, subscribeToCompany, unSubscribe } from "../api/companyApi"; // Adjust the import path as needed
+import { addCompany, fetchCompanies, fetchCompaniesbyUser, getSubscribedCompanies, isSubscribed, subscribeToCompany, unSubscribe } from "../api/companyApi"; // Adjust the import path as needed
 import UserStorage from "@/utilities/UserStorage"; // Adjust the path to your UserStorage utility
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -119,10 +119,30 @@ const useCompany = () => {
       setLoading(false);
     }
   }
+  const useGetSubscribedCompanies = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      if (!userId) {
+        // Redirect to login if user is not authenticated
+        navigate("/login", { state: { from: location.pathname } });
+        return;
+      }
+      
+      // Implement logic to fetch subscribed companies
+      const data = await getSubscribedCompanies(userId);
+      return data; // Return the subscribed companies if available
+    } catch (error: any) {
+      setError(error.message);
+      throw error;
+    } finally {
+      setLoading(false);
+      }
+    }
 
 
 
-    return { handleAddCompany, loading, error, getCompanies, useGetCompaniesbyUser,useSubscribetoCompany,usegetSubscription,useUnsubscribe };
+    return { handleAddCompany, loading, error, getCompanies, useGetCompaniesbyUser,useSubscribetoCompany,usegetSubscription,useUnsubscribe,useGetSubscribedCompanies };
   };
 
   export default useCompany;

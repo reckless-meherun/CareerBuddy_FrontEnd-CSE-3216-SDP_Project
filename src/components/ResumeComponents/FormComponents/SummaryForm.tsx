@@ -1,18 +1,24 @@
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Brain, LoaderCircle } from 'lucide-react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { ResumeInfoContext } from '../ResumeInfoContext';
 import { AIChatSession } from '@/service/AIModel';
-import { MyAlert } from '@/components/MyAlert';
+import { toast } from 'react-toastify';
+import { useResumeApi } from '@/hooks/useResumeApi';
 
-const prompt = "Job Title: {jobTitle} , Depends on job title give me list of summery for 3 experience level, Mid Level and Fresher level in 3-4 lines in array format, with summery and experience_level fields in JSON format.";
+const prompt = `
+Job Title: {jobTitle}. Generate a list of summaries for 3 experience levels (Senior, Mid-Level, Fresher) as an array. 
+Each object should have "summary" and "experience_level" fields in JSON format and each response should be able to store in character varying(255). No additional text or code blocks.
+`;
 
 function SummaryForm({ enableNext }) {
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
     const [loading, setLoading] = useState(false);
     const [summary, setSummary] = useState('');
     const [aiGeneratedSummaryList, setAiGeneratedSummaryList] = useState([]);
+    const [error, setError] = useState(null);
+    const { useUpdateResume } = useResumeApi();
 
     const handleInputChange = (e) => {
         setSummary(e.target.value);
@@ -21,11 +27,44 @@ function SummaryForm({ enableNext }) {
             summary: e.target.value,
         });
     };
+    useEffect(() => {
+        setSummary(resumeInfo.summary);
+    }, [setSummary, resumeInfo.summary]);
 
-    const onSave = (e) => {
+
+    const onSave = async (e) => {
+        console.log(resumeInfo, "here summery");
         e.preventDefault();
         setLoading(true);
-        // Simulate save operation
+        const formattedResumeInfo = {
+            resumeName: resumeInfo.resumeName,
+            jobTitle: resumeInfo.jobTitle,
+            summary: resumeInfo.summary,
+            themeColor: resumeInfo.themeColor,
+            firstName: resumeInfo.firstName,
+            lastName: resumeInfo.lastName,
+            email: resumeInfo.email,
+            phoneNumber: resumeInfo.phone, // Convert `phone` to `phoneNumber`
+            address: resumeInfo.address,
+            educations: resumeInfo.educations.map((education) => education.id),
+            experiences: resumeInfo.experiences.map((experience) => experience.id),
+            skills: resumeInfo.skills.map((skill) => skill.id),
+        };
+
+        console.log(formattedResumeInfo, "formatted");
+
+        try {
+            const response = await useUpdateResume(resumeInfo.resumeId, formattedResumeInfo);
+            if (response) {
+                toast.success("Successfully saved resume");
+                enableNext(true); // Enable the "Next" button if save was successful
+            }
+        } catch (error) {
+            toast.error("Failed to save resume. Please try again.");
+            console.error(error);
+        } finally {
+            setLoading(false); // Reset loading state regardless of success or failure
+        }
         setTimeout(() => {
             setLoading(false);
         }, 1000); // Replace with actual save logic
@@ -33,29 +72,40 @@ function SummaryForm({ enableNext }) {
 
     const GenerateSummaryFromAI = async () => {
         setLoading(true);
+        setError(null); // Reset error before new attempt
         try {
-            const PROMPT = prompt.replace('{jobTitle}', resumeInfo?.jobTitle);
-            console.log("Generated Prompt: ", PROMPT);
+            const PROMPT = prompt.replace('{jobTitle}', resumeInfo?.resumeName || 'Your Desired Job Title');
+            console.log('Generated Prompt: ', PROMPT);
+
             const result = await AIChatSession.sendMessage(PROMPT);
             const responseText = await result.response.text();
-            console.log("Raw AI Response: ", responseText);
-            // Clean the response to extract valid JSON
+            console.log('Raw AI Response: ', responseText);
+
+            // Clean and validate the response
             const cleanedResponse = responseText.replace(/```json|```/g, '').trim();
             const parsedResponse = JSON.parse(cleanedResponse);
-            console.log("Parsed Response: ", parsedResponse);
-            setAiGeneratedSummaryList(parsedResponse.summaries || []); // Save summaries in state
-        } catch (error) {
-            console.error('Error generating AI summaries:', error);
-            setAiGeneratedSummaryList([]); // Reset list if an error occurs
+
+            if (
+                Array.isArray(parsedResponse) &&
+                parsedResponse.every(item => item?.summary && item?.experience_level)
+            ) {
+                console.log('Valid Parsed Response: ', parsedResponse);
+                setAiGeneratedSummaryList(parsedResponse);
+            } else {
+                throw new Error('Invalid response structure');
+            }
+        } catch (err) {
+            console.error('Error generating AI summaries:', err);
+            setError('Failed to generate summaries. Please try again.');
+            setAiGeneratedSummaryList([]);
         } finally {
             setLoading(false);
         }
     };
 
-
     return (
         <div>
-            <div className="p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10">
+            <div className="shadow-lg mt-10 p-5 border-t-4 border-t-primary rounded-lg">
                 <h2 className="font-bold text-lg">Summary</h2>
                 <p>Add a summary for your job title</p>
 
@@ -67,9 +117,9 @@ function SummaryForm({ enableNext }) {
                             onClick={GenerateSummaryFromAI}
                             type="button"
                             size="sm"
-                            className="border-primary text-primary flex gap-2"
+                            className="flex gap-2 border-primary text-primary"
                         >
-                            <Brain className="h-4 w-4" /> Generate from AI
+                            <Brain className="w-4 h-4" /> Generate from AI
                         </Button>
                     </div>
                     <Textarea
@@ -79,8 +129,9 @@ function SummaryForm({ enableNext }) {
                         onChange={handleInputChange}
                         placeholder="Enter your summary..."
                     />
-                    <div className="mt-2 flex justify-end">
-                        <Button type="submit" disabled={loading}>
+                    <div className="flex justify-end mt-2">
+                        <Button type="submit" disabled={loading}
+                        onClick={onSave}>
                             {loading ? <LoaderCircle className="animate-spin" /> : 'Save'}
                         </Button>
                     </div>
@@ -88,32 +139,32 @@ function SummaryForm({ enableNext }) {
             </div>
 
             {loading ? (
-                <p className='p-2'>Generating AI summaries...</p> // Display loading indicator while AI is working
-            ) : aiGeneratedSummaryList?.length > 0 ? (
+                <p className="p-2">Generating AI summaries...</p>
+            ) : error ? (
+                <p className="p-2 text-red-500">{error}</p>
+            ) : aiGeneratedSummaryList.length > 0 ? (
                 aiGeneratedSummaryList.map((item, index) => (
                     <div
                         key={index}
                         onClick={() => {
-                            // Save the selected summary to the resume
-                            setSummary(item?.summary);
+                            setSummary(item.summary);
                             setResumeInfo({
                                 ...resumeInfo,
-                                summary: item?.summary, // Update the summary in the context
+                                summary: item.summary,
                             });
                             alert(`Selected summary for ${item.experience_level} has been saved!`);
                         }}
-                        className="p-5 hover:scale-105 hover:bg-gray-100 shadow-lg my-4 rounded-lg cursor-pointer"
+                        className="hover:bg-gray-100 shadow-lg my-4 p-5 rounded-lg cursor-pointer hover:scale-105"
                     >
-                        <h2 className="font-bold my-1 text-primary">
-                            Level: {item?.experience_level}
+                        <h2 className="my-1 font-bold text-primary">
+                            Level: {item.experience_level}
                         </h2>
-                        <p>{item?.summary}</p>
+                        <p>{item.summary}</p>
                     </div>
                 ))
             ) : (
-                <p className='p-2'>No suggestions available</p>
+                <p className="p-2">No suggestions available</p>
             )}
-
         </div>
     );
 }

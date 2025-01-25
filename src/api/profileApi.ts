@@ -39,6 +39,8 @@ export const createProfile = async (profileData: {
     address?: string;
     readySkills?: { id: string; name: string }[]; // Array of SkillDTO objects
     newSkills?: { name: string }[]; // Array of SkillRequest objects
+    experiences?: any;
+    educations?: any;
     }) => {
         try {
             // Use a template literal to insert the user_id
@@ -70,6 +72,8 @@ export const updateProfile = async (profileData: {
     address?: string;
     readySkills?: { id: string; name: string }[]; // Array of SkillDTO objects
     newSkills?: { name: string }[]; // Array of SkillRequest objects
+    experiences?: any;
+    educations?: any;
     }) => {
         try {
             // Use a template literal to insert the user_id
@@ -81,3 +85,20 @@ export const updateProfile = async (profileData: {
         }
     };
 
+    export const uploadProfileImage = async (userId:string, formData:FormData) => {
+        try {
+            const response = await apiClient.post(
+                `/api/upload?userId=${userId}`, // Add userId as a query parameter
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data', // Ensure the content type is set
+                    },
+                }
+            );
+            return response.data;
+        } catch (error) {
+            console.error("Error uploading profile image:", error);
+            throw new Error(error.response?.data?.message || "Failed to upload profile image");
+        }   
+    };

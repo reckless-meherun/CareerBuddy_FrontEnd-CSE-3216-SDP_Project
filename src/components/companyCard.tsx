@@ -17,8 +17,8 @@ type Company = {
 type CompanyCardProps = {
   company: Company;
   fetchSubscriptionStatus: (companyId: string) => Promise<{subscribed:boolean}>;
-  handleSubscription: (company: Company) => Promise<void>;
-  handleUnsubscription: (company: Company) => Promise<void>;
+  handleSubscription: (company: any) => Promise<void>;
+  handleUnsubscription: (company: any) => Promise<void>;
 };
 
 const CompanyCard: React.FC<CompanyCardProps> = ({
@@ -70,11 +70,11 @@ const CompanyCard: React.FC<CompanyCardProps> = ({
   return (
     <div
       key={company.id}
-      className="p-6 bg-white dark:bg-gray-700 shadow-lg rounded-xl transition-transform transform hover:scale-105 hover:shadow-2xl"
+      className="bg-white dark:bg-gray-700 shadow-lg hover:shadow-2xl p-6 rounded-xl transform transition-transform hover:scale-105"
     >
       {/* Header Section */}
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-2xl font-bold text-gray-800 dark:text-white">
+        <h3 className="font-bold text-2xl text-gray-800 dark:text-white">
           {company.companyName}
         </h3>
         <span
