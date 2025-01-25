@@ -71,7 +71,7 @@ function Home() {
     };
 
     return (
-        <div className="bg-gray-100 dark:bg-gray-800 min-h-screen text-gray-800 dark:text-gray-100 overflow-hidden">
+        <div className="bg-white dark:bg-gray-900 min-h-screen text-gray-800 dark:text-gray-100 overflow-hidden">
             {/* Hero Section with Carousel */}
             <div className="relative h-[600px]">
                 {/* Carousel */}
@@ -142,11 +142,11 @@ function Home() {
                                 backdrop-blur-sm
                             `}>
                                 {/* Background Pattern */}
-                                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-                                
+                                <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-teal-500 dark:from-white via-transparent to-transparent"></div>
+
                                 {/* Icon Container */}
                                 <div className="mb-6 transform transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-12">
-                                    <div className="text-6xl bg-white dark:bg-gray-800 bg-opacity-20 dark:bg-opacity-20 p-4 rounded-2xl backdrop-blur-sm">
+                                    <div className="text-6xl bg-white-200 dark:bg-gray-800 bg-opacity-20 dark:bg-opacity-20 p-4 rounded-2xl backdrop-blur-sm">
                                         {category.icon}
                                     </div>
                                 </div>
@@ -163,7 +163,7 @@ function Home() {
 
                                 {/* Hover Effect Overlay */}
                                 <div className="absolute inset-0 bg-black/5 dark:bg-white/5 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl"></div>
-                                
+
                                 {/* Bottom Decoration */}
                                 <div className={`
                                     absolute bottom-0 left-0 right-0 h-1 
@@ -178,8 +178,13 @@ function Home() {
             </div>
 
             {/* Job Recommendations Section */}
-            <div className="mx-auto px-6 py-12 container">
-                <h2 className="mb-6 font-semibold text-center text-xl sm:text-2xl">Job Recommendations</h2>
+            <div className="mx-auto px-10 py-5 container">
+                <h2 className="mb-12 font-bold text-center text-3xl sm:text-4xl">
+                    <span className="bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                        Job Recommendations
+                    </span>
+                </h2>
+
                 <div className="gap-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {jobPosts.length > 0 ? (
                         jobPosts.map((post) => (

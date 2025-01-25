@@ -34,29 +34,41 @@ function ViewResume() {
   const generatePDF = async (): Promise<Blob | null> => {
     if (previewRef.current) {
       const originalStyles = previewRef.current.style.color;
-      previewRef.current.style.color = 'black';
-
+      previewRef.current.style.color = 'black'; // Adjust styling for better contrast
+  
       try {
         const canvas = await html2canvas(previewRef.current, {
-          scale: 2,
+          scale: 3, // Higher scale for better resolution
         });
-
+  
         const pdf = new jsPDF('portrait', 'mm', 'a4');
         const imgData = canvas.toDataURL('image/png');
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-        pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
+  
+        // Add image with padding to prevent text cutoff
+        const padding = 10; // Padding in mm
+        pdf.addImage(imgData, 'PNG', padding, padding, pdfWidth - 2 * padding, pdfHeight - 2 * padding);
+  
+        // Optionally add page number for multi-page PDFs
+        const totalPages = Math.ceil(pdfHeight / pdf.internal.pageSize.getHeight());
+        for (let i = 1; i <= totalPages; i++) {
+          pdf.setPage(i);
+          pdf.setFontSize(17);
+          pdf.text(`Page ${i} of ${totalPages}`, pdfWidth / 2, pdf.internal.pageSize.getHeight() - 10, {
+            align: 'center',
+          });
+        }
+  
         // Generate PDF as a Blob
         return pdf.output('blob');
       } finally {
-        previewRef.current.style.color = originalStyles;
+        previewRef.current.style.color = originalStyles; // Restore original styles
       }
     }
     return null;
   };
-
+  
   const HandleDownload = async () => {
     const pdfBlob = await generatePDF();
     if (pdfBlob) {
@@ -66,7 +78,7 @@ function ViewResume() {
       link.click();
     }
   };
-
+  
   const HandleShare = async () => {
     const pdfBlob = await generatePDF();
     if (pdfBlob && navigator.canShare && navigator.canShare({ files: [new File([pdfBlob], 'resume.pdf', { type: 'application/pdf' })] })) {
@@ -83,6 +95,7 @@ function ViewResume() {
       alert('Your browser does not support file sharing!');
     }
   };
+  
 
   return (
     <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>

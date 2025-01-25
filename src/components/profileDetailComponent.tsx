@@ -220,7 +220,7 @@ const ProfileDetails = ({
             flex justify-center items-center
             cursor-pointer
             transition-all duration-300
-            h-[50px] w-[130px]
+            h-[40px] w-[135px]
 
             /* Light mode gradient */
             bg-gradient-to-r from-gray-100 via-gray-200 to-gray-300
@@ -237,7 +237,7 @@ const ProfileDetails = ({
             hover:-translate-y-1
         `}
                     >
-                        ➕ Add Skill
+                        + Add Skill
                     </button>
                 </div>
                 <div>

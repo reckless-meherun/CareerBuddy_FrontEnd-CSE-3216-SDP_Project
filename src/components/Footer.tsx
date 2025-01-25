@@ -26,7 +26,7 @@ function Footer() {
         <footer className={`
         relative transition-all duration-300
         ${isDarkMode
-                ? "bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900"
+                ? "bg-gradient-to-r from-gray-900 via-gray-800 to-gray-500"
                 : "bg-gradient-to-r from-teal-50 via-teal-100 to-teal-50"
             }
         shadow-lg

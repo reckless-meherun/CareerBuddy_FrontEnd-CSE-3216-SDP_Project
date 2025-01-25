@@ -22,9 +22,9 @@ const ApplicantDashboard = ({ profileId, user, navigate }) => {
             onClick,
             title,
             Icon,
-            width = "100%", // Default width
+            width = "630px", // Default width
             height = "auto", // Default height
-            iconSize = "80px", // Default icon size
+            iconSize = "40px", // Default icon size
         }) => {
             return (
                 <div
@@ -36,7 +36,7 @@ const ApplicantDashboard = ({ profileId, user, navigate }) => {
                   transition-all duration-300
           
                   /* Light mode */
-                  bg-gradient-to-r from-white via-teal-50 to-white
+                  bg-gradient-to-r from-white via-teal-100 to-white
                   hover:from-teal-500 hover:via-teal-400 hover:to-blue-500
                   text-gray-800 hover:text-white
                   shadow-lg hover:shadow-xl
@@ -52,25 +52,25 @@ const ApplicantDashboard = ({ profileId, user, navigate }) => {
                     style={{ width, height }} // Apply custom width and height
                 >
                     <span className="font-semibold text-xl">{title}</span>
-                    <Icon className={`w-[100px] h-[100px] transition-transform duration-300 group-hover:rotate-3`} />
+                    <Icon className={`w-[50px] h-[50px] transition-transform duration-300 group-hover:rotate-3`} />
                 </div>
             );
         };
     
     return (
-        <div className="flex-1 bg-gray-200 dark:bg-gray-800 p-4 w-[200px]">
-            <div className="flex flex-col justify-evenly h-full">
+        <div className="flex-1 dark:bg-gray-800 p-4 w-[200px]">
+            <div className="flex flex-col justify-evenly">
                 <DashboardButton
                     onClick={() => navigate("/applied-jobs-table")}
                     title="Applied Jobs"
                     Icon={ClipboardCheck}
-                    height="140px"
+                    height="90px"
                 />
                 <DashboardButton
                     onClick={() => navigate(`/job-recommendations/${profileId}`)}
                     title="Recommended Jobs"
                     Icon={UserRoundPen}
-                    height="140px"
+                    height="90px"
                 />
                 <DashboardButton
                     onClick={() => {
@@ -84,19 +84,19 @@ const ApplicantDashboard = ({ profileId, user, navigate }) => {
                     }}
                     title="My Calendar"
                     Icon={CalendarDays}
-                    height="140px"
+                    height="90px"
                 />
                 <DashboardButton
                     onClick={() => navigate(`/saved-jobs/${profileId}`)}
                     title="Saved Jobs"
                     Icon={BookMarked}
-                    height="140px"
+                    height="90px"
                 />
                 <DashboardButton
                     onClick={() => navigate("/subscribed-companies")}
                     title="Subscribed Companies"
                     Icon={BellRing}
-                    height="140px"
+                    height="90px"
                 />
             </div>
         </div>
