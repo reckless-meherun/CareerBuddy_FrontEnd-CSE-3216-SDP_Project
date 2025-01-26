@@ -55,6 +55,7 @@ function Header() {
         <div className="flex flex-col md:flex-row justify-between items-center px-5 py-7">
           {/* Logo Section */}
           <div className="flex justify-between items-center w-full md:w-auto">
+            <img src="logo.png" className="h-10 pr-5"></img>
             <Link
               to="/"
               className="text-3xl font-bold transform transition-all duration-300 hover:scale-105"
