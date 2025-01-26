@@ -63,3 +63,24 @@ export const updateJobApplications = async (ApplitionId: string,status:string)=>
     );
   }
 }
+export const updatePriorityIndex = async (applicationId: string, position: number) => {
+  try {
+    console.log(position);
+    const response = await apiClient.put(
+      `/jobApplication/updatePriorityIndex/${applicationId}`,
+      null, // No body required
+      {
+        params: {
+          position, // Query parameter passed as part of the request
+        },
+      }
+    );
+    return response.data;
+  } catch (err: any) {
+    throw new Error(
+      err.response?.data?.message || "Failed to update priority index."
+    );
+  }
+};
+
+

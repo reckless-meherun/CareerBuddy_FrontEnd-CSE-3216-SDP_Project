@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { applyForJobApi, getAppliedJobs, getJobApplication, getJobApplications,updateJobApplications } from "../api/jobApplicationApi";
+import { applyForJobApi, getAppliedJobs, getJobApplication, getJobApplications,updateJobApplications, updatePriorityIndex } from "../api/jobApplicationApi";
 import UserStorage from "@/utilities/UserStorage"; // Adjust the path to your UserStorage utility
 
 const useApplyForJob = () => {
@@ -100,6 +100,18 @@ const useApplyForJob = () => {
       setIsLoading(false);
     }
   }
+  const useUpdtapriorityIndes = async (applicationId: string, position:number) => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await updatePriorityIndex(applicationId, position);
+      return response;
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   
 
@@ -111,7 +123,8 @@ const useApplyForJob = () => {
     useGetAppliedlJobs, // Add this function to your component to fetch applied jobs for a user.
     usegetJobApplications, // Add this function to your component to fetch job applications for a job.
     useUpdateJobApplications,
-    usegetJobApplication
+    usegetJobApplication,
+    useUpdtapriorityIndes, // Add this function to your component to update priority index of a job application.
   };
 };
 
