@@ -128,12 +128,12 @@ function Statistics() {
     useInterval(fetchData, 600000);
 
     const jobApplicationsData = {
-        
+
         // labels:  applications.map(application => {
         //     console.log(application,"application");
         //     application.jobId
         // }),
-        
+
         labels: jobs.map((job) => job.title),
         datasets: [
             {
@@ -191,9 +191,14 @@ function Statistics() {
             animate="visible"
             className="bg-gray-100 dark:bg-gray-800 p-8 min-h-screen text-gray-800 dark:text-gray-100"
         >
-            <motion.h1 className="mb-6 font-bold text-3xl text-center">
+            {/* <motion.h1 className="mb-6 font-bold text-3xl text-center">
                 Recruitment Dashboard
-            </motion.h1>
+            </motion.h1> */}
+            <div className="flex justify-center items-center mb-4">
+                <span className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                    Recruitment Statistics
+                </span>
+            </div>
 
             <motion.div className="gap-6 grid grid-cols-1 md:grid-cols-3">
                 <ChartCard title="Applications Per Job" icon={Briefcase}>

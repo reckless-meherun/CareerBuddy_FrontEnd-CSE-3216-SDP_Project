@@ -44,7 +44,11 @@ export default function ApplicantsTable() {
         <div className="min-h-screen bg-gray-100 dark:bg-gray-500 text-gray-800 dark:text-gray-100">
             <div className="p-10">
                 <div className="w-full p-8 mb-10 border-8 rounded-lg md:p-12 bg-white dark:bg-gray-700 shadow-lg">
-                    <h3 className="text-2xl font-bold text-center mb-4">🏢 Applicants</h3>
+                <div className="flex justify-center items-center mb-4">
+                        <span className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                            Applicants Under This Job Post
+                        </span>
+                    </div>
                     <DataTable columns={columns} data={data} />
                 </div>
             </div>

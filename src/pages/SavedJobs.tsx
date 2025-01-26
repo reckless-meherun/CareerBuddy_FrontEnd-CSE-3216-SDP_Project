@@ -163,12 +163,19 @@ const SavedJobs = () => {
 
                     {/* Header */}
                     <header className="mb-6">
-                        <h2 className="mb-2 font-bold text-3xl text-center md:text-left tracking-wide">
-                            Saved Job Posts
-                        </h2>
-                        <p className="text-center text-gray-600 md:text-left dark:text-gray-400">
+                        <div className="flex items-center mb-4">
+                            <span className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                                Saved Job Posts
+                            </span>
+                        </div>
+                        <div className="flex items-center mb-4">
+                            <span className="text-1xl bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                                Explore jobs and companies of your priority.
+                            </span>
+                        </div>
+                        {/* <p className="text-center text-gray-600 md:text-left dark:text-gray-400">
                             Explore jobs and companies of your priority.
-                        </p>
+                        </p> */}
                     </header>
 
                     {/* Tabs */}
@@ -214,7 +221,7 @@ const SavedJobs = () => {
                                             jobType: post.jobType,
                                             experience: post.experience,
                                         }
-                                    }
+                                        }
                                     />
                                 ))
                             ) : (

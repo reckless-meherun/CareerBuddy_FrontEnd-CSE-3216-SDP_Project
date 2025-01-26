@@ -123,9 +123,11 @@ function JobPostPage() {
         <div className="min-h-screen bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-100">
             <div className="gap-4 p-4 md:p-10">
                 <div className="p-4 md:p-8 rounded-xl shadow-lg border-8">
-                    <h1 className="text-2xl md:text-3xl font-bold text-center mb-6 dark:text-gray-100">
-                        📄 Create Job Post
-                    </h1>
+                    <div className="flex justify-center items-center mb-4">
+                        <span className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                            Create A Job Post
+                        </span>
+                    </div>
                     {success && <p className="text-green-500 text-center">Job post created successfully!</p>}
                     {jobPostError && <p className="text-red-500 text-center">{jobPostError}</p>}
                     <form onSubmit={handleSubmit} className="space-y-6">

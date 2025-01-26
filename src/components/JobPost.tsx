@@ -99,15 +99,19 @@ const JobPost = ({ post, isSaved = false }: { post: any; isSaved?: boolean }) =>
       <div className="flex space-x-4 mt-6">
         <button
           onClick={handleViewDetails}
-          className="bg-blue-600 hover:bg-blue-700 shadow-md px-4 py-2 rounded-lg font-semibold text-white transition-colors"
+          className={
+            `px-6 py-4 w-[120px] h-[50px] text-white
+            bg-gradient-to-r from-teal-500 to-blue-500
+            rounded-lg shadow-md transform transition-all duration-300
+            hover:scale-105 hover:shadow-lg active:scale-95`
+        }
         >
           View Details
         </button>
         <button
           onClick={handleSavePost}
-          className={`${
-            isSaved ? "bg-red-500 hover:bg-red-700" : "bg-gray-600 hover:bg-gray-700"
-          } shadow-md px-4 py-2 rounded-lg font-semibold text-white transition-colors`}
+          className={`${isSaved ? "bg-red-500 hover:bg-red-700" : "bg-gray-600 hover:bg-gray-700"
+            } shadow-md px-4 py-2 rounded-lg font-semibold text-white transition-colors`}
         >
           {isSaved ? "Delete" : "Save for later"}
         </button>

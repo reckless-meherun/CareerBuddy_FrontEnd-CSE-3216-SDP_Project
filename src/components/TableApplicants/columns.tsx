@@ -39,10 +39,6 @@ export const columns: ColumnDef<Applicant>[] = [
         header: "Phone Number",
     },
     {
-        accessorKey: "adress",
-        header: "Address",
-    },
-    {
         accessorKey: "appliedAt",
         header: "Applying Date",
         cell: ({ getValue }) => {

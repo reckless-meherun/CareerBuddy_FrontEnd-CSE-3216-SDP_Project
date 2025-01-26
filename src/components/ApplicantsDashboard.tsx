@@ -58,8 +58,8 @@ const ApplicantDashboard = ({ profileId, user, navigate }) => {
         };
     
     return (
-        <div className="flex-1 dark:bg-gray-800 p-4 w-[200px]">
-            <div className="flex flex-col justify-evenly">
+        <div className="flex-1 bg-white dark:bg-gray-800 p-4 w-full min-h-screen">
+            <div className="flex flex-col justify-evenly min-h-screen">
                 <DashboardButton
                     onClick={() => navigate("/applied-jobs-table")}
                     title="Applied Jobs"

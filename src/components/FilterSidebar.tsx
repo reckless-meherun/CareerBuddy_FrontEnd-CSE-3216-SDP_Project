@@ -24,7 +24,7 @@ function FilterSidebar({ isSidebarOpen, toggleSidebar, filters, setFilters }: Fi
   // Filter options
   const locations = ["Dhaka", "Khulna", "Chittagong", "Remote"];
   const industries = ["Tech", "Finance", "Healthcare", "Education"];
-  const salaries = ["< 50000", "50000 - 100000", "100000 - 1500000", "> 1500"];
+  const salaries = ["< 50000", "50000 - 100000", "100000 - 1500000", "> 1500000"];
 
   // Function to handle filter changes
   const handleFilterChange = () => {

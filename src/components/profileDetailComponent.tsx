@@ -24,8 +24,8 @@ const ProfileDetails = ({
         localStorage.setItem("userType", userType); // Store in localStorage
     };
     return (
-        <div className="flex-1 bg-gray-200 dark:bg-gray-800 p-8 w-full lg:w-[700px] h-full lg:h-5/6">
-            <div className="border-8 dark:border-2 dark:border-white bg-white dark:bg-transparent shadow-lg lg:mb-10 p-6 rounded-lg w-full">
+        <div className="min-h-screen flex-1 bg-gray-200 bg-transparent p-8 w-full lg:w-[700px] h-full ">
+            <div className="min-h-screen border-8 dark:border-2 dark:bg-gray-800 dark:border-white bg-white shadow-lg lg:mb-10 p-6 rounded-lg w-full">
                 <h2 className="flex justify-center items-center gap-2 mb-8 font-bold text-2xl text-center sm:text-3xl">
                     <CircleUserRound className="w-12 h-12" /> {profile.userType} Profile
                 </h2>

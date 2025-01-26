@@ -51,9 +51,7 @@ const DetailJobPostPreview = () => {
     await applyForJob(post.id);
     if (successMessage) {
       toast.success(successMessage);
-    } else if (error) {
-      toast.error(error);
-    }
+    } 
 
     //   setSuccessMessage('Successfully applied for the job!');
 
@@ -81,7 +79,7 @@ const DetailJobPostPreview = () => {
         {/* Status Messages */}
         {error && (
           <div className="bg-red-50 dark:bg-red-900/50 p-4 rounded-lg text-red-700 dark:text-red-200">
-            {error}
+            {successMessage}
           </div>
         )}
         {successMessage && (
@@ -108,17 +106,18 @@ const DetailJobPostPreview = () => {
               </div>
               <div>
                 <h1 className="font-bold text-2xl md:text-3xl">{post.title}</h1>
-                <h2 className='font-bold text-xl md:text-2xl'>{post.company}</h2>
+                <h2 className='text-xl md:text-2xl'>{post.company}</h2>
               </div>
             </div>
             <button
               onClick={handleApply}
               disabled={isLoading}
-              className={`rounded-lg px-6 py-2 text-white transition-colors duration-200 w-full md:w-auto
-                ${isLoading
-                  ? 'bg-blue-400 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700'
-                }`}
+              className={`
+                px-6 py-4 w-[150px] h-[50px] text-white
+                bg-gradient-to-r from-teal-500 to-blue-500
+                rounded-lg shadow-md transform transition-all duration-300
+                ${isLoading ? 'cursor-not-allowed opacity-70' : 'hover:scale-105 hover:shadow-lg active:scale-95'}
+              `}
             >
               {isLoading ? (
                 <span className="flex justify-center items-center gap-2">
@@ -129,6 +128,7 @@ const DetailJobPostPreview = () => {
                 'Apply Now'
               )}
             </button>
+
           </div>
         </div>
 
@@ -178,7 +178,7 @@ const DetailJobPostPreview = () => {
                 <span className="text-gray-500 text-sm dark:text-gray-400">Email</span>
                 <span className="font-medium break-all leading-relaxed">{post.email}</span>
 
-                
+
               </div>
             </div>
           </div>

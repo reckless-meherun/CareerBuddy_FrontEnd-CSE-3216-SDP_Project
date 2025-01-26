@@ -260,7 +260,7 @@ function ProfileRecruiter() {
 
     };
     return (
-        <div className="flex flex-col lg:flex-row bg-gray-100 dark:bg-gray-500 min-h-screen text-gray-800 dark:text-gray-100">
+        <div className="flex flex-col lg:flex-row bg-gray-100 dark:bg-gray-700 min-h-screen text-gray-800 dark:text-gray-100">
             <div className="w-full lg:w-1/2 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
                 <ProfileDetails
                     profile={profile}

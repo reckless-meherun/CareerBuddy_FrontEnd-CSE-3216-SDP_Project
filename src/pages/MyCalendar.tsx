@@ -149,7 +149,11 @@ function MyCalendar() {
     return (
         <div className="bg-gray-100 dark:bg-gray-800 p-4 md:p-10 min-h-screen text-gray-800 dark:text-gray-100">
             <div className="space-y-6 bg-white dark:bg-gray-700 shadow-md p-6 rounded-lg w-full">
-                <h2 className="font-bold text-2xl text-teal-500">My Calendar</h2>
+                <div className="flex justify-center items-center mb-4">
+                    <span className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                        My Calendar
+                    </span>
+                </div>
 
                 {/* Event Creation Form */}
                 <div className="space-y-4">

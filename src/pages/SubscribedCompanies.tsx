@@ -25,8 +25,8 @@ type Company = {
     foundationYear?: string | Date;
     domain?: string;
     description?: string;
-  };
-  
+};
+
 
 const SubscribedCompanies = () => {
     const jobLocation = useLocation();
@@ -34,8 +34,8 @@ const SubscribedCompanies = () => {
     // const { loading, error, searchJobs } = useSearchJobs();
     // const navigate = useNavigate(); // Initialize useNavigate
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const {useSubscribetoCompany,usegetSubscription,useUnsubscribe,useGetSubscribedCompanies} = useCompany();
-    const {useGetJobPost} = useJobPost();
+    const { useSubscribetoCompany, usegetSubscription, useUnsubscribe, useGetSubscribedCompanies } = useCompany();
+    const { useGetJobPost } = useJobPost();
     // State to store fetched jobs and companies
     const [jobPosts, setJobPosts] = useState<Array<any>>([]); // Ensure type safety if using TypeScript
     const [companies, setCompanies] = useState<Array<any>>([]);
@@ -48,7 +48,7 @@ const SubscribedCompanies = () => {
 
     // Fetch jobs and companies on component mount or when query params change
     useEffect(() => {
-            fetchResults();
+        fetchResults();
         // console.log(jobPosts, "job")
     }, [jobTitle, location]);
 
@@ -65,40 +65,40 @@ const SubscribedCompanies = () => {
             console.log('Error fetching search results:', e);
         }
     };
-    const fetchJobPosts = async (companies:any) => {
+    const fetchJobPosts = async (companies: any) => {
         try {
-          // Fetch job posts for each company by its ID
-          const jobPostPromises = companies.map(async (company:any) => {
-            const response = await useGetJobPost(company.companyId); // Fetch posts for this company ID
-            console.log(response);
-            return response; // Return the response for aggregation
-          });
-      
-          // Wait for all promises to resolve
-          const allJobPosts = await Promise.all(jobPostPromises);
-      
-          // Flatten the array of arrays into a single array of job posts
-          const aggregatedJobPosts = allJobPosts.flat();
-      
-          // Set the state for job posts
-          setJobPosts(aggregatedJobPosts);
+            // Fetch job posts for each company by its ID
+            const jobPostPromises = companies.map(async (company: any) => {
+                const response = await useGetJobPost(company.companyId); // Fetch posts for this company ID
+                console.log(response);
+                return response; // Return the response for aggregation
+            });
+
+            // Wait for all promises to resolve
+            const allJobPosts = await Promise.all(jobPostPromises);
+
+            // Flatten the array of arrays into a single array of job posts
+            const aggregatedJobPosts = allJobPosts.flat();
+
+            // Set the state for job posts
+            setJobPosts(aggregatedJobPosts);
         } catch (e) {
-          console.error('Error fetching search results:', e);
+            console.error('Error fetching search results:', e);
         }
-      };
-      
+    };
+
 
     useEffect(() => {
-        if(companies.length > 0) {
+        if (companies.length > 0) {
             fetchJobPosts(companies);
         }
     }, [companies]);
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
-    const handleSubscription = async (company:any): Promise<void>=>{
+    const handleSubscription = async (company: any): Promise<void> => {
         console.log(company.id);
-        if(!company.id){
+        if (!company.id) {
             toast.error("Company not found");
             return;
         }
@@ -108,15 +108,15 @@ const SubscribedCompanies = () => {
         // navigate(`/company/${company.id}`); // Navigate to company page
 
     }
-    const handleUnSubscription =async (company: any): Promise<void>=>{
+    const handleUnSubscription = async (company: any): Promise<void> => {
         console.log(company.id);
-        if(!company.id){
+        if (!company.id) {
             toast.error("Company not found");
             return;
         }
         const response = useUnsubscribe(company.id);
         console.log(response);
-        toast.success("Sucessfully Unsubscribed to company "+company.companyName)
+        toast.success("Sucessfully Unsubscribed to company " + company.companyName)
         // navigate(`/company/${company.id}`); // Navigate to company page
 
     }
@@ -168,12 +168,16 @@ const SubscribedCompanies = () => {
 
                     {/* Header */}
                     <header className="mb-6">
-                        <h2 className="mb-2 font-bold text-3xl text-center md:text-left tracking-wide">
-                            Subscribed Companies
-                        </h2>
-                        <p className="text-center text-gray-600 md:text-left dark:text-gray-400">
-                            Explore companies that you subscribed.
-                        </p>
+                        <div className="flex items-center mb-4">
+                            <span className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                                Subscribed Companies
+                            </span>
+                        </div>
+                        <div className="flex items-center mb-4">
+                            <span className="text-1xl bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                                Explore companies that you subscribed.
+                            </span>
+                        </div>
                     </header>
 
                     {/* Tabs */}
@@ -187,7 +191,7 @@ const SubscribedCompanies = () => {
                         >
                             Jobs
                         </button>
-                         <button
+                        <button
                             onClick={() => setActiveTab("companies")}
                             className={`ml-4 px-4 py-2 text-lg font-semibold focus:outline-none transition ${activeTab === "companies"
                                 ? "border-b-2 border-blue-500 text-blue-500"
@@ -217,7 +221,7 @@ const SubscribedCompanies = () => {
                                             deadline: post.deadline,
                                             jobType: post.jobType,
                                             experience: post.experience,
-                                            contact:post.company.phoneNumber,
+                                            contact: post.company.phoneNumber,
                                             email: post.company.email,
                                         }}
                                     />
@@ -228,16 +232,16 @@ const SubscribedCompanies = () => {
                                 </p>
                             )
                         ) : companies.length > 0 ? (
-                            companies.map((company:any) => (
-                              <CompanyCard
-                                key={company.id}
-                                company={company.company}
-                                handleSubscription={handleSubscription}
-                                handleUnsubscription={handleUnSubscription}
-                                fetchSubscriptionStatus={usegetSubscription}
-                              />
+                            companies.map((company: any) => (
+                                <CompanyCard
+                                    key={company.id}
+                                    company={company.company}
+                                    handleSubscription={handleSubscription}
+                                    handleUnsubscription={handleUnSubscription}
+                                    fetchSubscriptionStatus={usegetSubscription}
+                                />
                             ))
-                          ) : (
+                        ) : (
                             <p className="col-span-full text-center text-gray-500 dark:text-gray-400">
                                 No companies found.
                             </p>

@@ -77,10 +77,13 @@ function AddCompanyDialog() {
     return (
         <div className="flex justify-center items-center bg-gradient-to-br from-gray-100 dark:from-gray-800 to-gray-300 dark:to-gray-900 mx- min-h-screen text-gray-800 dark:text-gray-100">
             <div className="p-6 md:p-8 lg:p-12 w-full max-w-4xl">
-                <div className="border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-xl p-10 border rounded-3xl">
-                    <h2 className="mb-8 font-extrabold text-4xl text-center text-gray-800 dark:text-gray-100">
-                        🏢 Add New Company
-                    </h2>
+                <div className="border-gray-200 border-8 bg-white dark:bg-gray-800 shadow-xl p-10 border rounded-3xl">
+
+                    <div className="flex justify-center items-center mb-4">
+                        <span className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 dark:from-teal-400 dark:to-blue-400 bg-clip-text text-transparent">
+                            Add New Company
+                        </span>
+                    </div>
 
                     <form onSubmit={handleSubmit} className="space-y-8">
                         {/* Company Name and Location */}
@@ -216,23 +219,12 @@ function AddCompanyDialog() {
                         <div className="flex justify-center">
                             <button
                                 type="submit"
-                                className={`m-4 p-6 rounded-lg
-                                    h-[50px] w-[150px]
-                                    flex justify-center items-center
-                                    cursor-pointer
-                                    transition-all duration-300
-                                    /* Light mode */
-                                    bg-gradient-to-r from-white via-teal-50 to-white
-                                    hover:from-teal-500 hover:via-teal-400 hover:to-blue-500
-                                    text-gray-800 hover:text-white
-                                    shadow-lg hover:shadow-xl
-                                    /* Dark mode */
-                                    dark:from-gray-800 dark:via-gray-700 dark:to-gray-800
-                                    dark:hover:from-teal-600 dark:hover:via-teal-500 dark:hover:to-blue-600
-                                    dark:text-white dark:shadow-3xl            
-                                    /* Hover effect */
-                                    hover:scale-105
-                                    `}
+                                className={
+                                    `px-6 py-4 w-[150px] h-[50px] text-white
+                                    bg-gradient-to-r from-teal-500 to-blue-500
+                                    rounded-lg shadow-md transform transition-all duration-300
+                                    hover:scale-105 hover:shadow-lg active:scale-95`
+                                }                                
                             >
                                 Add Company
                             </button>
