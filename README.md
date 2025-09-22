@@ -44,6 +44,18 @@ cd CareerBuddy_FrontEnd-CSE-3216-SDP_Project
 ```
 npm install
 ```
+**Running Locally**
+```
+npm run dev
+```
+Open in your browser at:
+```
+http://localhost:3000
+```
+**Environment Variables**
+Create a .env file in the root directory and set the backend API endpoint:
+```VITE_API_URL=http://localhost:8080/api```
+Make sure the backend is running before using the frontend.
 
 ### React + TypeScript + Vite
 
