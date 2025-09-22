@@ -21,7 +21,7 @@ This is the **frontend** of the CareerBuddy project. It provides the **user inte
 ## Tech Stack
 
 - **Frontend Framework:** React (TypeScript + Vite)  
-- **Styling:** CSS / Tailwind (if applied)  
+- **Styling:** Tailwind CSS  
 - **Build Tool:** Vite  
 - **Backend API:** Java (Spring Boot) + PostgreSQL ([CareerBuddy Backend](https://github.com/sheldor944/CareerBuddy_BackEnd-CSE-3216-SDP-Project))  
 
