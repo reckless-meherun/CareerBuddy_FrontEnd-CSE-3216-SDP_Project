@@ -1,4 +1,51 @@
-# React + TypeScript + Vite
+# CareerBuddy Frontend 
+
+_CSE-3216 — Software Design Pattern Lab (University of Dhaka)_
+
+This is the **frontend** of the CareerBuddy project. It provides the **user interface** for job seekers and recruiters, built using **React + TypeScript + Vite**.
+
+---
+
+## Features (UI)
+
+- 🔍 **Job Search & Filtering** — Find jobs by skills, location, and preferences  
+- 📄 **Resume Builder & Customization** — Create resumes and tailor them for specific roles  
+- 📌 **Application Management** — Track job applications and statuses in real time  
+- 🔔 **Notifications & Alerts** — Get updates on applications, deadlines, and recommendations  
+- 👤 **Profile Management** — Secure login, edit profile, and manage user details  
+- 💾 **Saved Jobs & Subscriptions** — Bookmark interesting jobs and subscribe to companies  
+- 📬 **Job Alerts via Email/Notifications** — Receive personalized job alerts based on preferences  
+- 📊 **Statistics & Dashboard** — View user stats, activity, and progress at a glance  
+- 📅 **Calendar & Scheduling** — Manage application deadlines and interviews in one place  
+
+## Tech Stack
+
+- **Frontend Framework:** React (TypeScript + Vite)  
+- **Styling:** CSS / Tailwind (if applied)  
+- **Build Tool:** Vite  
+- **Backend API:** Java (Spring Boot) + PostgreSQL ([CareerBuddy Backend](https://github.com/sheldor944/CareerBuddy_BackEnd-CSE-3216-SDP-Project))  
+
+---
+
+## Setup Instructions
+
+### Prerequisites
+- Node.js ≥ 18  
+- npm ≥ 9  
+- Git ≥ 2.40  
+
+### Installation
+```bash
+# Clone repo
+git clone https://github.com/reckless-meherun/CareerBuddy_FrontEnd-CSE-3216-SDP_Project.git
+cd CareerBuddy_FrontEnd-CSE-3216-SDP_Project
+```
+**Install dependencies**
+```
+npm install
+```
+
+### React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -7,9 +54,9 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+**Expanding the ESLint configuration**
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
 - Configure the top-level `parserOptions` property like this:
 
